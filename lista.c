@@ -21,14 +21,15 @@ extern void crear_lista(tLista * l){
  L' = A,B,E,C,D
 **/
 extern void l_insertar(tLista l, tPosicion p, tElemento e){
-    tPosicion aux;
+    tPosicion nuevaPos;
     if (l==NULL || p==NULL)
         exit(LST_POSICION_INVALIDA);
-    aux = (tPosicion) malloc(sizeof(struct celda));
-    if ((aux)==NULL) exit(LST_ERROR_MEMORIA);
-    aux->elemento=e;
-    aux->siguiente=p->siguiente;
-    p->siguiente=aux;
+    nuevaPos = (tPosicion) malloc(sizeof(struct celda));
+    if ((nuevaPos)==NULL)
+        exit(LST_ERROR_MEMORIA);
+    nuevaPos->elemento = e;
+    nuevaPos->siguiente = p->siguiente;
+    p->siguiente = nuevaPos;
 }
 
 /**
@@ -80,7 +81,7 @@ extern tElemento l_recuperar(tLista l, tPosicion p){
  Si L es vacía, primera(L) = ultima(L) = fin(L).
 **/
 extern tPosicion l_primera(tLista l){
-    return (*l).siguiente;
+    return l;
 }
 
 /**
@@ -90,7 +91,6 @@ extern tPosicion l_primera(tLista l){
 extern tPosicion l_siguiente(tLista l, tPosicion p){
     if (p==l_fin(l))
         exit(LST_NO_EXISTE_SIGUIENTE);
-
     return p->siguiente;
 }
 
@@ -99,18 +99,15 @@ extern tPosicion l_siguiente(tLista l, tPosicion p){
  Si P es primera(L), finaliza indicando LST_NO_EXISTE_ANTERIOR.
 **/
 extern tPosicion l_anterior(tLista l, tPosicion p){
-    if (p==l_primera(l))
-        exit(LST_NO_EXISTE_ANTERIOR);
     tPosicion aux;
-    aux= (tPosicion)malloc(sizeof(struct celda));
-    if ((aux)==NULL) exit(LST_ERROR_MEMORIA);
-    aux=l_primera(l);
-    int encontre=0;
-    while(aux->siguiente!=p && encontre==0){
-        if (aux->siguiente==p)
-            encontre=1;
-        aux->siguiente=aux->siguiente;
-    }
+    if (p == l_primera(l))
+        exit(LST_NO_EXISTE_ANTERIOR);
+    aux = (tPosicion)malloc(sizeof(struct celda));
+    if ((aux)==NULL)
+        exit(LST_ERROR_MEMORIA);
+    aux = l_primera(l);
+    while(aux->siguiente!=p)
+        aux = aux->siguiente;
     return aux;
 }
 
@@ -120,12 +117,12 @@ extern tPosicion l_anterior(tLista l, tPosicion p){
 **/
 extern tPosicion l_ultima(tLista l){
     tPosicion aux;
-    aux= (tPosicion)malloc(sizeof(struct celda));
-    if ((aux)==NULL) exit(LST_ERROR_MEMORIA);
-    aux= l_primera(l);
-    while((aux->siguiente->siguiente!=NULL)){
+    aux = (tPosicion)malloc(sizeof(struct celda));
+    if ((aux)==NULL)
+        exit(LST_ERROR_MEMORIA);
+    aux = l_primera(l);
+    while((aux->siguiente->siguiente!=NULL))
         aux = aux->siguiente;
-    }
     return aux;
 }
 
@@ -150,7 +147,7 @@ extern tPosicion l_fin(tLista l){
 **/
 extern int l_longitud(tLista l){
     int cont;
-    tPosicion temp=l;
+    tPosicion temp = l->siguiente;
     cont=0;
     while(temp!=NULL){
         cont++;
