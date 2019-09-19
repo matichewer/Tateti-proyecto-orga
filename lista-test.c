@@ -5,23 +5,25 @@
 
 void mostrarLista(tLista l)
 {
-    tPosicion pos = l->siguiente;
-
-    if (pos == NULL)
-
-        printf("Lista vacia.");
-
-    else{
-
-        printf("Lista = < ");
-        printf("%i",*(int *)pos->elemento);
-        pos = pos->siguiente;
-        while (pos != NULL)
+    if(l==NULL)
+        printf("La lista no existe");
+    else
+    {
+        tPosicion pos = l->siguiente;
+        if (pos == NULL)
+            printf("Lista vacia.");
+        else
         {
-            printf(", %d", *(int *)pos->elemento);
+            printf("Lista = < ");
+            printf("%i",*(int *)pos->elemento);
             pos = pos->siguiente;
+            while (pos != NULL)
+            {
+                printf(", %d", *(int *)pos->elemento);
+                pos = pos->siguiente;
+            }
+            printf(" >");
         }
-    printf(" >");
     }
     printf("\n\n");
 }
@@ -71,11 +73,21 @@ int main(){
 
     printf("Recuperando ultimo elemento: %i\n",*(int *)l_recuperar(l,l_ultima(l)));
 
-    // No se por qué, pero lo comentado da error:
 
+    // eliminar no funciona
+/*
     printf("\nEliminando primer elemento.\n");
     l_eliminar(l,l_primera(l)->siguiente, &fEliminar);
     printf("Imprimiendo: ");
     mostrarLista(l);
+*/
+
+    // destruir no funciona
+/*
+    printf("\nDestruyendo la lista..\n");
+    l_destruir(&l, &fEliminar);
+    printf("Imprimiendo: ");
+    mostrarLista(l);
+*/
 
 }
