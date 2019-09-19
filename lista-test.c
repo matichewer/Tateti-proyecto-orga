@@ -29,14 +29,14 @@ void mostrarLista(tLista l)
 void fEliminar(tElemento e)
 {
     free(e);
-  //  e = NULL;  no se si ésta linea va
+//  e = NULL;  no se si ésta linea va
 }
 
 int main(){
     int a = 1;
     int b = 2;
     int c = 3;
-    tLista l = (tLista) malloc(sizeof(struct celda));
+    tLista l ;
     crear_lista(&l);
     printf("Lista vacia creada exitosamente.\n");
     printf("Longitud: %i\n", l_longitud(l));
@@ -67,15 +67,15 @@ int main(){
 
     printf("\nEl siguiente al primero es %i.\n",*(int *)l_siguiente(l,l_primera(l)->siguiente)->elemento);
     printf("El anterior al ultimo es %i.\n",*(int *)l_anterior(l,l_ultima(l))->elemento);
-    printf("El anterior al fin es %i.\n",*(int *)l_anterior(l,l_fin(l))->elemento);
+    printf("El anterior al fin es %i.\n\n",*(int *)l_anterior(l,l_fin(l))->elemento);
 
-
+    printf("Recuperando ultimo elemento: %i\n",*(int *)l_recuperar(l,l_ultima(l)));
 
     // No se por qué, pero lo comentado da error:
-/*
-    printf("Eliminando primer elemento.\n");
-    l_eliminar(l,l_primera(l)->siguiente,fEliminar(&a));
+
+    printf("\nEliminando primer elemento.\n");
+    l_eliminar(l,l_primera(l)->siguiente, &fEliminar);
     printf("Imprimiendo: ");
     mostrarLista(l);
-*/
+
 }

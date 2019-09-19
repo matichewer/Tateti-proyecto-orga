@@ -38,9 +38,9 @@ extern void l_insertar(tLista l, tPosicion p, tElemento e){
 **/
 extern void l_eliminar(tLista l, tPosicion p, void (*fEliminar)(tElemento)){
     tPosicion aux = (tPosicion) malloc(sizeof(struct celda));
-    if ((aux)==NULL) exit(LST_ERROR_MEMORIA);
-
-    if(p==l_fin(l))
+    if(aux == NULL)
+        exit(LST_ERROR_MEMORIA);
+    if(p == l_fin(l))
         exit(LST_POSICION_INVALIDA);
 
     aux = (p->siguiente)->siguiente;
@@ -71,7 +71,7 @@ extern void l_destruir(tLista * l, void (*fEliminar)(tElemento)){
  Si P es fin(L), finaliza indicando LST_POSICION_INVALIDA.
 **/
 extern tElemento l_recuperar(tLista l, tPosicion p){
-    if (p==l_fin(l))
+    if (p==NULL || p==l_fin(l))
         exit(LST_POSICION_INVALIDA);
     return (p->siguiente)->elemento;
 }
