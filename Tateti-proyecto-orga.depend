@@ -16,10 +16,11 @@
 	<stdio.h>
 	<stdlib.h>
 
-1568941663 source:/mnt/Datos/01_MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/lista-test.c
+1568995003 source:/mnt/Datos/01_MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/lista-test.c
 	"lista.h"
 	<stdio.h>
 	<stdlib.h>
+	<string.h>
 
 1568894508 source:/home/wecher/MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/lista-test.c
 	"lista.h"
