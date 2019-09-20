@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+static void destruir_recursivo(tPosicion pos, void (*fEliminar)(tElemento));
+
 /**
  Inicializa una lista vacía.
  Una referencia a la lista creada es referenciada en *L.
@@ -25,7 +27,7 @@ void l_insertar(tLista l, tPosicion p, tElemento e){
     if (l==NULL || p==NULL)
         exit(LST_POSICION_INVALIDA);
     nuevaPos = (tPosicion) malloc(sizeof(struct celda));
-    if ((nuevaPos)==NULL)
+    if (nuevaPos==NULL)
         exit(LST_ERROR_MEMORIA);
     nuevaPos->elemento = e;
     nuevaPos->siguiente = p->siguiente;
@@ -37,41 +39,53 @@ void l_insertar(tLista l, tPosicion p, tElemento e){
  Si P es fin(L), finaliza indicando LST_POSICION_INVALIDA.
 **/
 void l_eliminar(tLista l, tPosicion p, void (*fEliminar)(tElemento)){
-    tPosicion aux = (tPosicion) malloc(sizeof(struct celda));
-    if(aux == NULL)
-        exit(LST_ERROR_MEMORIA);
-    if(p == l_fin(l))
+    tPosicion aEliminar;
+    // Si P es fin
+    if(p->siguiente == NULL)
         exit(LST_POSICION_INVALIDA);
+    aEliminar = p->siguiente;
+    p->siguiente = aEliminar->siguiente;
+    fEliminar(aEliminar->elemento);
+    free(aEliminar);
+}
 
-    aux = (p->siguiente)->siguiente;
-    fEliminar((p->siguiente)->elemento);
-    free(p->siguiente);
-    p->siguiente=aux;
+static void destruir_recursivo(tPosicion pos, void (*fEliminar)(tElemento)){
+//    tPosicion pos;
+
+    if(pos->siguiente!=NULL){
+        destruir_recursivo(pos->siguiente, fEliminar);
+    }
+
+    fEliminar(pos->elemento);
+    pos->elemento = NULL;
+    free(pos);
 }
 
 /**
  Destruye la lista L, elimininando cada una de sus celdas. Los elementos almacenados en las celdas son eliminados mediante la función fEliminar parametrizada.
 **/
 void l_destruir(tLista * l, void (*fEliminar)(tElemento)){
-    int i;
-    tPosicion pos = l_siguiente(*l,l_primera(*l));
-    tPosicion sig;
-    for(i=0; i<l_longitud(*l); i++){
-        sig = pos->siguiente;
-        fEliminar(pos->elemento);
-        free(pos);
-        pos = sig;
+    tLista lista = *l;
+    tPosicion pos = lista;
+
+    if(pos->siguiente!=NULL){
+        destruir_recursivo(pos->siguiente, fEliminar);
     }
-    free(l_primera(*l));
-    free(*l);
+    // Elimina header
+    pos->siguiente = NULL;
+    pos->elemento = NULL;
+    free(pos);
+
+    *l = NULL;
 }
+
 
 /**
  Recupera y retorna el elemento en la posición P.
  Si P es fin(L), finaliza indicando LST_POSICION_INVALIDA.
 **/
 tElemento l_recuperar(tLista l, tPosicion p){
-    if (p==NULL || p==l_fin(l))
+    if (p==NULL || (p->siguiente)==NULL)
         exit(LST_POSICION_INVALIDA);
     return (p->siguiente)->elemento;
 }
@@ -89,7 +103,7 @@ tPosicion l_primera(tLista l){
  Si P es fin(L), finaliza indicando LST_NO_EXISTE_SIGUIENTE.
 **/
 tPosicion l_siguiente(tLista l, tPosicion p){
-    if (p==l_fin(l))
+    if (p->siguiente==NULL)
         exit(LST_NO_EXISTE_SIGUIENTE);
     return p->siguiente;
 }
@@ -99,16 +113,12 @@ tPosicion l_siguiente(tLista l, tPosicion p){
  Si P es primera(L), finaliza indicando LST_NO_EXISTE_ANTERIOR.
 **/
 tPosicion l_anterior(tLista l, tPosicion p){
-    tPosicion aux;
-    if (p == l_primera(l))
+    tPosicion pos = l;
+    if (p==l)
         exit(LST_NO_EXISTE_ANTERIOR);
-    aux = (tPosicion)malloc(sizeof(struct celda));
-    if ((aux)==NULL)
-        exit(LST_ERROR_MEMORIA);
-    aux = l_primera(l);
-    while(aux->siguiente!=p)
-        aux = aux->siguiente;
-    return aux;
+    while(pos->siguiente!=p)
+        pos = pos->siguiente;
+    return pos;
 }
 
 /**
@@ -116,14 +126,10 @@ tPosicion l_anterior(tLista l, tPosicion p){
  Si L es vacía, primera(L) = ultima(L) = fin(L).
 **/
 tPosicion l_ultima(tLista l){
-    tPosicion aux;
-    aux = (tPosicion)malloc(sizeof(struct celda));
-    if ((aux)==NULL)
-        exit(LST_ERROR_MEMORIA);
-    aux = l_primera(l);
-    while((aux->siguiente->siguiente!=NULL))
-        aux = aux->siguiente;
-    return aux;
+    tPosicion pos = l;
+    while((pos->siguiente!=NULL) && (pos->siguiente->siguiente!=NULL))
+        pos = pos->siguiente;
+    return pos;
 }
 
 /**
@@ -131,27 +137,21 @@ tPosicion l_ultima(tLista l){
  Si L es vacía, primera(L) = ultima(L) = fin(L).
 **/
 tPosicion l_fin(tLista l){
-    tPosicion aux;
-    aux= (tPosicion)malloc(sizeof(struct celda));
-    if ((aux)==NULL) exit(LST_ERROR_MEMORIA);
-
-    aux= l_primera(l);
-    while((aux->siguiente!=NULL)){
-        aux = aux->siguiente;
-    }
-    return aux;
+    tPosicion pos = l;
+    while(pos->siguiente!=NULL)
+        pos = pos->siguiente;
+    return pos;
 }
 
 /**
  Retorna la longitud actual de la lista.
 **/
 int l_longitud(tLista l){
-    int cont;
-    tPosicion temp = l->siguiente;
-    cont=0;
-    while(temp!=NULL){
+    int cont = 0;
+    tPosicion pos = l->siguiente;
+    while(pos!=NULL){
         cont++;
-        temp=temp->siguiente;
+        pos = pos->siguiente;
     }
     return cont;
 }

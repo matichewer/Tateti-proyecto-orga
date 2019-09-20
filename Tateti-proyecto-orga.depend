@@ -1,13 +1,13 @@
 # depslib dependency file v1.0
-1568852122 source:/mnt/Datos/01_MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/lista.c
+1568940448 source:/mnt/Datos/01_MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/lista.c
 	"lista.h"
 	<stdio.h>
 	<stdlib.h>
 
 1568767682 /mnt/Datos/01_MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/lista.h
 
-1568767717 source:/mnt/Datos/01_MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/main.c
-	"lista.c"
+1568940550 source:/mnt/Datos/01_MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/main.c
+	"lista.h"
 	<stdio.h>
 	<stdlib.h>
 
@@ -16,7 +16,7 @@
 	<stdio.h>
 	<stdlib.h>
 
-1568853507 source:/mnt/Datos/01_MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/lista-test.c
+1568941663 source:/mnt/Datos/01_MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/lista-test.c
 	"lista.h"
 	<stdio.h>
 	<stdlib.h>
