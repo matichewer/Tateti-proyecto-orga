@@ -1,10 +1,10 @@
 # depslib dependency file v1.0
-1568940448 source:/mnt/Datos/01_MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/lista.c
+1570644668 source:/mnt/Datos/01_MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/lista.c
 	"lista.h"
 	<stdio.h>
 	<stdlib.h>
 
-1568767682 /mnt/Datos/01_MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/lista.h
+1570235154 /mnt/Datos/01_MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/lista.h
 
 1568940550 source:/mnt/Datos/01_MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/main.c
 	"lista.h"
@@ -16,7 +16,7 @@
 	<stdio.h>
 	<stdlib.h>
 
-1568995003 source:/mnt/Datos/01_MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/lista-test.c
+1570658045 source:/mnt/Datos/01_MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/lista-test.c
 	"lista.h"
 	<stdio.h>
 	<stdlib.h>
@@ -31,6 +31,19 @@
 
 1568853730 source:/home/wecher/MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/lista.c
 	"lista.h"
+	<stdio.h>
+	<stdlib.h>
+
+1570659244 source:/mnt/Datos/01_MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/arbol-test.c
+	"arbol.h"
+	<stdio.h>
+	<stdlib.h>
+
+1570235154 /mnt/Datos/01_MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/arbol.h
+	"lista.h"
+
+1570657902 source:/mnt/Datos/01_MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/arbol.c
+	"arbol.h"
 	<stdio.h>
 	<stdlib.h>
 

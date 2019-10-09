@@ -3,10 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-
+/*
 void fEliminar(tElemento e){
     free(e);
-    e = NULL; // no se si ésta linea va
+    e = NULL;
 }
 
 void mostrarMenu(){
@@ -138,4 +138,4 @@ int main(){
     }
 }
 
-
+*/
