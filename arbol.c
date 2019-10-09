@@ -143,6 +143,7 @@ void eliminarNodo(void fEliminar, tElemento elemento){
     free(nodo);
 }
 
+
 /**
 Recupera y retorna el elemento del nodo N.
 */
