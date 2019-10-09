@@ -150,6 +150,7 @@ tElemento a_recuperar(tArbol a, tNodo n){
     return n->elemento;
 }
 
+
 /**
 Recupera y retorna el nodo correspondiente a la raíz de A.
 **/
