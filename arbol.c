@@ -66,7 +66,7 @@ void a_destruir(tArbol * a, void (*fEliminar)(tElemento)){
     }
     free(arbol);
     arbol = NULL;
-}
+ }
 
 void eliminarNodo(void fEliminar, tElemento elemento){
     tNodo nodo = (tNodo) elemento;
