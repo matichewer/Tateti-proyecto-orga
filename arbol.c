@@ -6,6 +6,19 @@
 void (*eliminarElementoDelNodo)(tElemento);  // acá se guarda la funcion de a_destruir()
 
 
+tPosicion buscarPos(tLista l, tNodo n){
+    tPosicion toReturn = l_primera(l);
+    tPosicion fin = l_fin(l);
+
+    while( (toReturn!=fin) && (l_recuperar(l,toReturn) != n))
+        toReturn=l_siguiente(l,toReturn);
+
+    if(l_recuperar(l,toReturn)==n)
+        return toReturn;
+    else
+        return NULL;
+}
+
 /**
 Inicializa un árbol vacío.
 Una referencia al árbol creado es referenciado en *A.
@@ -40,7 +53,27 @@ void (*fEliminarElementoNodo)(tElemento); // declaracion de un puntero arbol fun
  Si NH no corresponde a un nodo hijo de NP, finaliza indicando ARB_POSICION_INVALIDA.
  NP direcciona al nodo padre, mientras NH al nodo hermano derecho del nuevo nodo a insertar.
 **/
-tNodo a_insertar(tArbol a, tNodo np, tNodo nh, tElemento e);
+tNodo a_insertar(tArbol a, tNodo np, tNodo nh, tElemento e){
+    if (nh->padre!=np)
+        exit(ARB_POSICION_INVALIDA);
+    tNodo nodo_nuevo = malloc(sizeof(tNodo));
+    if(nodo_nuevo == NULL)
+        exit(ARB_ERROR_MEMORIA);
+
+    nodo_nuevo->elemento = e;
+    nodo_nuevo->padre = np;
+    crear_lista(&(nodo_nuevo->hijos));
+
+    tLista listaHermanos= np->padre;
+
+    if (nh==NULL){
+        l_insertar(listaHermanos,l_ultima(listaHermanos), nodo_nuevo);
+    }
+    else{
+        tPosicion posNH=buscarPos(listaHermanos,nh);
+        l_insertar(listaHermanos,posNH,nodo_nuevo);
+    }
+}
 
 /**
  Elimina el nodo N de A.
@@ -49,7 +82,41 @@ tNodo a_insertar(tArbol a, tNodo np, tNodo nh, tElemento e);
  Si N es la raíz de A, y a su vez tiene más de un hijo, finaliza retornando ARB_OPERACION_INVALIDA.
  Si N no es la raíz de A y tiene hijos, estos pasan a ser hijos del padre de N, en el mismo orden y a partir de la posición que ocupa N en la lista de hijos de su padre.
 **/
-void a_eliminar(tArbol a, tNodo n, void (*fEliminar)(tElemento));
+void a_eliminar(tArbol a, tNodo n, void (*fEliminar)(tElemento)){
+    // como chequeo que n es un nodo al arbol a?
+
+    tLista listaHijos=n->hijos;
+    int cantHijos= l_longitud(listaHijos);
+    if (a->raiz==n){
+        if (cantHijos==1){
+            n->padre=NULL;
+            free(a->raiz);
+            a->raiz=n;
+        }
+        else{
+            exit(ARB_OPERACION_INVALIDA);
+        }
+    }
+    else{
+        //caso general
+        //l_insertar inserta izquierda de la posicion dada
+        tLista listaPadre= (n->padre)->hijos;
+        tPosicion posN=buscarPos(listaPadre,n);
+        tPosicion posInsertar= posN->siguiente;
+        int i;
+        tPosicion pos= l_primera(listaHijos);
+        for(i=0;i<cantHijos;i++){
+            //l_recuperar(listaHijos,pos)->padre=n->padre;
+            l_insertar(listaPadre,posInsertar,l_recuperar(listaHijos,pos));
+            pos=l_siguiente(listaHijos,pos);
+        }
+        l_eliminar(listaPadre,posN,&fEliminar);
+        free(n->elemento);
+        free(n->hijos);
+        free(n->padre);
+        free(n);
+    }
+}
 
 /**
  Destruye el árbol A, eliminando cada uno de sus nodos.
