@@ -50,15 +50,14 @@ void l_eliminar(tLista l, tPosicion p, void (*fEliminar)(tElemento)){
 }
 
 static void destruir_recursivo(tPosicion pos, void (*fEliminar)(tElemento)){
-//    tPosicion pos;
 
-    if(pos->siguiente!=NULL){
+    if(pos->siguiente!=NULL)
         destruir_recursivo(pos->siguiente, fEliminar);
-    }
 
     fEliminar(pos->elemento);
     pos->elemento = NULL;
     free(pos);
+
 }
 
 /**

@@ -3,6 +3,9 @@
 #include <stdlib.h>
 
 
+void (*eliminarElementoDelNodo)(tElemento);  // acá se guarda la funcion de a_destruir()
+
+
 /**
 Inicializa un árbol vacío.
 Una referencia al árbol creado es referenciado en *A.
@@ -26,7 +29,8 @@ void crear_raiz(tArbol a, tElemento e){
 
     nodo_nuevo->elemento = e;
     nodo_nuevo->padre = NULL;
-    crear_lista(&(nodo_nuevo->hijos));
+    crear_lista(&(nodo
+void (*fEliminarElementoNodo)(tElemento); // declaracion de un puntero arbol funcion._nuevo->hijos));
 }
 
 /**
@@ -52,7 +56,24 @@ void a_eliminar(tArbol a, tNodo n, void (*fEliminar)(tElemento));
  Los elementos almacenados en el árbol son eliminados mediante la función fEliminar parametrizada.
 **/
 void a_destruir(tArbol * a, void (*fEliminar)(tElemento)){
+    tNodo raiz = (*arbol)->raiz;
+    if(raiz != NULL){
+        eliminarElementoDelNodo = fEliminar; // guardo la funcion para que sea visible en forma global
+        l_destruir(&raiz->hijos, &eliminarNodo); // llamada recursiva hacia abajo
+        fEliminar(raiz->elemento);
+        free(raiz);
+        (*arbol)->raiz=NULL;
+    }
+    free(arbol);
+    arbol = NULL;
+}
 
+void eliminarNodo(void fEliminar, tElemento elemento){
+    tNodo nodo = (tNodo) elemento;
+    l_destruir(&nodo->hijos, &eliminarNodo);
+    eliminarElementoDelNodo(nodo->elemento);
+    nodo->padre = NULL;
+    free(nodo);
 }
 
 /**
