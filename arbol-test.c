@@ -7,7 +7,7 @@ void fEliminar(tElemento e){
     e = NULL;
 }
 
-void mostrarLista(tLista l){
+void mostrarLista(tArbol arbol, tLista l){
     tPosicion pos;
     int i, num;
     if(l==NULL)
@@ -16,12 +16,12 @@ void mostrarLista(tLista l){
         printf("Lista de hijos = <");
         pos = l_primera(l);
         if(l_longitud(l)>0){
-            num = *(int *)l_recuperar(l, pos);
+            num = *((int*) a_recuperar(arbol, l_recuperar(l, pos)));
             printf(" %d", num);
             pos = l_siguiente(l, pos);
         }
         for(i=1; i<l_longitud(l); i++){
-            num = *(int *)l_recuperar(l, pos);
+            num = *((int*) a_recuperar(arbol, l_recuperar(l, pos)));
             printf(", %d", num);
             pos = l_siguiente(l,pos);
         }
@@ -41,29 +41,41 @@ int main() {
     *c = 3;
     int* d = (int*) malloc(sizeof(int));
     *d = 4;
+    int* e = (int*) malloc(sizeof(int));
+    *e = 5;
 
+    // Test creacion Arbol
     crear_arbol(&arbol);
+
+    // Test creacion raiz
     crear_raiz(arbol,a);
     int num = *(int*) a_recuperar(arbol, a_raiz(arbol));
     printf("Creamos la raiz con un 1 y la mostramos: %d\n\n", num);
 
+    // Test insertar
+    tLista hijosDe1 = a_hijos(arbol, a_raiz(arbol));
+    printf("Insertamos un 3 y 5 como hijo de 1, y lo mostramos:\n");
+    a_insertar(arbol, a_raiz(arbol), NULL, c);
+    a_insertar(arbol, a_raiz(arbol), NULL, e);
+    mostrarLista(arbol, hijosDe1);
 
-    printf("Insertamos un 2 como hijo de 1, y lo mostramos\n\n");
-    a_insertar(arbol, a_raiz(arbol), NULL, b);
+    printf("Insertamos un 2 como primer hijo de 1 con NH= pos de 3, y lo mostramos:\n");
+    a_insertar(arbol, a_raiz(arbol), l_recuperar(hijosDe1, l_primera(hijosDe1)), b);
+    mostrarLista(arbol, hijosDe1);
 
-    tLista hijos= a_hijos(arbol, a_raiz(arbol));
-    num = *((int*) l_recuperar(hijos, l_primera(hijos)));
-    printf("Entro aca con %d\n", num);
+    printf("Insertamos un 4 como hijo de 1 con NH= pos de 5, y lo mostramos:\n");
+    a_insertar(arbol, a_raiz(arbol), l_recuperar(hijosDe1, l_ultima(hijosDe1)), d);
+    mostrarLista(arbol, hijosDe1);
 
-    a_eliminar(arbol, a_raiz(arbol), fEliminar);
+
+    // Test eliminar
+
+    a_eliminar(arbol, l_recuperar(hijosDe1, l_ul), fEliminar);
     num = *(int*) a_recuperar(arbol, a_raiz(arbol));
     printf("Mostramos raiz %d\n\n", num);
 
-    /*
-    a_insertar(arbol, a_raiz(arbol), NULL, c);
-    a_insertar(arbol, a_raiz(arbol), NULL, d);
-    mostrarLista(a_hijos(arbol, a_raiz(arbol)));
-*/
+
+
 
 
 

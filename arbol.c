@@ -69,7 +69,6 @@ tNodo a_insertar(tArbol a, tNodo np, tNodo nh, tElemento e){
 
     if (nh==NULL){
         l_insertar(listaHermanos,l_fin(listaHermanos), nodo_nuevo);
-        printf("hola\n");
     }
     else{
         if (nh->padre != np)
@@ -95,9 +94,9 @@ void a_eliminar(tArbol a, tNodo n, void (*fEliminar)(tElemento)){
     int cantHijos= l_longitud(listaHijos);
     if (a->raiz==n){
         if (cantHijos==1){
-            n->padre=NULL;
+            l_recuperar(l_primera(listaHijos))->padre=NULL;
             free(a->raiz);
-            a->raiz=n;
+            a->raiz=l_recuperar(l_primera(listaHijos));
         }
         else{
             exit(ARB_OPERACION_INVALIDA);

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1570719129 source:/home/wecher/MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/arbol-test.c
+1570723792 source:/home/wecher/MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/arbol-test.c
 	"arbol.h"
 	<stdio.h>
 	<stdlib.h>
@@ -9,7 +9,7 @@
 
 1570235154 /home/wecher/MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/lista.h
 
-1570719225 source:/home/wecher/MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/arbol.c
+1570723829 source:/home/wecher/MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/arbol.c
 	"arbol.h"
 	<stdio.h>
 	<stdlib.h>
