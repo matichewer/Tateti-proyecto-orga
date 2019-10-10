@@ -25,7 +25,8 @@ Inicializa un árbol vacío.
 Una referencia al árbol creado es referenciado en *A.
 **/
 void crear_arbol(tArbol * a){
-    (*a) = (tNodo) malloc(sizeof(tNodo));
+    (*a) = (tArbol) malloc(sizeof( struct arbol));
+    ((*a)->raiz) = NULL;
     if(*a == NULL)
         exit(ARB_ERROR_MEMORIA);
 }
@@ -35,15 +36,17 @@ Crea la raíz de A.
 Si A no es vacío, finaliza indicando ARB_OPERACION_INVALIDA.
 **/
 void crear_raiz(tArbol a, tElemento e){
-    if(a!=NULL)
+    if(a->raiz != NULL)
         exit(ARB_OPERACION_INVALIDA);
-    tNodo nodo_nuevo = malloc(sizeof(tNodo));
+
+    tNodo nodo_nuevo = (tNodo) malloc(sizeof(struct nodo));
     if(nodo_nuevo == NULL)
         exit(ARB_ERROR_MEMORIA);
 
     nodo_nuevo->elemento = e;
     nodo_nuevo->padre = NULL;
     crear_lista(&(nodo_nuevo->hijos));
+    (a->raiz) = nodo_nuevo;
 }
 
 /**
@@ -54,26 +57,27 @@ void crear_raiz(tArbol a, tElemento e){
  NP direcciona al nodo padre, mientras NH al nodo hermano derecho del nuevo nodo a insertar.
 **/
 tNodo a_insertar(tArbol a, tNodo np, tNodo nh, tElemento e){
-    if (nh->padre!=np)
-        exit(ARB_POSICION_INVALIDA);
-    tNodo nodo_nuevo = malloc(sizeof(tNodo));
+    tPosicion posNH = NULL;
+    tLista listaHermanos = np->hijos;
+
+    tNodo nodo_nuevo = malloc(sizeof(struct nodo));
     if(nodo_nuevo == NULL)
         exit(ARB_ERROR_MEMORIA);
-
     nodo_nuevo->elemento = e;
     nodo_nuevo->padre = np;
     crear_lista(&(nodo_nuevo->hijos));
 
-    tLista listaHermanos= np->padre;
-
-    if (nh==NULL){
-        l_insertar(listaHermanos,l_ultima(listaHermanos), nodo_nuevo);
-    }
+    if (nh==NULL)
+        l_insertar(listaHermanos,l_fin(listaHermanos), nodo_nuevo);
     else{
-        tPosicion posNH=buscarPos(listaHermanos,nh);
+        if (nh->padre != np)
+            exit(ARB_POSICION_INVALIDA);
+        posNH = buscarPos(listaHermanos,nh);
         l_insertar(listaHermanos,posNH,nodo_nuevo);
     }
+    return nodo_nuevo;
 }
+
 
 /**
  Elimina el nodo N de A.
@@ -110,12 +114,13 @@ void a_eliminar(tArbol a, tNodo n, void (*fEliminar)(tElemento)){
             l_insertar(listaPadre,posInsertar,l_recuperar(listaHijos,pos));
             pos=l_siguiente(listaHijos,pos);
         }
-        l_eliminar(listaPadre,posN,&fEliminar);
+        l_eliminar(listaPadre,posN,fEliminar);
         free(n->elemento);
         free(n->hijos);
         free(n->padre);
         free(n);
     }
+
 }
 
 /**
@@ -123,23 +128,27 @@ void a_eliminar(tArbol a, tNodo n, void (*fEliminar)(tElemento)){
  Los elementos almacenados en el árbol son eliminados mediante la función fEliminar parametrizada.
 **/
 void a_destruir(tArbol * a, void (*fEliminar)(tElemento)){
+/*
     tNodo raiz = (*a)->raiz;
     if(raiz != NULL){
         eliminarElementoDelNodo = fEliminar; // guardo la funcion para que sea visible en forma global
-        l_destruir(&raiz->hijos, eliminarNodo); // llamada recursiva hacia abajo
+        l_destruir(&(raiz->hijos), eliminarNodo); // llamada recursiva hacia abajo
         fEliminar(raiz->elemento);
         free(raiz);
         (*a)->raiz=NULL;
     }
     free(a);
     a = NULL;
+*/
  }
 
 void eliminarNodo(tNodo nodo){
+    /*
     l_destruir(&nodo->hijos, &eliminarNodo);
     eliminarElementoDelNodo(nodo->elemento);
     nodo->padre = NULL;
     free(nodo);
+    */
 }
 
 /**
@@ -172,6 +181,4 @@ void a_sub_arbol(tArbol a, tNodo n, tArbol * sa){
     (*sa) = malloc(sizeof(tNodo));
     if(*sa == NULL)
         exit(ARB_ERROR_MEMORIA);
-
-
 }

@@ -22,14 +22,15 @@
 	<stdlib.h>
 	<string.h>
 
-1568894508 source:/home/wecher/MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/lista-test.c
+1570675312 source:/home/wecher/MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/lista-test.c
 	"lista.h"
 	<stdio.h>
 	<stdlib.h>
+	<string.h>
 
-1568767682 /home/wecher/MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/lista.h
+1570235154 /home/wecher/MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/lista.h
 
-1568853730 source:/home/wecher/MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/lista.c
+1570675312 source:/home/wecher/MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/lista.c
 	"lista.h"
 	<stdio.h>
 	<stdlib.h>
@@ -43,6 +44,19 @@
 	"lista.h"
 
 1570657902 source:/mnt/Datos/01_MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/arbol.c
+	"arbol.h"
+	<stdio.h>
+	<stdlib.h>
+
+1570717643 source:/home/wecher/MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/arbol.c
+	"arbol.h"
+	<stdio.h>
+	<stdlib.h>
+
+1570235154 /home/wecher/MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/arbol.h
+	"lista.h"
+
+1570717526 source:/home/wecher/MEGA/01_ESTUDIOS/2019_Segundo_Cuatrimestre/Organizacion_de_computadoras/TPs Resueltos/Tateti-proyecto-orga/arbol-test.c
 	"arbol.h"
 	<stdio.h>
 	<stdlib.h>
