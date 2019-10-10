@@ -6,6 +6,9 @@
 void (*eliminarElementoDelNodo)(tElemento);  // acá se guarda la funcion de a_destruir()
 void eliminarNodo(tNodo nodo);
 
+void fEliminarNodoo(tNodo nodo){
+
+}
 
 tPosicion buscarPos(tLista l, tNodo n){
     tPosicion toReturn = l_primera(l);
@@ -94,9 +97,10 @@ void a_eliminar(tArbol a, tNodo n, void (*fEliminar)(tElemento)){
     int cantHijos= l_longitud(listaHijos);
     if (a->raiz==n){
         if (cantHijos==1){
-            l_recuperar(l_primera(listaHijos))->padre=NULL;
-            free(a->raiz);
-            a->raiz=l_recuperar(l_primera(listaHijos));
+            tNodo nodo = l_recuperar(listaHijos, l_primera(listaHijos));
+            nodo->padre = NULL;
+            fEliminar(a->raiz->elemento);
+            a->raiz = l_recuperar(listaHijos, l_primera(listaHijos));
         }
         else{
             exit(ARB_OPERACION_INVALIDA);
@@ -106,19 +110,21 @@ void a_eliminar(tArbol a, tNodo n, void (*fEliminar)(tElemento)){
         //caso general
         //l_insertar inserta izquierda de la posicion dada
         tLista listaPadre= (n->padre)->hijos;
-        tPosicion posN=buscarPos(listaPadre,n);
+        tPosicion posN = buscarPos(listaPadre,n);
         tPosicion posInsertar= posN->siguiente;
         int i;
         tPosicion pos= l_primera(listaHijos);
         for(i=0;i<cantHijos;i++){
-            //l_recuperar(listaHijos,pos)->padre=n->padre;
+            tNodo nodo1 = l_recuperar(listaHijos, l_primera(listaHijos));
+            nodo1->padre = NULL;
             l_insertar(listaPadre,posInsertar,l_recuperar(listaHijos,pos));
-            pos=l_siguiente(listaHijos,pos);
+            pos = l_siguiente(listaHijos,pos);
         }
-        l_eliminar(listaPadre,posN,fEliminar);
-        free(n->elemento);
-        free(n->hijos);
-        free(n->padre);
+        l_eliminar(listaPadre,posN,fEliminarNodoo);
+        //free(n->elemento);
+        free(n->hijos);  // DUDOSO, ¿no se pierden los hijos?
+        //free(n->padre);
+        n->padre = NULL;
         free(n);
     }
 

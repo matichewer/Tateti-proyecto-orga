@@ -43,6 +43,8 @@ int main() {
     *d = 4;
     int* e = (int*) malloc(sizeof(int));
     *e = 5;
+    int* f = (int*) malloc(sizeof(int));
+    *f = 6;
 
     // Test creacion Arbol
     crear_arbol(&arbol);
@@ -55,7 +57,7 @@ int main() {
     // Test insertar
     tLista hijosDe1 = a_hijos(arbol, a_raiz(arbol));
     printf("Insertamos un 3 y 5 como hijo de 1, y lo mostramos:\n");
-    a_insertar(arbol, a_raiz(arbol), NULL, c);
+    tNodo posDe3= a_insertar(arbol, a_raiz(arbol), NULL, c);
     a_insertar(arbol, a_raiz(arbol), NULL, e);
     mostrarLista(arbol, hijosDe1);
 
@@ -68,11 +70,24 @@ int main() {
     mostrarLista(arbol, hijosDe1);
 
 
-    // Test eliminar
+    printf("Insertamos un 6 como hijo de 3 con NH=NULL, y lo mostramos:\n");
+    tLista hijosDe3 = a_hijos(arbol, posDe3);
+    a_insertar(arbol, posDe3, NULL, f);
+    mostrarLista(arbol, hijosDe3);
 
-    a_eliminar(arbol, l_recuperar(hijosDe1, l_ul), fEliminar);
-    num = *(int*) a_recuperar(arbol, a_raiz(arbol));
-    printf("Mostramos raiz %d\n\n", num);
+
+    // Test eliminar
+    printf("Eliminamos el 4 de la lista.\n");
+    a_eliminar(arbol, l_recuperar(hijosDe1, l_anterior(hijosDe1, l_ultima(hijosDe1))), fEliminar);
+    mostrarLista(arbol, hijosDe1);
+
+
+    printf("Eliminamos el 6 de la lista.\n");
+    a_eliminar(arbol, posDe3, fEliminar);
+    printf("Hijos de 1: ");
+    mostrarLista(arbol, hijosDe1);
+
+
 
 
 
