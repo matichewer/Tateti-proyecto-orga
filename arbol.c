@@ -67,8 +67,10 @@ tNodo a_insertar(tArbol a, tNodo np, tNodo nh, tElemento e){
     nodo_nuevo->padre = np;
     crear_lista(&(nodo_nuevo->hijos));
 
-    if (nh==NULL)
+    if (nh==NULL){
         l_insertar(listaHermanos,l_fin(listaHermanos), nodo_nuevo);
+        printf("hola\n");
+    }
     else{
         if (nh->padre != np)
             exit(ARB_POSICION_INVALIDA);

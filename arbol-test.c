@@ -52,8 +52,8 @@ int main() {
     a_insertar(arbol, a_raiz(arbol), NULL, b);
 
     tLista hijos= a_hijos(arbol, a_raiz(arbol));
-    num = *(int*) l_recuperar(hijos, l_primera(hijos));
-    printf("%d", num);
+    num = *((int*) l_recuperar(hijos, l_primera(hijos)));
+    printf("Entro aca con %d\n", num);
 
     a_eliminar(arbol, a_raiz(arbol), fEliminar);
     num = *(int*) a_recuperar(arbol, a_raiz(arbol));
