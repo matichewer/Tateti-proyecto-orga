@@ -2,12 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-  
+
 void (*eliminarElementoDelNodo)(tElemento);  // acá se guarda la funcion de a_destruir()
 void eliminarNodo(tNodo nodo);
 
 void fEliminarNodoo(tNodo nodo){
-
 }
 
 tPosicion buscarPos(tLista l, tNodo n){
@@ -127,15 +126,15 @@ void a_eliminar(tArbol a, tNodo n, void (*fEliminar)(tElemento)){
         n->padre = NULL;
         free(n);
     }
-
 }
+
 
 /**
  Destruye el árbol A, eliminando cada uno de sus nodos.
  Los elementos almacenados en el árbol son eliminados mediante la función fEliminar parametrizada.
 **/
 void a_destruir(tArbol * a, void (*fEliminar)(tElemento)){
-/*
+
     tNodo raiz = (*a)->raiz;
     if(raiz != NULL){
         eliminarElementoDelNodo = fEliminar; // guardo la funcion para que sea visible en forma global
@@ -146,17 +145,18 @@ void a_destruir(tArbol * a, void (*fEliminar)(tElemento)){
     }
     free(a);
     a = NULL;
-*/
+
  }
 
 void eliminarNodo(tNodo nodo){
-    /*
+/*
     l_destruir(&nodo->hijos, &eliminarNodo);
     eliminarElementoDelNodo(nodo->elemento);
     nodo->padre = NULL;
     free(nodo);
-    */
+*/
 }
+
 
 /**
 Recupera y retorna el elemento del nodo N.

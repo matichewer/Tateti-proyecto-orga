@@ -11,9 +11,11 @@ void mostrarLista(tArbol arbol, tLista l){
     tPosicion pos;
     int i, num;
     if(l==NULL)
-        printf("Lista no creada.");
+        printf("No tiene hijos.");
     else {
-        printf("Lista de hijos = <");
+        tNodo nodoPadre = l_recuperar(l, l_primera(l));
+        nodoPadre = (nodoPadre->padre);
+        printf("Hijos de %d = <", *(int*) nodoPadre->elemento);
         pos = l_primera(l);
         if(l_longitud(l)>0){
             num = *((int*) a_recuperar(arbol, l_recuperar(l, pos)));
@@ -27,7 +29,7 @@ void mostrarLista(tArbol arbol, tLista l){
         }
         printf(" >");
     }
-    printf("\n\n");
+    printf("\n");
 }
 
 int main() {
@@ -61,30 +63,30 @@ int main() {
     a_insertar(arbol, a_raiz(arbol), NULL, e);
     mostrarLista(arbol, hijosDe1);
 
-    printf("Insertamos un 2 como primer hijo de 1 con NH= pos de 3, y lo mostramos:\n");
+    printf("\nInsertamos un 2 como primer hijo de 1 con NH= pos de 3, y lo mostramos:\n");
     a_insertar(arbol, a_raiz(arbol), l_recuperar(hijosDe1, l_primera(hijosDe1)), b);
     mostrarLista(arbol, hijosDe1);
 
-    printf("Insertamos un 4 como hijo de 1 con NH= pos de 5, y lo mostramos:\n");
+    printf("\nInsertamos un 4 como hijo de 1 con NH= pos de 5, y lo mostramos:\n");
     a_insertar(arbol, a_raiz(arbol), l_recuperar(hijosDe1, l_ultima(hijosDe1)), d);
     mostrarLista(arbol, hijosDe1);
 
 
-    printf("Insertamos un 6 como hijo de 3 con NH=NULL, y lo mostramos:\n");
+    printf("\nInsertamos un 6 como hijo de 3 con NH=NULL, y lo mostramos:\n");
     tLista hijosDe3 = a_hijos(arbol, posDe3);
     a_insertar(arbol, posDe3, NULL, f);
     mostrarLista(arbol, hijosDe3);
+    mostrarLista(arbol, hijosDe1);
 
 
     // Test eliminar
-    printf("Eliminamos el 4 de la lista.\n");
+    printf("\nEliminamos el 4 de la lista.\n");
     a_eliminar(arbol, l_recuperar(hijosDe1, l_anterior(hijosDe1, l_ultima(hijosDe1))), fEliminar);
     mostrarLista(arbol, hijosDe1);
 
 
-    printf("Eliminamos el 6 de la lista.\n");
+    printf("\nEliminamos el 3 de la lista.\n");
     a_eliminar(arbol, posDe3, fEliminar);
-    printf("Hijos de 1: ");
     mostrarLista(arbol, hijosDe1);
 
 
