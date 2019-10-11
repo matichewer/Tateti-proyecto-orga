@@ -1,7 +1,7 @@
 #include "arbol.h"
 #include <stdio.h>
 #include <stdlib.h>
-
+  
   
 void (*eliminarElementoDelNodo)(tElemento);  // acá se guarda la funcion de a_destruir()
 void eliminarNodo(tNodo nodo);
