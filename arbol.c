@@ -9,6 +9,12 @@ void eliminarNodo(tNodo nodo);
 void fEliminarNodoo(tNodo nodo){
 }
 
+void fNoEliminar(){}
+
+void borrar(tElemento e){
+    free(e);
+}
+
 tPosicion buscarPos(tLista l, tNodo n){
     tPosicion toReturn = l_primera(l);
     tPosicion fin = l_fin(l);
@@ -99,7 +105,8 @@ void a_eliminar(tArbol a, tNodo n, void (*fEliminar)(tElemento)){
             tNodo nodo = l_recuperar(listaHijos, l_primera(listaHijos));
             nodo->padre = NULL;
             fEliminar(a->raiz->elemento);
-            a->raiz = l_recuperar(listaHijos, l_primera(listaHijos));
+            a->raiz = nodo;
+            free(n);
         }
         else{
             exit(ARB_OPERACION_INVALIDA);
@@ -110,20 +117,25 @@ void a_eliminar(tArbol a, tNodo n, void (*fEliminar)(tElemento)){
         //l_insertar inserta izquierda de la posicion dada
         tLista listaPadre= (n->padre)->hijos;
         tPosicion posN = buscarPos(listaPadre,n);
+        /*posInsertar para insertar todos los hijos a la izquierda, sin necesidad
+        de tener que actualizar la posicion para dps eliminar el nodo de la lista
+        */
         tPosicion posInsertar= posN->siguiente;
         int i;
         tPosicion pos= l_primera(listaHijos);
         for(i=0;i<cantHijos;i++){
-            tNodo nodo1 = l_recuperar(listaHijos, l_primera(listaHijos));
-            nodo1->padre = NULL;
-            l_insertar(listaPadre,posInsertar,l_recuperar(listaHijos,pos));
+            tNodo nodo1 = l_recuperar(listaHijos, pos);
+            nodo1->padre = n->padre;
+            l_insertar(listaPadre,posInsertar,nodo1);
             pos = l_siguiente(listaHijos,pos);
         }
+        //Destruyo la lista de Hijos de n, pero sin eliminar los nodos
+        //l_destruir(listaHijos,fNoEliminar());
+        /*para mi esto no va
         l_eliminar(listaPadre,posN,fEliminarNodoo);
-        //free(n->elemento);
-        free(n->hijos);  // DUDOSO, ¿no se pierden los hijos?
-        //free(n->padre);
-        n->padre = NULL;
+        */
+        //elimino a n de la lista de hijos del padre
+        l_eliminar(listaPadre,posN,fEliminar);
         free(n);
     }
 }
@@ -188,4 +200,29 @@ void a_sub_arbol(tArbol a, tNodo n, tArbol * sa){
     (*sa) = malloc(sizeof(tNodo));
     if(*sa == NULL)
         exit(ARB_ERROR_MEMORIA);
+
+    tNodo padre;
+    tLista hijospadre;
+    tNodo nuevaRaiz;
+    tPosicion pos;
+
+    crear_arbol(sa);
+
+    if(n != a->raiz){
+        padre=n->padre;
+        hijospadre=padre->hijos;
+        pos=l_primera(hijospadre);
+
+        while( ( l_recuperar(hijospadre, pos) != n ) ){
+            pos=l_siguiente(hijospadre, pos);
+        }
+        nuevaRaiz=n;
+        nuevaRaiz->padre=NULL;
+        l_eliminar(hijospadre, pos, borrar);
+        (*sa)->raiz=nuevaRaiz;
+    }
+    else{
+        (*sa)->raiz=a->raiz;
+        a->raiz=NULL;
+    }
 }
