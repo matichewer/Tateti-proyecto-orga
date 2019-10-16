@@ -136,7 +136,7 @@ void a_eliminar(tArbol a, tNodo n, void (*fEliminar)(tElemento)){
         */
         //elimino a n de la lista de hijos del padre
         l_eliminar(listaPadre,posN,fEliminar);
-        free(n);
+      //  free(n);
     }
 }
 
@@ -151,22 +151,23 @@ void a_destruir(tArbol * a, void (*fEliminar)(tElemento)){
     if(raiz != NULL){
         eliminarElementoDelNodo = fEliminar; // guardo la funcion para que sea visible en forma global
         l_destruir(&(raiz->hijos), eliminarNodo); // llamada recursiva hacia abajo
+
         fEliminar(raiz->elemento);
         free(raiz);
         (*a)->raiz=NULL;
     }
-    free(a);
-    a = NULL;
+    free(*a);
+    *a = NULL;  // con asterisco o sin asterisco ??
 
  }
 
 void eliminarNodo(tNodo nodo){
-/*
+
     l_destruir(&nodo->hijos, &eliminarNodo);
-    eliminarElementoDelNodo(nodo->elemento);
+    eliminarElementoDelNodo(nodo->elemento);  // funcion que me pasan por parametro en a_destruir
     nodo->padre = NULL;
     free(nodo);
-*/
+
 }
 
 

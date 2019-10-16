@@ -91,6 +91,10 @@ int main() {
 
 
 
+    // Test destruir
+    printf("\nDestruimos el arbol.\n");
+    a_destruir(&arbol, fEliminar);
+    arbol==NULL ? printf("El arbol se destruyó correctamente\n") : printf("El arbol no se destruyó correctamente\n");
 
 
 
