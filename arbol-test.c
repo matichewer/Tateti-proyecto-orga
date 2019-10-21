@@ -2,9 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void fEliminar(tElemento e){
+void fborrar(tElemento e){
+    e=NULL;
     free(e);
-    e = NULL;
+    //e = NULL;
 }
 
 void mostrarLista(tArbol arbol, tLista l){
@@ -47,6 +48,8 @@ int main() {
     *e = 5;
     int* f = (int*) malloc(sizeof(int));
     *f = 6;
+    int* g = (int*) malloc(sizeof(int));
+    *g = 7;
 
     // Test creacion Arbol
     crear_arbol(&arbol);
@@ -68,37 +71,33 @@ int main() {
     mostrarLista(arbol, hijosDe1);
 
     printf("\nInsertamos un 4 como hijo de 1 con NH= pos de 5, y lo mostramos:\n");
-    a_insertar(arbol, a_raiz(arbol), l_recuperar(hijosDe1, l_ultima(hijosDe1)), d);
+    tNodo posDe4 = a_insertar(arbol, a_raiz(arbol), l_recuperar(hijosDe1, l_ultima(hijosDe1)), d);
     mostrarLista(arbol, hijosDe1);
-
 
     printf("\nInsertamos un 6 como hijo de 3 con NH=NULL, y lo mostramos:\n");
     tLista hijosDe3 = a_hijos(arbol, posDe3);
-    a_insertar(arbol, posDe3, NULL, f);
+    tNodo posDe6= a_insertar(arbol, posDe3, NULL, f);
     mostrarLista(arbol, hijosDe3);
     mostrarLista(arbol, hijosDe1);
 
-
     // Test eliminar
     printf("\nEliminamos el 4 de la lista.\n");
-    a_eliminar(arbol, l_recuperar(hijosDe1, l_anterior(hijosDe1, l_ultima(hijosDe1))), fEliminar);
+    //nodo4= l_recuperar(hijosDe1, l_anterior(hijosDe1, l_ultima(hijosDe1)))
+
+    a_eliminar(arbol, posDe4, fborrar);
     mostrarLista(arbol, hijosDe1);
 
 
-    printf("\nEliminamos el 3 de la lista.\n");
-    a_eliminar(arbol, posDe3, fEliminar);
+    printf("\nEliminamos el 3 de la lista.El 6 tiene que subir a la lista de hijos de 1\n");
+    a_eliminar(arbol, posDe3, fborrar);
     mostrarLista(arbol, hijosDe1);
 
 
 
     // Test destruir
     printf("\nDestruimos el arbol.\n");
-    a_destruir(&arbol, fEliminar);
+    a_destruir(&arbol, fborrar);
     arbol==NULL ? printf("El arbol se destruyó correctamente\n") : printf("El arbol no se destruyó correctamente\n");
-
-
-
-
 
     return 0;
 }
