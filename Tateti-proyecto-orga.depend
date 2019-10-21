@@ -25,28 +25,28 @@
 	<stdio.h>
 	<stdlib.h>
 
-1571320300 source:/home/wecher/Git/Tateti-proyecto-orga/arbol-test.c
+1571683798 source:/home/wecher/Git/Tateti-proyecto-orga/arbol-test.c
 	"arbol.h"
 	<stdio.h>
 	<stdlib.h>
 
-1571155468 /home/wecher/Git/Tateti-proyecto-orga/arbol.h
+1571171544 /home/wecher/Git/Tateti-proyecto-orga/arbol.h
 	"lista.h"
 
-1571155468 /home/wecher/Git/Tateti-proyecto-orga/lista.h
+1571171544 /home/wecher/Git/Tateti-proyecto-orga/lista.h
 
-1571155468 source:/home/wecher/Git/Tateti-proyecto-orga/lista-test.c
+1571171544 source:/home/wecher/Git/Tateti-proyecto-orga/lista-test.c
 	"lista.h"
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 
-1571155468 source:/home/wecher/Git/Tateti-proyecto-orga/lista.c
+1571171544 source:/home/wecher/Git/Tateti-proyecto-orga/lista.c
 	"lista.h"
 	<stdio.h>
 	<stdlib.h>
 
-1571320098 source:/home/wecher/Git/Tateti-proyecto-orga/arbol.c
+1571683729 source:/home/wecher/Git/Tateti-proyecto-orga/arbol.c
 	"arbol.h"
 	<stdio.h>
 	<stdlib.h>

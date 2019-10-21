@@ -3,9 +3,8 @@
 #include <stdlib.h>
 
 void fborrar(tElemento e){
-    e=NULL;
+    e = NULL;
     free(e);
-    //e = NULL;
 }
 
 void mostrarLista(tArbol arbol, tLista l){
@@ -77,8 +76,8 @@ int main() {
     printf("\nInsertamos un 6 como hijo de 3 con NH=NULL, y lo mostramos:\n");
     tLista hijosDe3 = a_hijos(arbol, posDe3);
     tNodo posDe6= a_insertar(arbol, posDe3, NULL, f);
-    mostrarLista(arbol, hijosDe3);
     mostrarLista(arbol, hijosDe1);
+    mostrarLista(arbol, hijosDe3);
 
     // Test eliminar
     printf("\nEliminamos el 4 de la lista.\n");
@@ -86,9 +85,10 @@ int main() {
 
     a_eliminar(arbol, posDe4, fborrar);
     mostrarLista(arbol, hijosDe1);
+    mostrarLista(arbol, hijosDe3);
 
 
-    printf("\nEliminamos el 3 de la lista.El 6 tiene que subir a la lista de hijos de 1\n");
+    printf("\nEliminamos el 3 de la lista. El 6 tiene que subir a la lista de hijos de 1\n");
     a_eliminar(arbol, posDe3, fborrar);
     mostrarLista(arbol, hijosDe1);
 

@@ -98,9 +98,9 @@ tNodo a_insertar(tArbol a, tNodo np, tNodo nh, tElemento e){
 void a_eliminar(tArbol a, tNodo n, void (*fEliminar)(tElemento)){
     // como chequeo que n es un nodo al arbol a?
 
-    tLista listaHijos=n->hijos;
+    tLista listaHijos = n->hijos;
     int cantHijos= l_longitud(listaHijos);
-    if (a->raiz==n){
+    if ((a->raiz)==n){
         if (cantHijos==1){
             tNodo nodo = l_recuperar(listaHijos, l_primera(listaHijos));
             nodo->padre = NULL;
@@ -121,26 +121,30 @@ void a_eliminar(tArbol a, tNodo n, void (*fEliminar)(tElemento)){
     }
     else{//caso general
         //l_insertar inserta izquierda de la posicion dada
-        tLista listaPadre= (n->padre)->hijos;
-        tPosicion posN = buscarPos(listaPadre,n);
-        /*posInsertar para insertar todos los hijos a la izquierda, sin necesidad
-        de tener que actualizar la posicion para dps eliminar el nodo de la lista
-        */
-        tPosicion posInsertar= posN;
+        tLista listaPadre = (n->padre)->hijos;
+        tPosicion pos_a_eliminar = buscarPos(listaPadre, n);
+
         int i;
-        tPosicion pos= l_primera(listaHijos);
-        for(i=0;i<cantHijos;i++){
-            tNodo nodo1 = l_recuperar(listaHijos, pos);
-            nodo1->padre = n->padre;
-            l_insertar(listaPadre,posInsertar,nodo1);
-            posInsertar=l_siguiente(listaPadre,posInsertar);
-            pos = l_siguiente(listaHijos,pos);
+        tPosicion pos_hijos = l_primera(listaHijos);
+
+        for(i=0; i<cantHijos; i++){
+            tNodo nodo_hijo = l_recuperar(listaHijos, pos_hijos);
+            nodo_hijo->padre = n->padre;
+            l_insertar(listaPadre,pos_a_eliminar, nodo_hijo);
+            pos_a_eliminar = l_siguiente(listaPadre, pos_a_eliminar);
+            pos_hijos = l_siguiente(listaHijos, pos_hijos);
         }
+
+        l_eliminar(listaPadre, pos_a_eliminar, &fNoEliminar);
+        fEliminar(n->elemento);
+
         //Destruyo la lista de Hijos de n, pero sin eliminar los nodos
-        l_destruir(&(n->hijos),&fNoEliminar);
-        //elimino a n de la lista de hijos del padre
-        l_eliminar(listaPadre,posN,fEliminar);
+        l_destruir(&(n->hijos), &fNoEliminar);
+
+        n->padre = NULL;
+        n->elemento = NULL;
         free(n);
+        n = NULL;
     }
 }
 
