@@ -108,16 +108,12 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
 >>>>>  A IMPLEMENTAR   <<<<<
 Computa el valor de utilidad correspondiente al estado E, y la ficha correspondiente al JUGADOR_MAX, retornado:
 - IA_GANA_MAX si el estado E refleja una jugada en el que el JUGADOR_MAX ganó la partida.
-- IA_EMPATA_MAX si el estado E refleja una jugada en el que for(int i=0; i<=3; i++)
-        for(int j=0; j<=3;j++)
-            el JUGADOR_MAX empató la partida.
+- IA_EMPATA_MAX si el estado E refleja una jugada en el que el JUGADOR_MAX empató la partida.
 - IA_PIERDE_MAX si el estado E refleja una jugada en el que el JUGADOR_MAX perdió la partida.
 - IA_NO_TERMINO en caso contrario.
 **/
 static int valor_utilidad(tEstado e, int jugador_max){
-    return 0;for(int i=0; i<=3; i++)
-        for(int j=0; j<=3;j++)
-
+    return 0;
 }
 
 /**
