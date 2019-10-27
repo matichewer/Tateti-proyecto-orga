@@ -6,8 +6,7 @@
 void (*eliminarElementoDelNodo)(tElemento);  // acá se guarda la funcion de a_destruir()
 void eliminarNodo(tNodo nodo);
 
-void fEliminarNodoo(tNodo nodo){
-}
+void fEliminarNodoo(tNodo nodo){}
 
 void fNoEliminar(){}
 
@@ -148,6 +147,14 @@ void a_eliminar(tArbol a, tNodo n, void (*fEliminar)(tElemento)){
     }
 }
 
+void eliminarNodo(tNodo nodo){
+
+    l_destruir(&nodo->hijos, eliminarNodo);
+    eliminarElementoDelNodo(nodo->elemento);  // funcion que me pasan por parametro en a_destruir
+    nodo->padre = NULL;
+    free(nodo);
+
+}
 
 /**
  Destruye el árbol A, eliminando cada uno de sus nodos.
@@ -168,16 +175,6 @@ void a_destruir(tArbol * a, void (*fEliminar)(tElemento)){
     *a = NULL;  // con asterisco o sin asterisco ??
 
  }
-
-void eliminarNodo(tNodo nodo){
-
-    l_destruir(&nodo->hijos, &eliminarNodo);
-    eliminarElementoDelNodo(nodo->elemento);  // funcion que me pasan por parametro en a_destruir
-    nodo->padre = NULL;
-    free(nodo);
-
-}
-
 
 /**
 Recupera y retorna el elemento del nodo N.
@@ -212,7 +209,6 @@ void a_sub_arbol(tArbol a, tNodo n, tArbol * sa){
 
     tNodo padre;
     tLista hijospadre;
-    tNodo nuevaRaiz;
     tPosicion pos;
 
     if(n != a->raiz){

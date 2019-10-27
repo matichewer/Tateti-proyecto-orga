@@ -12,15 +12,22 @@ Inicializa una nueva partida, indicando:
  - Nombre que representa al Jugador 2.
 **/
 void nueva_partida(tPartida * p, int modo_partida, int comienza, char * j1_nombre, char * j2_nombre){
-    (*p) = malloc(sizeof(struct partida));
+
+    (*p) = (tPartida) malloc(sizeof(struct partida));
     if(*p == NULL)
         exit(PART_ERROR_MEMORIA);
+
+    /** ¿¿ésto se hace??
+    (*p)->tablero = malloc(sizeof(tablero));
+    if (*p->tablero == NULL)
+        exit(LST_ERROR_MEMORIA);
+    */
+
     (*p)->modo_partida = modo_partida;
     (*p)->turno_de = comienza;
     strcpy((*p)->nombre_jugador_1, j1_nombre);
     strcpy((*p)->nombre_jugador_2, j2_nombre);
-    //*p->nombre_jugador_1 = *j1_nombre;
-    //*p->nombre_jugador_2 = *j2_nombre;
+
 }
 
 /**
@@ -33,4 +40,27 @@ int nuevo_movimiento(tPartida p, int mov_x, int mov_y);
 /**
 Finaliza la partida referenciada por P, liberando toda la memoria utilizada.
 **/
-void finalizar_partida(tPartida * p);
+void finalizar_partida(tPartida * p){
+
+
+    // Seteo valores en -1
+    (*p)->modo_partida = -1;
+    (*p)->turno_de = -1;
+    (*p)->estado = -1;
+
+
+    // Libero espacio de memoria del nombre de los jugadores
+    free((*p)->nombre_jugador_1);
+    free((*p)->nombre_jugador_2);
+
+
+    // Libero espacio de memoria del tablero
+    /**  ¿¿ésto se hace??
+    for(int i=0; i<=3; i++)
+        for(int j=0; j<=3;j++)
+            free((*p)->tablero->grilla[i][j]);
+    */
+    free((*p)->tablero);
+    (*p) = NULL;
+
+}

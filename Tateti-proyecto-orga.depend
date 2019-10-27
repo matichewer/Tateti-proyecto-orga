@@ -25,45 +25,45 @@
 	<stdio.h>
 	<stdlib.h>
 
-1572025502 source:/home/wecher/Git/Tateti-proyecto-orga/arbol-test.c
+1572042847 source:/home/wecher/Git/Tateti-proyecto-orga/arbol-test.c
 	"arbol.h"
 	<stdio.h>
 	<stdlib.h>
 
-1571155468 /home/wecher/Git/Tateti-proyecto-orga/arbol.h
+1571171544 /home/wecher/Git/Tateti-proyecto-orga/arbol.h
 	"lista.h"
 
-1571155468 /home/wecher/Git/Tateti-proyecto-orga/lista.h
+1571171544 /home/wecher/Git/Tateti-proyecto-orga/lista.h
 
-1571155468 source:/home/wecher/Git/Tateti-proyecto-orga/lista-test.c
+1571171544 source:/home/wecher/Git/Tateti-proyecto-orga/lista-test.c
 	"lista.h"
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 
-1571155468 source:/home/wecher/Git/Tateti-proyecto-orga/lista.c
+1571171544 source:/home/wecher/Git/Tateti-proyecto-orga/lista.c
 	"lista.h"
 	<stdio.h>
 	<stdlib.h>
 
-1571758278 source:/home/wecher/Git/Tateti-proyecto-orga/arbol.c
+1572193669 source:/home/wecher/Git/Tateti-proyecto-orga/arbol.c
 	"arbol.h"
 	<stdio.h>
 	<stdlib.h>
 
-1572024148 source:/home/wecher/Git/Tateti-proyecto-orga/ia.c
+1572042847 source:/home/wecher/Git/Tateti-proyecto-orga/ia.c
 	<stdlib.h>
 	"lista.h"
 	"arbol.h"
 	"ia.h"
 
-1572024192 /home/wecher/Git/Tateti-proyecto-orga/ia.h
+1572042847 /home/wecher/Git/Tateti-proyecto-orga/ia.h
 	"arbol.h"
 	"partida.h"
 
-1572024229 /home/wecher/Git/Tateti-proyecto-orga/partida.h
+1572042847 /home/wecher/Git/Tateti-proyecto-orga/partida.h
 
-1572026044 source:/home/wecher/Git/Tateti-proyecto-orga/partida.c
+1572194130 source:/home/wecher/Git/Tateti-proyecto-orga/partida.c
 	"partida.h"
 	<stdio.h>
 	<stdlib.h>
