@@ -2,13 +2,13 @@
 
 #include "partida.h"
 
-
+/*
 // Barra \ para compu rota que no le anda ese botón
 
 
 
 void solicitarNombres(){
-    printf("Ingrese el nombre del jugador 1:")
+    printf("Ingrese el nombre del jugador 1:");
 }
 
 
@@ -56,3 +56,4 @@ int main(){
 
     return 0;
 }
+*/

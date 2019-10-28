@@ -113,7 +113,65 @@ Computa el valor de utilidad correspondiente al estado E, y la ficha correspondi
 - IA_NO_TERMINO en caso contrario.
 **/
 static int valor_utilidad(tEstado e, int jugador_max){
-    return 0;
+    int i=0, j=0;
+    int m[3][3] = (*(*e).grilla);
+    int toReturn = IA_EMPATA_MAX;
+
+    if(m[0][0]==m[0][1] && m[0][0]==m[0][2])
+        if(m[0][0]==jugador_max)
+            toReturn = IA_GANA_MAX;
+        else
+            toReturn = IA_PIERDE_MAX;
+    else
+        if(m[0][0]==m[1][0] && m[0][0]==m[2][0])
+            if(m[0][0]==jugador_max)
+                toReturn = IA_GANA_MAX;
+            else
+                toReturn = IA_PIERDE_MAX;
+        else
+            if(m[0][0]==m[1][1] && m[0][0]==m[2][2])
+                if(m[0][0]==jugador_max)
+                    toReturn = IA_GANA_MAX;
+                else
+                    toReturn = IA_PIERDE_MAX;
+            else
+                if(m[1][1]==m[1][0] && m[1][1]==m[1][2])
+                    if(m[1][1]==jugador_max)
+                        toReturn = IA_GANA_MAX
+                    else
+                        toReturn = IA_PIERDE_MAX;
+                else
+                    if(m[1][1]==m[0][1] && m[1][1]==m[2][1])
+                        if(m[1][1]==jugador_max)
+                            toReturn = IA_GANA_MAX
+                        else
+                            toReturn = IA_PIERDE_MAX;
+                    else
+                        if(m[1][1]==m[0][2] && m[1][1]==m[2][0])
+                            if(m[1][1]==jugador_max)
+                                toReturn = IA_GANA_MAX
+                            else
+                                toReturn = IA_PIERDE_MAX;
+                        else
+                            if(m[2][2]==m[1][2] && m[2][2]==m[0][2])
+                                if(m[2][2]==jugador_max)
+                                    toReturn = IA_GANA_MAX
+                                else
+                                    toReturn = IA_PIERDE_MAX;
+                            else
+                                if(m[2][2]==m[2][1] && m[2][2]==m[2][0])
+                                    if(m[2][2]==jugador_max)
+                                        toReturn = IA_GANA_MAX
+                                    else
+                                        toReturn = IA_PIERDE_MAX;
+                                else
+                                    for(i=0; i<3; i++)
+                                        for(j=0; j<3; j++)
+                                            if(m[i][j]==PART_SIN_MOVIMIENTO)
+                                                toReturn = IA_NO_TERMINO
+        if(toReturn==0)
+            toReturn = IA_EMPATA_MAX;
+        return toReturn;
 }
 
 /**
