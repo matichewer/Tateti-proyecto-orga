@@ -63,17 +63,10 @@ void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){}
 **/
 void destruir_busqueda_adversaria(tBusquedaAdversaria * b){
 
-    (*b)->jugador_max = -1;
-    (*b)->jugador_min = -1;
     a_destruir(&((*b)->arbol_busqueda), fEliminar);
+    free(*b);
+    (*b) = NULL;
 
-/*
-    //(*b)->jugador_max = -1;
-    free((b)->jugador_max);
-    (*b)->jugador_min = -1;
-    free((*b)->jugador_min);
-    a_destruir((*b)->arbol_busqueda, &fEliminar);
-*/
 }
 
 // ===============================================================================================================
@@ -114,57 +107,55 @@ Computa el valor de utilidad correspondiente al estado E, y la ficha correspondi
 **/
 static int valor_utilidad(tEstado e, int jugador_max){
     int i, j;
-    int *m = *(e->grilla);
     int toReturn = IA_EMPATA_MAX;
 
-
     // Primero analizo todas las combinaciones posibles estando parado en 0,0
-    if(m[0][0]==m[0][1] && m[0][0]==m[0][2])
-        if(m[0][0]==jugador_max)
+    if(e->grilla[0][0]==e->grilla[0][1] && e->grilla[0][0]==e->grilla[0][2])
+        if(e->grilla[0][0]==jugador_max)
             toReturn = IA_GANA_MAX;
         else
             toReturn = IA_PIERDE_MAX;
     else
-        if(m[0][0]==m[1][0] && m[0][0]==m[2][0])
-            if(m[0][0]==jugador_max)
+        if(e->grilla[0][0]==e->grilla[1][0] && e->grilla[0][0]==e->grilla[2][0])
+            if(e->grilla[0][0]==jugador_max)
                 toReturn = IA_GANA_MAX;
             else
                 toReturn = IA_PIERDE_MAX;
         else
-            if(m[0][0]==m[1][1] && m[0][0]==m[2][2])
-                if(m[0][0]==jugador_max)
+            if(e->grilla[0][0]==e->grilla[1][1] && e->grilla[0][0]==e->grilla[2][2])
+                if(e->grilla[0][0]==jugador_max)
                     toReturn = IA_GANA_MAX;
                 else
                     toReturn = IA_PIERDE_MAX;
             else
                 // Luego analizo todas las combinaciones posibles estando parado en 1,1
-                if(m[1][1]==m[1][0] && m[1][1]==m[1][2])
-                    if(m[1][1]==jugador_max)
+                if(e->grilla[1][1]==e->grilla[1][0] && e->grilla[1][1]==e->grilla[1][2])
+                    if(e->grilla[1][1]==jugador_max)
                         toReturn = IA_GANA_MAX;
                     else
                         toReturn = IA_PIERDE_MAX;
                 else
-                    if(m[1][1]==m[0][1] && m[1][1]==m[2][1])
-                        if(m[1][1]==jugador_max)
+                    if(e->grilla[1][1]==e->grilla[0][1] && e->grilla[1][1]==e->grilla[2][1])
+                        if(e->grilla[1][1]==jugador_max)
                             toReturn = IA_GANA_MAX;
                         else
                             toReturn = IA_PIERDE_MAX;
                     else
-                        if(m[1][1]==m[0][2] && m[1][1]==m[2][0])
-                            if(m[1][1]==jugador_max)
+                        if(e->grilla[1][1]==e->grilla[0][2] && e->grilla[1][1]==e->grilla[2][0])
+                            if(e->grilla[1][1]==jugador_max)
                                 toReturn = IA_GANA_MAX;
                             else
                                 toReturn = IA_PIERDE_MAX;
                         else
                             // Luego analizo todas las combinaciones posibles estando parado en 2,2
-                            if(m[2][2]==m[1][2] && m[2][2]==m[0][2])
-                                if(m[2][2]==jugador_max)
+                            if(e->grilla[2][2]==e->grilla[1][2] && e->grilla[2][2]==e->grilla[0][2])
+                                if(e->grilla[2][2]==jugador_max)
                                     toReturn = IA_GANA_MAX;
                                 else
                                     toReturn = IA_PIERDE_MAX;
                             else
-                                if(m[2][2]==m[2][1] && m[2][2]==m[2][0])
-                                    if(m[2][2]==jugador_max)
+                                if(e->grilla[2][2]==e->grilla[2][1] && e->grilla[2][2]==e->grilla[2][0])
+                                    if(e->grilla[2][2]==jugador_max)
                                         toReturn = IA_GANA_MAX;
                                     else
                                         toReturn = IA_PIERDE_MAX;
@@ -172,8 +163,9 @@ static int valor_utilidad(tEstado e, int jugador_max){
                                     // Reviso si la partida aun le quedan jugadas
                                     for(i=0; i<3; i++)
                                         for(j=0; j<3; j++)
-                                            if(m[i][j]==PART_SIN_MOVIMIENTO)
+                                            if(e->grilla[i][j]==PART_SIN_MOVIMIENTO)
                                                 toReturn = IA_NO_TERMINO;
+
     return toReturn;
 }
 
@@ -188,7 +180,24 @@ estados_sucesores(estado, ficha) retornaría dos listas L1 y L2 tal que:
 - El orden de los estado en L1 posiblemente sea diferente al orden de los estados en L2.
 **/
 static tLista estados_sucesores(tEstado e, int ficha_jugador){
-    return NULL;
+
+    int i, j;
+    tEstado toAdd;
+    tLista toReturn;
+
+    toAdd = (tEstado) malloc(sizeof(struct estado));
+    if (toAdd == NULL) exit(IA_ERROR_MEMORIA);
+
+    crear_lista(&toReturn);
+
+    for(i=0; i<3; i++)
+        for(j=0; j<3; j++)
+            if(e->grilla[i][j] == PART_SIN_MOVIMIENTO){
+                toAdd = clonar_estado(e);
+                toAdd->grilla[i][j] = ficha_jugador;
+                l_insertar(toReturn, l_ultima(toReturn), toAdd); // falta hacer el random
+            }
+    return toReturn;
 }
 
 /**
@@ -198,7 +207,18 @@ Para esto copia en el estado a retornar los valores actuales de la grilla del es
 de utilidad.
 **/
 static tEstado clonar_estado(tEstado e){
-    return 0;
+    int i, j;
+    tEstado toReturn;
+
+    toReturn = (tEstado) malloc(sizeof(struct estado));
+    if (toReturn == NULL) exit(IA_ERROR_MEMORIA);
+
+    toReturn->utilidad = e->utilidad;
+    for(i=0; i<3; i++)
+        for(j=0; j<3; j++)
+            toReturn->grilla[i][j] = e->grilla[i][j];
+
+    return toReturn;
 }
 
 /**

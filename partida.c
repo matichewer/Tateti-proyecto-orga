@@ -13,15 +13,21 @@ Inicializa una nueva partida, indicando:
 **/
 void nueva_partida(tPartida * p, int modo_partida, int comienza, char * j1_nombre, char * j2_nombre){
 
-    (*p) = (tPartida) malloc(sizeof(struct partida));
-    if(*p == NULL)
-        exit(PART_ERROR_MEMORIA);
+    int i, j;
 
-    /** ¿¿ésto se hace??
-    (*p)->tablero = malloc(sizeof(tablero));
-    if (*p->tablero == NULL)
-        exit(LST_ERROR_MEMORIA);
-    */
+    (*p) = (tPartida) malloc(sizeof(struct partida));
+    if(*p == NULL) exit(PART_ERROR_MEMORIA);
+
+
+    // está bien reservar memoria para el tablero así ???
+    (*p)->tablero = malloc(sizeof(struct tablero));
+    if((*p)->tablero == NULL) exit(PART_ERROR_MEMORIA);
+
+
+    for(i=0; i<3; i++)
+        for(j=0; j<3; j++)
+            (*p)->tablero->grilla[i][j] = PART_SIN_MOVIMIENTO;
+
 
     (*p)->modo_partida = modo_partida;
     (*p)->turno_de = comienza;
@@ -42,25 +48,13 @@ Finaliza la partida referenciada por P, liberando toda la memoria utilizada.
 **/
 void finalizar_partida(tPartida * p){
 
-
-    // Seteo valores en -1
-    (*p)->modo_partida = -1;
-    (*p)->turno_de = -1;
-    (*p)->estado = -1;
-
-
-    // Libero espacio de memoria del nombre de los jugadores
-    free((*p)->nombre_jugador_1);
-    free((*p)->nombre_jugador_2);
-
-
-    // Libero espacio de memoria del tablero
-    /**  ¿¿ésto se hace??
-    for(int i=0; i<=3; i++)
-        for(int j=0; j<=3;j++)
-            free((*p)->tablero->grilla[i][j]);
-    */
+    // Libero espacio del Tablero
     free((*p)->tablero);
+    (*p)->tablero = NULL;
+
+
+    // Libero espacio de la Partida
+    free(*p);
     (*p) = NULL;
 
 }

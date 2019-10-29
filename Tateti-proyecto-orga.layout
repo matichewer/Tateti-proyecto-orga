@@ -4,12 +4,12 @@
 	<ActiveTarget name="Debug" />
 	<File name="ia.c" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="4539" topLine="78" />
+			<Cursor1 position="9548" topLine="218" />
 		</Cursor>
 	</File>
-	<File name="ia.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="partida.c" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="544" topLine="9" />
+			<Cursor1 position="1632" topLine="30" />
 		</Cursor>
 	</File>
 	<File name="lista.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -17,34 +17,9 @@
 			<Cursor1 position="1167" topLine="23" />
 		</Cursor>
 	</File>
-	<File name="partida.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1034" topLine="7" />
-		</Cursor>
-	</File>
 	<File name="arbol-test.c" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="18" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="lista-test.c" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="123" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="partida.c" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="354" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="lista.c" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="370" topLine="42" />
-		</Cursor>
-	</File>
-	<File name="GUI.c" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="55" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="arbol.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -52,9 +27,34 @@
 			<Cursor1 position="1831" topLine="45" />
 		</Cursor>
 	</File>
+	<File name="lista.c" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="370" topLine="42" />
+		</Cursor>
+	</File>
+	<File name="partida.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="958" topLine="14" />
+		</Cursor>
+	</File>
+	<File name="ia.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="589" topLine="6" />
+		</Cursor>
+	</File>
+	<File name="GUI.c" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="55" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="lista-test.c" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4361" topLine="60" />
+		</Cursor>
+	</File>
 	<File name="arbol.c" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="4838" topLine="158" />
+			<Cursor1 position="4463" topLine="140" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

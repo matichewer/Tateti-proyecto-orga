@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-/*
+
 void fEliminar(tElemento e){
     free(e);
     e = NULL;
@@ -138,4 +138,4 @@ int main(){
     }
 }
 
-*/
+
