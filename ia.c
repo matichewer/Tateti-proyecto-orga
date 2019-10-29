@@ -114,7 +114,7 @@ Computa el valor de utilidad correspondiente al estado E, y la ficha correspondi
 **/
 static int valor_utilidad(tEstado e, int jugador_max){
     int i, j;
-    int m[3][3] = (*e)->grilla;
+    int *m = *(e->grilla);
     int toReturn = IA_EMPATA_MAX;
 
 
