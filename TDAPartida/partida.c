@@ -4,7 +4,7 @@
 #include <string.h>
 
 
-static int estado_de_partida(tablero t);
+static int estado_de_partida(tTablero t);
 
 /**
 Inicializa una nueva partida, indicando:
@@ -63,7 +63,7 @@ int nuevo_movimiento(tPartida p, int mov_x, int mov_y){
             // Si es el turno del jugador 1, actualizo el tablero con su ficha y le cedo el turno al jugador 2
             if(p->turno_de == PART_JUGADOR_1){
 
-                p-tablero->grilla[mov_x][mov_y] = PART_JUGADOR_1;
+                p->tablero->grilla[mov_x][mov_y] = PART_JUGADOR_1;
                 p->turno_de = PART_JUGADOR_2;
 
             }
@@ -72,7 +72,7 @@ int nuevo_movimiento(tPartida p, int mov_x, int mov_y){
                 // Si es el turno del jugador 2, actualizo el tablero y le cedo el turno al jugador 1
                 if(p->turno_de == PART_JUGADOR_2){
 
-                    p-tablero->grilla[mov_x][mov_y] = PART_JUGADOR_2;
+                    p->tablero->grilla[mov_x][mov_y] = PART_JUGADOR_2;
                     p->turno_de = PART_JUGADOR_1;
 
                 }
@@ -108,66 +108,67 @@ void finalizar_partida(tPartida * p){
 // ===============================================================================================================
 
 
-static int estado_de_partida(tablero t){
+static int estado_de_partida(tTablero t){
     int i, j;
     int toReturn = PART_EMPATE;
 
     // Primero analizo todas las combinaciones posibles estando parado en 0,0
-    if(t[0][0]==t[0][1] && t[0][0]==t[0][2])
-        if(t[0][0]==PART_JUGADOR_1)
+    if(t->grilla[0][0]==t->grilla[0][1] && t->grilla[0][0]==t->grilla[0][2]){
+        if(t->grilla[0][0]==PART_JUGADOR_1)
             toReturn = PART_GANA_JUGADOR_1;
-        if(t[0][0]==PART_JUGADOR_2)
+        if(t->grilla[0][0]==PART_JUGADOR_2)
             toReturn = PART_GANA_JUGADOR_2;
-    else
-        if(t[0][0]==t[1][0] && t[0][0]==t[2][0])
-            if(t[0][0]==PART_JUGADOR_1)
+    } else
+        if(t->grilla[0][0]==t->grilla[1][0] && t->grilla[0][0]==t->grilla[2][0]){
+            if(t->grilla[0][0]==PART_JUGADOR_1)
                 toReturn = PART_GANA_JUGADOR_1;
-            if(t[0][0]==PART_JUGADOR_2)
+            if(t->grilla[0][0]==PART_JUGADOR_2)
                 toReturn = PART_GANA_JUGADOR_2;
-        else
-            if(t[0][0]==t[1][1] && t[0][0]==t[2][2])
-                if(t[0][0]==PART_JUGADOR_1)
+        } else
+            if(t->grilla[0][0]==t->grilla[1][1] && t->grilla[0][0]==t->grilla[2][2]){
+                if(t->grilla[0][0]==PART_JUGADOR_1)
                     toReturn = PART_GANA_JUGADOR_1;
-                if(t[0][0]==PART_JUGADOR_2)
+                if(t->grilla[0][0]==PART_JUGADOR_2)
                     toReturn = PART_GANA_JUGADOR_2;
-            else
+            } else
                 // Luego analizo todas las combinaciones posibles estando parado en 1,1
-                if(t[1][1]==t[1][0] && t[1][1]==t[1][2])
-                    if(t[1][1]==PART_JUGADOR_1)
+                if(t->grilla[1][1]==t->grilla[1][0] && t->grilla[1][1]==t->grilla[1][2]){
+                    if(t->grilla[1][1]==PART_JUGADOR_1)
                         toReturn = PART_GANA_JUGADOR_1;
-                    if(t[1][1]==PART_JUGADOR_2)
+                    if(t->grilla[1][1]==PART_JUGADOR_2)
                         toReturn = PART_GANA_JUGADOR_2;
-                else
-                    if(t[1][1]==t[0][1] && t[1][1]==t[2][1])
-                        if(t[1][1]==PART_JUGADOR_1)
+                } else
+                    if(t->grilla[1][1]==t->grilla[0][1] && t->grilla[1][1]==t->grilla[2][1]){
+                        if(t->grilla[1][1]==PART_JUGADOR_1)
                             toReturn = PART_GANA_JUGADOR_1;
-                        if(t[1][1]==PART_JUGADOR_2)
+                        if(t->grilla[1][1]==PART_JUGADOR_2)
                             toReturn = PART_GANA_JUGADOR_2;
-                    else
-                        if(t[1][1]==t[0][2] && t[1][1]==t[2][0])
-                            if(t[1][1]==PART_JUGADOR_1)
+                    } else
+                        if(t->grilla[1][1]==t->grilla[0][2] && t->grilla[1][1]==t->grilla[2][0]){
+                            if(t->grilla[1][1]==PART_JUGADOR_1)
                                 toReturn = PART_GANA_JUGADOR_1;
-                            if(t[1][1]==PART_JUGADOR_2)
+                            if(t->grilla[1][1]==PART_JUGADOR_2)
                                 toReturn = PART_GANA_JUGADOR_2;
-                        else
+                        } else
                             // Luego analizo todas las combinaciones posibles estando parado en 2,2
-                            if(t[2][2]==t[1][2] && t[2][2]==t[0][2])
-                                if(t[2][2]==PART_JUGADOR_1)
+                            if(t->grilla[2][2]==t->grilla[1][2] && t->grilla[2][2]==t->grilla[0][2]){
+                                if(t->grilla[2][2]==PART_JUGADOR_1)
                                     toReturn = PART_GANA_JUGADOR_1;
-                                if(t[2][2]==PART_JUGADOR_2)
+                                if(t->grilla[2][2]==PART_JUGADOR_2)
                                     toReturn = PART_GANA_JUGADOR_2;
-                            else
-                                if(t[2][2]==t[2][1] && t[2][2]==t[2][0])
-                                    if(t[2][2]==PART_JUGADOR_1)
+                            } else
+                                if(t->grilla[2][2]==t->grilla[2][1] && t->grilla[2][2]==t->grilla[2][0]){
+                                    if(t->grilla[2][2]==PART_JUGADOR_1)
                                         toReturn = PART_GANA_JUGADOR_1;
-                                    if(t[2][2]==PART_JUGADOR_2)
+                                    if(t->grilla[2][2]==PART_JUGADOR_2)
                                         toReturn = PART_GANA_JUGADOR_2;
+                                }
                                 else
                                     // Reviso si la partida aun le quedan jugadas
                                     for(i=0; i<3; i++)
                                         for(j=0; j<3; j++)
-                                            if(t[i][j]==PART_SIN_MOVIMIENTO)
-                                                toReturn = PART_EN_JUEGO
+                                            if(t->grilla[i][j]==PART_SIN_MOVIMIENTO)
+                                                toReturn = PART_EN_JUEGO;
 
     return toReturn;
 }
