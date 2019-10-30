@@ -45,9 +45,15 @@
 # Kernel Module Compile Results
 *.mod*
 *.cmd
+
+*.layout
+*.cbp
+*.depend
+/bin/
+/obj/
+
 .tmp_versions/
 modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
-*.layout
