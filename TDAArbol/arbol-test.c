@@ -75,7 +75,8 @@ int main() {
 
     printf("\nInsertamos un 6 como hijo de 3 con NH=NULL, y lo mostramos:\n");
     tLista hijosDe3 = a_hijos(arbol, posDe3);
-    tNodo posDe6= a_insertar(arbol, posDe3, NULL, f);
+    //tNodo posDe6= a_insertar(arbol, posDe3, NULL, f);
+    a_insertar(arbol, posDe3, NULL, f);
     mostrarLista(arbol, hijosDe1);
     mostrarLista(arbol, hijosDe3);
 

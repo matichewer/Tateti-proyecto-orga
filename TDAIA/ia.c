@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
-#include "lista.h"
-#include "arbol.h"
+#include "../TDALista/lista.h"
+#include "../TDAArbol/arbol.h"
 #include "ia.h"
 
 // Prototipos de funciones auxiliares.

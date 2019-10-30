@@ -1,8 +1,8 @@
 #ifndef IA_H_INCLUDED
 #define IA_H_INCLUDED
 
-#include "arbol.h"
-#include "partida.h"
+#include "../TDAArbol/arbol.h"
+#include "../TDAPartida/partida.h"
 
 // Importante: IA_INFINITO_NEG < IA_PIERDE_MAX < IA_EMPATA_MAX < IA_GANA_MAX < IA_INFINITO_POS
 

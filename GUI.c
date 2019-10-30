@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-#include "partida.h"
+
 
 /*
 // Barra \ para compu rota que no le anda ese botón
