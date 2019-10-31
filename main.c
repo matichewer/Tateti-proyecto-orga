@@ -84,7 +84,7 @@ int main(){
     if(modo == PART_MODO_USUARIO_VS_USUARIO)
         asignar_nombre_jugador2(nombreJugador2);
     else
-        nombreJugador2 = "maquina";
+        *nombreJugador2 = "maquina";
 
     asignar_turno(&turno);
 

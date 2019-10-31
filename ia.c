@@ -293,7 +293,10 @@ static tLista estados_sucesores(tEstado e, int ficha_jugador){
             if(e->grilla[i][j] == PART_SIN_MOVIMIENTO){
                 toAdd = clonar_estado(e);
                 toAdd->grilla[i][j] = ficha_jugador;
-                l_insertar(toReturn, l_ultima(toReturn), toAdd); // falta hacer el random
+                if(rand()%100 < 50)
+                    l_insertar(toReturn, l_primera(toReturn), toAdd);
+                else
+                    l_insertar(toReturn, l_ultima(toReturn), toAdd);
             }
     return toReturn;
 }
