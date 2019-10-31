@@ -94,7 +94,69 @@ Implementa la estrategia del algoritmo Min-Max con podas Alpha-Beta, a partir de
 - ALPHA y BETA indican sendos valores correspondientes a los nodos ancestros a N en el árbol de búsqueda A.
 - JUGADOR_MAX y JUGADOR_MIN indican las fichas con las que juegan los respectivos jugadores.
 **/
-static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, int beta, int jugador_max, int jugador_min){}
+static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, int beta, int jugador_max, int jugador_min){
+
+    int utilidadActual;
+    tEstado estadoActual;
+    int mejorValorSucesores;
+    tLista listaSucesores;
+    tPosicion posActual, posFin;
+    tEstado estadoSucesor;
+
+    estadoActual = a_recuperar(a, n);
+    utilidadActual = valor_utilidad(estado, jugador_max));
+
+
+    if( utilidadActual != IA_NO_TERMINO )
+        estadoActual->utilidad = utilidad;
+
+    if(es_max){
+        mejorValorSucesores = IA_INFINITO_NEG;
+        listaSucesores = estados_sucesores(estado, jugador_max);
+        posActual = l_primera(lista_sucesores);
+        posFinfin = l_fin(lista_sucesores);
+
+        while( posActual != posFin ){
+            estadoSucesor = l_recuperar(lista_sucesores, actual);
+            estadoSucesor->utilidad = valor_utilidad(estadoSucesor, jugador_max);
+            a_insertar(a, n, NULL, estadoSucesor);
+
+            crear_sucesores_min_max(a, l_recuperar(a_hijos(a, n), l_ultima(a_hijos(a, n))), 0, alpha, beta, jugador_max, jugador_min);
+
+            mejorValorSucesores = max( mejorValorSucesores, estadoSucesor->utilidad);
+            alpha = max( alpha, mejorValorSucesores );
+
+            if(beta <= alpha)
+                break;
+            posActual = l_siguiente(listaSucesores, posActual);
+        }
+        estadoActual->utilidad = alpha;
+    }else{
+        mejorValorSucesores = IA_INFINITO_POS;
+        listaSucesores = estados_sucesores(estado, jugador_max);
+        posActual = l_primera(lista_sucesores);
+        posFinfin = l_fin(lista_sucesores);
+
+        while( posActual != posfin ){
+            estadoSucesor = l_recuperar(lista_sucesores, actual);
+            estadoSucesor->utilidad = valor_utilidad(estadoSucesor, jugador_max);
+            a_insertar(a, n, NULL, estadoSucesor);
+
+            crear_sucesores_min_max(a, l_recuperar(a_hijos(a, n), l_ultima(a_hijos(a, n))), 1, alpha, beta, jugador_max, jugador_min);
+
+            mejorValorSucesores = min( mejorValorSucesores, estadoSucesor->utilidad);
+            beta = max( alpha, mejorValorSucesores );
+
+            if(beta <= alpha)
+                break;
+            actual = l_siguiente(listaSucesores, actual);
+        }
+        estadoActual->utilidad = alpha;
+
+    }
+
+}
+
 
 /**
 >>>>>  A IMPLEMENTAR   <<<<<
