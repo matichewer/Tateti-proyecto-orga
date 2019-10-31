@@ -1,7 +1,7 @@
 #ifndef ARBOL_H_INCLUDED
 #define ARBOL_H_INCLUDED
 
-#include "../TDALista/lista.h"
+#include "lista.h"
 
 #define ARB_OPERACION_INVALIDA      10
 #define ARB_POSICION_INVALIDA       11

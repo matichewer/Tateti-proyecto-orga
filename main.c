@@ -2,11 +2,11 @@
 
 
 
-/*
+
 // Barra \ para compu rota que no le anda ese botón
 
 
-
+/*
 void solicitarNombres(){
     printf("Ingrese el nombre del jugador 1:");
 }
@@ -48,7 +48,6 @@ void solicitarQuienEmpieza(){}
 void mostrarTablero(){}
 
 
-
 int main(){
 
 // Valores a iniciar:
@@ -56,4 +55,5 @@ int main(){
 
     return 0;
 }
+
 */

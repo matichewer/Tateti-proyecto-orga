@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
-#include "../TDALista/lista.h"
-#include "../TDAArbol/arbol.h"
+#include "lista.h"
+#include "arbol.h"
 #include "ia.h"
 
 // Prototipos de funciones auxiliares.
@@ -12,10 +12,11 @@ static tLista estados_sucesores(tEstado e, int ficha_jugador);
 static void diferencia_estados(tEstado anterior, tEstado nuevo, int * x, int * y);
 static tEstado clonar_estado(tEstado e);
 
-void fEliminar(tElemento e){
-    free(e);
-    e = NULL;
-}
+
+static void fEliminar(tElemento e);
+int max(int x, int y);
+int min(int x, int y);
+
 
 void crear_busqueda_adversaria(tBusquedaAdversaria * b, tPartida p){
     int i, j;
@@ -96,7 +97,7 @@ Implementa la estrategia del algoritmo Min-Max con podas Alpha-Beta, a partir de
 **/
 static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, int beta, int jugador_max, int jugador_min){
 
-    int utilidadActual;
+    int utilidad;
     tEstado estadoActual;
     int mejorValorSucesores;
     tLista listaSucesores;
@@ -104,20 +105,20 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
     tEstado estadoSucesor;
 
     estadoActual = a_recuperar(a, n);
-    utilidadActual = valor_utilidad(estado, jugador_max));
+    utilidad = valor_utilidad(estadoActual, jugador_max);
 
 
-    if( utilidadActual != IA_NO_TERMINO )
+    if( utilidad != IA_NO_TERMINO )
         estadoActual->utilidad = utilidad;
 
     if(es_max){
         mejorValorSucesores = IA_INFINITO_NEG;
-        listaSucesores = estados_sucesores(estado, jugador_max);
-        posActual = l_primera(lista_sucesores);
-        posFinfin = l_fin(lista_sucesores);
+        listaSucesores = estados_sucesores(estadoActual, jugador_max);
+        posActual = l_primera(listaSucesores);
+        posFin = l_fin(listaSucesores);
 
         while( posActual != posFin ){
-            estadoSucesor = l_recuperar(lista_sucesores, actual);
+            estadoSucesor = l_recuperar(listaSucesores, posActual);
             estadoSucesor->utilidad = valor_utilidad(estadoSucesor, jugador_max);
             a_insertar(a, n, NULL, estadoSucesor);
 
@@ -133,29 +134,27 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
         estadoActual->utilidad = alpha;
     }else{
         mejorValorSucesores = IA_INFINITO_POS;
-        listaSucesores = estados_sucesores(estado, jugador_max);
-        posActual = l_primera(lista_sucesores);
-        posFinfin = l_fin(lista_sucesores);
-
-        while( posActual != posfin ){
-            estadoSucesor = l_recuperar(lista_sucesores, actual);
+        listaSucesores = estados_sucesores(estadoActual, jugador_min);
+        posActual = l_primera(listaSucesores);
+        posFin = l_fin(listaSucesores);
+        while(posActual != posFin){
+            estadoSucesor = l_recuperar(listaSucesores, posActual);
             estadoSucesor->utilidad = valor_utilidad(estadoSucesor, jugador_max);
             a_insertar(a, n, NULL, estadoSucesor);
-
-            crear_sucesores_min_max(a, l_recuperar(a_hijos(a, n), l_ultima(a_hijos(a, n))), 1, alpha, beta, jugador_max, jugador_min);
-
-            mejorValorSucesores = min( mejorValorSucesores, estadoSucesor->utilidad);
-            beta = max( alpha, mejorValorSucesores );
-
-            if(beta <= alpha)
-                break;
-            actual = l_siguiente(listaSucesores, actual);
+            crear_sucesores_min_max(a, l_recuperar(a_hijos(a, n), l_ultima(a_hijos(a, n))), 0, alpha, beta, jugador_max, jugador_min);
+            mejorValorSucesores = min(mejorValorSucesores, estadoSucesor->utilidad);
+            beta = min(beta, mejorValorSucesores);
+            if(beta<=alpha){
+                break; // mal, hacerlo con flag
+            }
+            posActual = l_siguiente(listaSucesores, posActual);
         }
-        estadoActual->utilidad = alpha;
-
+        estadoActual->utilidad = beta;
     }
 
 }
+
+
 
 
 /**
@@ -298,4 +297,18 @@ static void diferencia_estados(tEstado anterior, tEstado nuevo, int * x, int * y
             }
         }
     }
+}
+
+
+void fEliminar(tElemento e){
+    free(e);
+    e = NULL;
+}
+
+int max(int x, int y){
+    return x>y ? x : y;
+}
+
+int min(int x, int y){
+    return x<y ? x : y;
 }
