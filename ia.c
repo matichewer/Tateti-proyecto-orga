@@ -56,7 +56,45 @@ void crear_busqueda_adversaria(tBusquedaAdversaria * b, tPartida p){
 /**
 >>>>>  A IMPLEMENTAR   <<<<<
 */
-void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){}
+
+
+/**
+ Computa y retorna el próximo movimiento a realizar por el jugador MAX.
+ Para esto, se tiene en cuenta el árbol creado por el algoritmo de búsqueda adversaria Min-max con podas Alpha-Beta.
+ Siempre que sea posible, se indicará un movimiento que permita que MAX gane la partida.
+ Si no existe un movimiento ganador para MAX, se indicará un movimiento que permita que MAX empate la partida.
+ En caso contrario, se indicará un movimiento que lleva a MAX a perder la partida.
+**/
+void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){
+
+    tEstado estadoPadre, estadoActual;
+    tNodo nodoActual, nodoMejorSucesor;
+    tLista listaSucesores;
+    tPosicion posActual, posFin;
+    int mejorValor;
+
+
+    // Obtengo el estado actual y su lista de sucesores
+    estadoPadre = a_recuperar(b->arbol_busqueda, arbol->raiz);
+    listaSucesores = a_hijos(b->arbol_busqueda, arbol->raiz);
+    posActual = l_primera(listaSucesores);
+    posFin = l_fin(listaSucesores);
+    mejorValor = IA_INFINITO_NEG;
+
+
+    while(posActual != posFin){
+        nodoActual = l_recuperar(listaSucesores, posActual);
+        estadoActual =  a_recuperar(arbol, nodoActual);
+        if(mejorValor < estadoActual->utilidad){
+            nodoMejorSucesor = nodoActual;
+            mejorValor = estadoActual->utilidad;
+        }
+        posActual = l_siguiente(listaSucesores, posActual);
+    }
+
+    estadoActual = a_recuperar(arbol, nodoMejorSucesor);
+    diferencia_estados(estadoPadre, estadoActual, x, y);
+}
 
 /**
 >>>>>  A IMPLEMENTAR   <<<<<
@@ -103,13 +141,16 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
     tLista listaSucesores;
     tPosicion posActual, posFin;
     tEstado estadoSucesor;
+    tNodo nodoInsertado;
 
     estadoActual = a_recuperar(a, n);
     utilidad = valor_utilidad(estadoActual, jugador_max);
 
 
-    if( utilidad != IA_NO_TERMINO )
+    if( utilidad != IA_NO_TERMINO ){
         estadoActual->utilidad = utilidad;
+        break;
+    }
 
     if(es_max){
         mejorValorSucesores = IA_INFINITO_NEG;
@@ -120,18 +161,15 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
         while( posActual != posFin ){
             estadoSucesor = l_recuperar(listaSucesores, posActual);
             estadoSucesor->utilidad = valor_utilidad(estadoSucesor, jugador_max);
-            a_insertar(a, n, NULL, estadoSucesor);
-
-            crear_sucesores_min_max(a, l_recuperar(a_hijos(a, n), l_ultima(a_hijos(a, n))), 0, alpha, beta, jugador_max, jugador_min);
-
+            nodoInsertado = a_insertar(a, n, NULL, estadoSucesor);
+            crear_sucesores_min_max(a, nodoInsertado, 0, alpha, beta, jugador_max, jugador_min);
             mejorValorSucesores = max( mejorValorSucesores, estadoSucesor->utilidad);
             alpha = max( alpha, mejorValorSucesores );
-
             if(beta <= alpha)
                 break;
             posActual = l_siguiente(listaSucesores, posActual);
+            estadoActual->utilidad = alpha;
         }
-        estadoActual->utilidad = alpha;
     }else{
         mejorValorSucesores = IA_INFINITO_POS;
         listaSucesores = estados_sucesores(estadoActual, jugador_min);
@@ -139,17 +177,17 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
         posFin = l_fin(listaSucesores);
         while(posActual != posFin){
             estadoSucesor = l_recuperar(listaSucesores, posActual);
-            estadoSucesor->utilidad = valor_utilidad(estadoSucesor, jugador_max);
-            a_insertar(a, n, NULL, estadoSucesor);
-            crear_sucesores_min_max(a, l_recuperar(a_hijos(a, n), l_ultima(a_hijos(a, n))), 0, alpha, beta, jugador_max, jugador_min);
+            estadoSucesor->utilidad = valor_utilidad(estadoSucesor, jugador_min);
+            nodoInsertado = a_insertar(a, n, NULL, estadoSucesor);
+            crear_sucesores_min_max(a, nodoInsertado, 1, alpha, beta, jugador_max, jugador_min);
             mejorValorSucesores = min(mejorValorSucesores, estadoSucesor->utilidad);
             beta = min(beta, mejorValorSucesores);
             if(beta<=alpha){
                 break; // mal, hacerlo con flag
             }
             posActual = l_siguiente(listaSucesores, posActual);
+            estadoActual->utilidad = beta;
         }
-        estadoActual->utilidad = beta;
     }
 
 }
@@ -170,51 +208,51 @@ static int valor_utilidad(tEstado e, int jugador_max){
     int toReturn = IA_EMPATA_MAX;
 
     // Primero analizo todas las combinaciones posibles estando parado en 0,0
-    if(e->grilla[0][0]==e->grilla[0][1] && e->grilla[0][0]==e->grilla[0][2])
+    if(e->grilla[0][0]==e->grilla[0][1] && e->grilla[0][0]==e->grilla[0][2] && e->grilla[0][0]!=PART_SIN_MOVIMIENTO)
         if(e->grilla[0][0]==jugador_max)
             toReturn = IA_GANA_MAX;
         else
             toReturn = IA_PIERDE_MAX;
     else
-        if(e->grilla[0][0]==e->grilla[1][0] && e->grilla[0][0]==e->grilla[2][0])
+        if(e->grilla[0][0]==e->grilla[1][0] && e->grilla[0][0]==e->grilla[2][0] && e->grilla[0][0]!=PART_SIN_MOVIMIENTO)
             if(e->grilla[0][0]==jugador_max)
                 toReturn = IA_GANA_MAX;
             else
                 toReturn = IA_PIERDE_MAX;
         else
-            if(e->grilla[0][0]==e->grilla[1][1] && e->grilla[0][0]==e->grilla[2][2])
+            if(e->grilla[0][0]==e->grilla[1][1] && e->grilla[0][0]==e->grilla[2][2] && e->grilla[0][0]!=PART_SIN_MOVIMIENTO)
                 if(e->grilla[0][0]==jugador_max)
                     toReturn = IA_GANA_MAX;
                 else
                     toReturn = IA_PIERDE_MAX;
             else
                 // Luego analizo todas las combinaciones posibles estando parado en 1,1
-                if(e->grilla[1][1]==e->grilla[1][0] && e->grilla[1][1]==e->grilla[1][2])
+                if(e->grilla[1][1]==e->grilla[1][0] && e->grilla[1][1]==e->grilla[1][2]) && e->grilla[1][1]!=PART_SIN_MOVIMIENTO)
                     if(e->grilla[1][1]==jugador_max)
                         toReturn = IA_GANA_MAX;
                     else
                         toReturn = IA_PIERDE_MAX;
                 else
-                    if(e->grilla[1][1]==e->grilla[0][1] && e->grilla[1][1]==e->grilla[2][1])
+                    if(e->grilla[1][1]==e->grilla[0][1] && e->grilla[1][1]==e->grilla[2][1] && e->grilla[1][1]!=PART_SIN_MOVIMIENTO)
                         if(e->grilla[1][1]==jugador_max)
                             toReturn = IA_GANA_MAX;
                         else
                             toReturn = IA_PIERDE_MAX;
                     else
-                        if(e->grilla[1][1]==e->grilla[0][2] && e->grilla[1][1]==e->grilla[2][0])
+                        if(e->grilla[1][1]==e->grilla[0][2] && e->grilla[1][1]==e->grilla[2][0] && e->grilla[1][1]!=PART_SIN_MOVIMIENTO)
                             if(e->grilla[1][1]==jugador_max)
                                 toReturn = IA_GANA_MAX;
                             else
                                 toReturn = IA_PIERDE_MAX;
                         else
                             // Luego analizo todas las combinaciones posibles estando parado en 2,2
-                            if(e->grilla[2][2]==e->grilla[1][2] && e->grilla[2][2]==e->grilla[0][2])
+                            if(e->grilla[2][2]==e->grilla[1][2] && e->grilla[2][2]==e->grilla[0][2] && e->grilla[2][2]!=PART_SIN_MOVIMIENTO)
                                 if(e->grilla[2][2]==jugador_max)
                                     toReturn = IA_GANA_MAX;
                                 else
                                     toReturn = IA_PIERDE_MAX;
                             else
-                                if(e->grilla[2][2]==e->grilla[2][1] && e->grilla[2][2]==e->grilla[2][0])
+                                if(e->grilla[2][2]==e->grilla[2][1] && e->grilla[2][2]==e->grilla[2][0] && e->grilla[2][2]!=PART_SIN_MOVIMIENTO)
                                     if(e->grilla[2][2]==jugador_max)
                                         toReturn = IA_GANA_MAX;
                                     else

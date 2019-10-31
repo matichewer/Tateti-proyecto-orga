@@ -46,9 +46,16 @@ void solicitarQuienEmpieza(){}
 
 
 void mostrarTablero(){}
-
+*/
 
 int main(){
+    int x = 0; // F
+    int y = 1; // V
+
+    if(x) // falso
+        printf("Entro en X");
+    if(y) // verdadero
+        printf("Entro en Y");
 
 // Valores a iniciar:
 //tPartida * p, int modo_partida, int comienza, char * j1_nombre, char * j2_nombre
@@ -56,4 +63,4 @@ int main(){
     return 0;
 }
 
-*/
+
