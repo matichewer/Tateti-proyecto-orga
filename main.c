@@ -1,4 +1,10 @@
 #include <stdlib.h>
+#include <stdio.h>
+
+#include "lista.h"
+#include "arbol.h"
+#include "partida.h"
+#include "ia.h"
 
 
 
@@ -6,59 +12,82 @@
 // Barra \ para compu rota que no le anda ese botón
 
 
-/*
-void solicitarNombres(){
-    printf("Ingrese el nombre del jugador 1:");
-}
-
-
-
-int solicitarModo(){
-
-    int opcion_elegida = -1;
-
+void asignar_modo_de_juego(int * modo){
 
     // Imprimo opciones
-    printf("Ingrese el modo de juego:\n\n");
-    printf("  1. Humano vs IA\n");
-    printf("  2. Humano vs Humano\n");
+    printf("Ingrese el modo de juego:\n");
+    printf("  1. Humano vs Humano\n");
+    printf("  2. Humano vs Maquina\n");
+    scanf("%i", modo);
+    printf("\n\n");
 
-
-    // Solicito opción elegida por el usuario
-    while(opcion_elegida == 1 || opcion_elegida == 2)
-        scanf("%d", &opcion_elegida);
-
-
-    // Parseo opcion
-    if(opcion_elegida == 1)
-        opcion_elegida = PART_MODO_USUARIO_VS_AGENTE_IA;
+    // Computo el valor
+    if(*modo == 1)
+        *modo = PART_MODO_USUARIO_VS_USUARIO;
     else
-        opcion_elegida = PART_MODO_USUARIO_VS_USUARIO;
+        *modo = PART_MODO_USUARIO_VS_AGENTE_IA;
 
+}
 
-    return opcion_elegida
+void asignar_nombre_jugador1(char * nombre){
+    printf("Ingrese el nombre del jugador 1: ");
+    scanf("%s", nombre);
+    printf("\n\n");
+}
+
+void asignar_nombre_jugador2(char * nombre){
+    printf("Ingrese el nombre del jugador 2: ");
+    scanf("%s", nombre);
+    printf("\n\n");
+}
+
+void asignar_turno(int * turno){
+    printf("Ingrese quien comienza primero:\n");
+    printf(" 1. Jugador 1\n");
+    printf(" 2. Jugador 2\n");
+    printf(" 3. Al azar\n");
+    scanf("%i",turno);
+    printf("\n\n");
 }
 
 
 
-void solicitarQuienEmpieza(){}
+//void mostrarTablero(){}
 
-
-
-void mostrarTablero(){}
-*/
 
 int main(){
-    int x = 0; // F
-    int y = 1; // V
 
-    if(x) // falso
-        printf("Entro en X");
-    if(y) // verdadero
-        printf("Entro en Y");
+    tPartida partida;
+    tTablero tablero;
+    char nombreJugador1[50];
+    char nombreJugador2[50];
+    int turno;
+    int modo;
 
-// Valores a iniciar:
-//tPartida * p, int modo_partida, int comienza, char * j1_nombre, char * j2_nombre
+
+    partida = (tPartida) malloc(sizeof(struct partida));
+    if(partida == NULL) {
+        printf("El juego no pudo ser cargado. Memoria insuficiente.");
+        exit(PART_ERROR_MEMORIA);
+    }
+
+    tablero = (tTablero) malloc(sizeof(struct tablero));
+    if(tablero == NULL) {
+        printf("El juego no pudo ser cargado. Memoria insuficiente.");
+        exit(PART_ERROR_MEMORIA);
+    }
+
+
+    asignar_modo_de_juego(&modo);
+
+    asignar_nombre_jugador1(nombreJugador1);
+    if(modo == PART_MODO_USUARIO_VS_USUARIO)
+        asignar_nombre_jugador2(nombreJugador2);
+    else
+        nombreJugador2 = "maquina";
+
+    asignar_turno(&turno);
+
 
     return 0;
 }

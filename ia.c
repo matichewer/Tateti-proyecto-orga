@@ -75,8 +75,8 @@ void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){
 
 
     // Obtengo el estado actual y su lista de sucesores
-    estadoPadre = a_recuperar(b->arbol_busqueda, arbol->raiz);
-    listaSucesores = a_hijos(b->arbol_busqueda, arbol->raiz);
+    estadoPadre = a_recuperar(b->arbol_busqueda, b->arbol_busqueda->raiz);
+    listaSucesores = a_hijos(b->arbol_busqueda, b->arbol_busqueda->raiz);
     posActual = l_primera(listaSucesores);
     posFin = l_fin(listaSucesores);
     mejorValor = IA_INFINITO_NEG;
@@ -84,7 +84,7 @@ void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){
 
     while(posActual != posFin){
         nodoActual = l_recuperar(listaSucesores, posActual);
-        estadoActual =  a_recuperar(arbol, nodoActual);
+        estadoActual =  a_recuperar(b->arbol_busqueda, nodoActual);
         if(mejorValor < estadoActual->utilidad){
             nodoMejorSucesor = nodoActual;
             mejorValor = estadoActual->utilidad;
@@ -92,7 +92,7 @@ void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){
         posActual = l_siguiente(listaSucesores, posActual);
     }
 
-    estadoActual = a_recuperar(arbol, nodoMejorSucesor);
+    estadoActual = a_recuperar(b->arbol_busqueda, nodoMejorSucesor);
     diferencia_estados(estadoPadre, estadoActual, x, y);
 }
 
@@ -134,7 +134,7 @@ Implementa la estrategia del algoritmo Min-Max con podas Alpha-Beta, a partir de
 - JUGADOR_MAX y JUGADOR_MIN indican las fichas con las que juegan los respectivos jugadores.
 **/
 static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, int beta, int jugador_max, int jugador_min){
-
+/*
     int utilidad;
     tEstado estadoActual;
     int mejorValorSucesores;
@@ -189,7 +189,7 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
             estadoActual->utilidad = beta;
         }
     }
-
+*/
 }
 
 
@@ -227,7 +227,7 @@ static int valor_utilidad(tEstado e, int jugador_max){
                     toReturn = IA_PIERDE_MAX;
             else
                 // Luego analizo todas las combinaciones posibles estando parado en 1,1
-                if(e->grilla[1][1]==e->grilla[1][0] && e->grilla[1][1]==e->grilla[1][2]) && e->grilla[1][1]!=PART_SIN_MOVIMIENTO)
+                if(e->grilla[1][1]==e->grilla[1][0] && e->grilla[1][1]==e->grilla[1][2] && e->grilla[1][1]!=PART_SIN_MOVIMIENTO)
                     if(e->grilla[1][1]==jugador_max)
                         toReturn = IA_GANA_MAX;
                     else
