@@ -14,8 +14,7 @@ static tEstado clonar_estado(tEstado e);
 
 void fEliminar(tElemento e){
     free(e);
- //   free(e->grilla);
-//    free((e)->utilidad);
+    e = NULL;
 }
 
 void crear_busqueda_adversaria(tBusquedaAdversaria * b, tPartida p){
