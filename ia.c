@@ -56,15 +56,6 @@ void crear_busqueda_adversaria(tBusquedaAdversaria * b, tPartida p){
 /**
 >>>>>  A IMPLEMENTAR   <<<<<
 */
-
-
-/**
- Computa y retorna el próximo movimiento a realizar por el jugador MAX.
- Para esto, se tiene en cuenta el árbol creado por el algoritmo de búsqueda adversaria Min-max con podas Alpha-Beta.
- Siempre que sea posible, se indicará un movimiento que permita que MAX gane la partida.
- Si no existe un movimiento ganador para MAX, se indicará un movimiento que permita que MAX empate la partida.
- En caso contrario, se indicará un movimiento que lleva a MAX a perder la partida.
-**/
 void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){
 
     tEstado estadoPadre, estadoActual;
@@ -193,6 +184,7 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
             }
             continuar = 1;
         }
+    }
 }
 
 

@@ -7,8 +7,6 @@
 #include "ia.h"
 
 
-
-
 // Barra \ para compu rota que no le anda ese botón
 
 
@@ -48,11 +46,57 @@ void asignar_turno(int * turno){
     printf(" 3. Al azar\n");
     scanf("%i",turno);
     printf("\n\n");
+
+    if(*turno == 1)
+        *turno = PART_JUGADOR_1;
+    else
+        if(*turno == 2)
+            *turno = PART_JUGADOR_2;
+        else
+            *turno = PART_JUGADOR_RANDOM;
 }
 
+void mostrar_ficha_de_primer_y_tercer_columna(tTablero tablero, int fila, int columna){
 
+    if(tablero->grilla[fila][columna] == PART_SIN_MOVIMIENTO)
+        printf("    ");
 
-//void mostrarTablero(){}
+    if(tablero->grilla[fila][columna] == PART_JUGADOR_1)
+        printf("  X  ");
+
+    if(tablero->grilla[fila][columna] == PART_JUGADOR_2)
+        printf("  O  ");
+
+}
+
+void mostrar_ficha_de_columna_central(tTablero tablero, int fila, int columna){
+
+    if(tablero->grilla[fila][columna] == PART_SIN_MOVIMIENTO)
+        printf("|   |");
+
+    if(tablero->grilla[fila][columna] == PART_JUGADOR_1)
+        printf("| X |");
+
+    if(tablero->grilla[fila][columna] == PART_JUGADOR_2)
+        printf("| O |");
+
+}
+
+void mostrar_tablero(tTablero tablero){
+    printf("TABLERO:\n\n");
+    mostrar_ficha_de_primer_y_tercer_columna(tablero, 0, 0);
+    mostrar_ficha_de_columna_central(tablero, 0, 1);
+    mostrar_ficha_de_primer_y_tercer_columna(tablero, 0, 2);
+    printf("\n ---|---|--- \n");
+    mostrar_ficha_de_primer_y_tercer_columna(tablero, 1, 0);
+    mostrar_ficha_de_columna_central(tablero, 1, 1);
+    mostrar_ficha_de_primer_y_tercer_columna(tablero, 1, 2);
+    printf("\n ---|---|--- \n");
+    mostrar_ficha_de_primer_y_tercer_columna(tablero, 2, 0);
+    mostrar_ficha_de_columna_central(tablero, 2, 1);
+    mostrar_ficha_de_primer_y_tercer_columna(tablero, 2, 2);
+    printf("\n");
+}
 
 
 int main(){
@@ -84,10 +128,21 @@ int main(){
     if(modo == PART_MODO_USUARIO_VS_USUARIO)
         asignar_nombre_jugador2(nombreJugador2);
     else
-        *nombreJugador2 = "maquina";
+        nombreJugador2 = "maquina";  //  por que da error ?????
 
     asignar_turno(&turno);
 
+    nueva_partida(&partida, modo, turno, nombreJugador1, nombreJugador2);
+    tablero = partida->tablero;
+    mostrar_tablero(tablero);
+
+    /*
+    if(modo == PART_MODO_USUARIO_VS_USUARIO)
+        iniciar_modo_usuario_vs_usuario();    // falta crear e implementar ésta función
+    else
+        if(modo == PART_MODO_USUARIO_VS_AGENTE_IA)
+            iniciar_modo_usuario_vs_ia();  // falta crear e implementar ésta función
+*/
 
     return 0;
 }
