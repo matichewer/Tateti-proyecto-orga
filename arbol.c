@@ -2,29 +2,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
+// Funciones auxiliares
 void (*eliminarElementoDelNodo)(tElemento);  // acá se guarda la funcion de a_destruir()
 void a_destruir_aux(tElemento elem);
-
-
+tPosicion buscarPos(tLista l, tNodo n);
 void fNoEliminar(){}
 
-void borrar(tElemento e){
-    free(e);
-}
 
-tPosicion buscarPos(tLista l, tNodo n){
-    tPosicion toReturn = l_primera(l);
-    tPosicion fin = l_fin(l);
-
-    while( (toReturn!=fin) && (l_recuperar(l,toReturn) != n))
-        toReturn=l_siguiente(l,toReturn);
-
-    if(l_recuperar(l,toReturn)==n)
-        return toReturn;
-    else
-        return NULL;
-}
 
 /**
 Inicializa un árbol vacío.
@@ -146,21 +130,6 @@ void a_eliminar(tArbol a, tNodo n, void (*fEliminar)(tElemento)){
     }
 }
 
-void a_destruir_aux(tElemento elem){
-
-    tNodo nodo;
-
-    if(elem != NULL){
-        nodo = elem;
-        nodo->padre = NULL;
-        eliminarElementoDelNodo(nodo->elemento);
-        l_destruir(&(nodo->hijos), &a_destruir_aux);
-        free(nodo);
-        nodo = NULL;
-    }
-
-}
-
 /**
  Destruye el árbol A, eliminando cada uno de sus nodos.
  Los elementos almacenados en el árbol son eliminados mediante la función fEliminar parametrizada.
@@ -228,5 +197,35 @@ void a_sub_arbol(tArbol a, tNodo n, tArbol * sa){
     else{
         (*sa)->raiz=a->raiz;
         a->raiz=NULL;
+    }
+
+
+
+// ===============================================================================================================
+// FUNCIONES Y PROCEDEMIENTOS AUXILIARES
+// ===============================================================================================================
+
+tPosicion buscarPos(tLista l, tNodo n){
+    tPosicion toReturn = l_primera(l);
+    tPosicion fin = l_fin(l);
+
+    while( (toReturn!=fin) && (l_recuperar(l,toReturn) != n))
+        toReturn=l_siguiente(l,toReturn);
+
+    if(l_recuperar(l,toReturn)==n)
+        return toReturn;
+    else
+        return NULL;
+}
+
+void a_destruir_aux(tElemento elem){
+    tNodo nodo;
+    if(elem != NULL){
+        nodo = elem;
+        nodo->padre = NULL;
+        eliminarElementoDelNodo(nodo->elemento);
+        l_destruir(&(nodo->hijos), &a_destruir_aux);
+        free(nodo);
+        nodo = NULL;
     }
 }
