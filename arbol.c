@@ -198,6 +198,7 @@ void a_sub_arbol(tArbol a, tNodo n, tArbol * sa){
         (*sa)->raiz=a->raiz;
         a->raiz=NULL;
     }
+}
 
 
 
