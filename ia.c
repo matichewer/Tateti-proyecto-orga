@@ -142,54 +142,57 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
     tPosicion posActual, posFin;
     tEstado estadoSucesor;
     tNodo nodoInsertado;
+    int continuar = 1;
 
     estadoActual = a_recuperar(a, n);
     utilidad = valor_utilidad(estadoActual, jugador_max);
 
 
     if( utilidad != IA_NO_TERMINO ){
+
         estadoActual->utilidad = utilidad;
-        break;
-    }
 
-    if(es_max){
-        mejorValorSucesores = IA_INFINITO_NEG;
-        listaSucesores = estados_sucesores(estadoActual, jugador_max);
-        posActual = l_primera(listaSucesores);
-        posFin = l_fin(listaSucesores);
+    } else {
 
-        while( posActual != posFin ){
-            estadoSucesor = l_recuperar(listaSucesores, posActual);
-            estadoSucesor->utilidad = valor_utilidad(estadoSucesor, jugador_max);
-            nodoInsertado = a_insertar(a, n, NULL, estadoSucesor);
-            crear_sucesores_min_max(a, nodoInsertado, 0, alpha, beta, jugador_max, jugador_min);
-            mejorValorSucesores = max( mejorValorSucesores, estadoSucesor->utilidad);
-            alpha = max( alpha, mejorValorSucesores );
-            if(beta <= alpha)
-                break;
-            posActual = l_siguiente(listaSucesores, posActual);
-            estadoActual->utilidad = alpha;
-        }
-    }else{
-        mejorValorSucesores = IA_INFINITO_POS;
-        listaSucesores = estados_sucesores(estadoActual, jugador_min);
-        posActual = l_primera(listaSucesores);
-        posFin = l_fin(listaSucesores);
-        while(posActual != posFin){
-            estadoSucesor = l_recuperar(listaSucesores, posActual);
-            estadoSucesor->utilidad = valor_utilidad(estadoSucesor, jugador_min);
-            nodoInsertado = a_insertar(a, n, NULL, estadoSucesor);
-            crear_sucesores_min_max(a, nodoInsertado, 1, alpha, beta, jugador_max, jugador_min);
-            mejorValorSucesores = min(mejorValorSucesores, estadoSucesor->utilidad);
-            beta = min(beta, mejorValorSucesores);
-            if(beta<=alpha){
-                break; // mal, hacerlo con flag
+        if(es_max){
+            mejorValorSucesores = IA_INFINITO_NEG;
+            listaSucesores = estados_sucesores(estadoActual, jugador_max);
+            posActual = l_primera(listaSucesores);
+            posFin = l_fin(listaSucesores);
+
+            while( posActual != posFin && continuar ){
+                estadoSucesor = l_recuperar(listaSucesores, posActual);
+                estadoSucesor->utilidad = valor_utilidad(estadoSucesor, jugador_max);
+                nodoInsertado = a_insertar(a, n, NULL, estadoSucesor);
+                crear_sucesores_min_max(a, nodoInsertado, 0, alpha, beta, jugador_max, jugador_min);
+                mejorValorSucesores = max( mejorValorSucesores, estadoSucesor->utilidad);
+                alpha = max( alpha, mejorValorSucesores );
+                if(beta <= alpha)
+                    continuar = 0;
+                posActual = l_siguiente(listaSucesores, posActual);
+                estadoActual->utilidad = alpha;  // ?
             }
-            posActual = l_siguiente(listaSucesores, posActual);
-            estadoActual->utilidad = beta;
-        }
-    }
+            continuar = 1;
 
+        } else {
+            mejorValorSucesores = IA_INFINITO_POS;
+            listaSucesores = estados_sucesores(estadoActual, jugador_min);
+            posActual = l_primera(listaSucesores);
+            posFin = l_fin(listaSucesores);
+            while(posActual != posFin && continuar){
+                estadoSucesor = l_recuperar(listaSucesores, posActual);
+                estadoSucesor->utilidad = valor_utilidad(estadoSucesor, jugador_min);
+                nodoInsertado = a_insertar(a, n, NULL, estadoSucesor);
+                crear_sucesores_min_max(a, nodoInsertado, 1, alpha, beta, jugador_max, jugador_min);
+                mejorValorSucesores = min(mejorValorSucesores, estadoSucesor->utilidad);
+                beta = min(beta, mejorValorSucesores);
+                if(beta<=alpha)
+                    continuar = 0;
+                posActual = l_siguiente(listaSucesores, posActual);
+                estadoActual->utilidad = beta; // ?
+            }
+            continuar = 1;
+        }
 }
 
 
