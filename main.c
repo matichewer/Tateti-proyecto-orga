@@ -127,8 +127,15 @@ int main(){
     asignar_nombre_jugador1(nombreJugador1);
     if(modo == PART_MODO_USUARIO_VS_USUARIO)
         asignar_nombre_jugador2(nombreJugador2);
-    else
-        nombreJugador2 = "maquina";  //  por que da error ?????
+    else{
+        nombreJugador2[0] = 'M';  // por qué letra por letra ????
+        nombreJugador2[1] = 'a';
+        nombreJugador2[2] = 'q';
+        nombreJugador2[3] = 'u';
+        nombreJugador2[4] = 'i';
+        nombreJugador2[5] = 'n';
+        nombreJugador2[6] = 'a';
+    }
 
     asignar_turno(&turno);
 
