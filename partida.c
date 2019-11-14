@@ -17,22 +17,18 @@ void nueva_partida(tPartida * p, int modo_partida, int comienza, char * j1_nombr
 
     int i, j;
 
-
     // Reservo memoria para la Partida
     (*p) = (tPartida) malloc(sizeof(struct partida));
     if(*p == NULL) exit(PART_ERROR_MEMORIA);
-
 
     // Reservo memoria para el Tablero
     (*p)->tablero = malloc(sizeof(struct tablero));
     if((*p)->tablero == NULL) exit(PART_ERROR_MEMORIA);
 
-
     // Seteo el tablero con lugares disponibles
     for(i=0; i<3; i++)
         for(j=0; j<3; j++)
             (*p)->tablero->grilla[i][j] = PART_SIN_MOVIMIENTO;
-
 
     // Modo de juego al azar
     if(comienza == PART_JUGADOR_RANDOM){
@@ -60,36 +56,26 @@ int nuevo_movimiento(tPartida p, int mov_x, int mov_y){
 
     int toReturn = PART_MOVIMIENTO_OK;
 
-
     // Chequeo que la posicion (X,Y) sea correcta, esté libre para poner una ficha, y que la partida esté en juego
     if( mov_x<0 || mov_x>2 || mov_y<0 || mov_y>2
             || p->tablero->grilla[mov_x][mov_y] != PART_SIN_MOVIMIENTO
-            || p->estado != PART_EN_JUEGO)
-
+            || p->estado != PART_EN_JUEGO){
         toReturn = PART_MOVIMIENTO_ERROR;
-
-    else{
-            // Si es el turno del jugador 1, actualizo el tablero con su ficha y le cedo el turno al jugador 2
-            if(p->turno_de == PART_JUGADOR_1){
-
-                p->tablero->grilla[mov_x][mov_y] = PART_JUGADOR_1;
-                p->turno_de = PART_JUGADOR_2;
-
+    } else {
+        // Si es el turno del jugador 1, actualizo el tablero con su ficha y le cedo el turno al jugador 2
+        if(p->turno_de == PART_JUGADOR_1){
+            p->tablero->grilla[mov_x][mov_y] = PART_JUGADOR_1;
+            p->turno_de = PART_JUGADOR_2;
+        } else {
+            // Si es el turno del jugador 2, actualizo el tablero y le cedo el turno al jugador 1
+            if(p->turno_de == PART_JUGADOR_2){
+                p->tablero->grilla[mov_x][mov_y] = PART_JUGADOR_2;
+                p->turno_de = PART_JUGADOR_1;
             }
-
-            else
-                // Si es el turno del jugador 2, actualizo el tablero y le cedo el turno al jugador 1
-                if(p->turno_de == PART_JUGADOR_2){
-
-                    p->tablero->grilla[mov_x][mov_y] = PART_JUGADOR_2;
-                    p->turno_de = PART_JUGADOR_1;
-
-                }
-
+        }
             // Actualizo el estado de la partida
-            p->estado = estado_de_partida(p->tablero);
+        p->estado = estado_de_partida(p->tablero);
     }
-
     return toReturn;
 }
 
@@ -97,7 +83,6 @@ int nuevo_movimiento(tPartida p, int mov_x, int mov_y){
 Finaliza la partida referenciada por P, liberando toda la memoria utilizada.
 **/
 void finalizar_partida(tPartida * p){
-
     // Libero espacio del Tablero
     free((*p)->tablero);
     (*p)->tablero = NULL;
@@ -105,7 +90,6 @@ void finalizar_partida(tPartida * p){
     // Libero espacio de la Partida
     free(*p);
     (*p) = NULL;
-
 }
 
 
@@ -177,7 +161,6 @@ static int estado_de_partida(tTablero t){
                                         for(j=0; j<3; j++)
                                             if(t->grilla[i][j]==PART_SIN_MOVIMIENTO)
                                                 toReturn = PART_EN_JUEGO;
-
     return toReturn;
 }
 
