@@ -216,13 +216,14 @@ tPosicion buscarPos(tLista l, tNodo n){
     tPosicion toReturn = l_primera(l);
     tPosicion fin = l_fin(l);
 
+
     while( (toReturn!=fin) && (l_recuperar(l,toReturn) != n))
         toReturn=l_siguiente(l,toReturn);
 
-    if(l_recuperar(l,toReturn)==n)
-        return toReturn;
-    else
-        return NULL;
+    if !(l_recuperar(l,toReturn)==n)
+        toReturn=NULL;
+
+    return toReturn;
 }
 
 void a_destruir_aux(tElemento elem){
