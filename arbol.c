@@ -220,7 +220,7 @@ tPosicion buscarPos(tLista l, tNodo n){
     while( (toReturn!=fin) && (l_recuperar(l,toReturn) != n))
         toReturn=l_siguiente(l,toReturn);
 
-    if !(l_recuperar(l,toReturn)==n)
+    if (l_recuperar(l,toReturn)!=n)
         toReturn=NULL;
 
     return toReturn;
