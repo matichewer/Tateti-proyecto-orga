@@ -46,6 +46,8 @@ void l_eliminar(tLista l, tPosicion p, void (*fEliminar)(tElemento)){
     aEliminar = p->siguiente;
     p->siguiente = aEliminar->siguiente;
     fEliminar(aEliminar->elemento);
+    aEliminar->elemento=NULL;
+    aEliminar->siguiente=NULL;
     free(aEliminar);
 }
 
