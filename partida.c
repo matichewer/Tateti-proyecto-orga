@@ -53,7 +53,6 @@ En caso de que el movimiento a dicha posición sea posible, retorna PART_MOVIMIE
 Las posiciones (X,Y) deben corresponderse al rango [0-2]; X representa el número de fila, mientras Y el número de columna.
 **/
 int nuevo_movimiento(tPartida p, int mov_x, int mov_y){
-
     int toReturn = PART_MOVIMIENTO_OK;
 
     // Chequeo que la posicion (X,Y) sea correcta, esté libre para poner una ficha, y que la partida esté en juego
