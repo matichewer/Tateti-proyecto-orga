@@ -6,6 +6,7 @@
 void (*eliminarElementoDelNodo)(tElemento);  // acá se guarda la funcion de a_destruir()
 void a_destruir_aux(tElemento elem);
 tPosicion buscarPos(tLista l, tNodo n);
+
 void fNoEliminar(){}
 
 
@@ -90,6 +91,7 @@ void a_eliminar(tArbol a, tNodo n, void (*fEliminar)(tElemento)){
             fEliminar(a->raiz->elemento);
             a->raiz = nodo;
             l_destruir(&(n->hijos),&fNoEliminar);
+            //n->hijos=NULL; ES ESTO LO QUE FALTA??
             free(n);
         }
         else{
