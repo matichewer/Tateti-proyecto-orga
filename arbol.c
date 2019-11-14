@@ -16,9 +16,10 @@ Una referencia al árbol creado es referenciado en *A.
 **/
 void crear_arbol(tArbol * a){
     (*a) = (tArbol) malloc(sizeof( struct arbol));
-    ((*a)->raiz) = NULL;
     if(*a == NULL)
         exit(ARB_ERROR_MEMORIA);
+    ((*a)->raiz) = NULL;
+
 }
 
 /**
