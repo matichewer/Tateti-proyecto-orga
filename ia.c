@@ -66,8 +66,8 @@ void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){
 
 
     // Obtengo el estado actual y su lista de sucesores
-    estadoPadre = a_recuperar(b->arbol_busqueda, b->arbol_busqueda->raiz);
-    listaSucesores = a_hijos(b->arbol_busqueda, b->arbol_busqueda->raiz);
+    estadoPadre = a_recuperar(b->arbol_busqueda, a_raiz(b->arbol_busqueda));
+    listaSucesores = a_hijos(b->arbol_busqueda, a_raiz(b->arbol_busqueda));
     posActual = l_primera(listaSucesores);
     posFin = l_fin(listaSucesores);
     mejorValor = IA_INFINITO_NEG;
