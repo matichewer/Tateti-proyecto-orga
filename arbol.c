@@ -84,9 +84,14 @@ void a_eliminar(tArbol a, tNodo n, void (*fEliminar)(tElemento)){
 
     tLista listaHijos = n->hijos;
     int cantHijos= l_longitud(listaHijos);
+    int i;
+    tNodo nodo, nodo_hijo;
+    tLista listaPadre;
+    tPosicion pos_a_eliminar,pos_hijos;
+
     if ((a->raiz)==n){
         if (cantHijos==1){
-            tNodo nodo = l_recuperar(listaHijos, l_primera(listaHijos));
+            nodo = l_recuperar(listaHijos, l_primera(listaHijos));
             nodo->padre = NULL;
             fEliminar(a->raiz->elemento);
             a->raiz = nodo;
@@ -106,14 +111,12 @@ void a_eliminar(tArbol a, tNodo n, void (*fEliminar)(tElemento)){
     }
     else{//caso general
         //l_insertar inserta izquierda de la posicion dada
-        tLista listaPadre = (n->padre)->hijos;
-        tPosicion pos_a_eliminar = buscarPos(listaPadre, n);
-
-        int i;
-        tPosicion pos_hijos = l_primera(listaHijos);
+        listaPadre = (n->padre)->hijos;
+        pos_a_eliminar = buscarPos(listaPadre, n);
+        pos_hijos = l_primera(listaHijos);
 
         for(i=0; i<cantHijos; i++){
-            tNodo nodo_hijo = l_recuperar(listaHijos, pos_hijos);
+            nodo_hijo = l_recuperar(listaHijos, pos_hijos);
             nodo_hijo->padre = n->padre;
             l_insertar(listaPadre,pos_a_eliminar, nodo_hijo);
             pos_a_eliminar = l_siguiente(listaPadre, pos_a_eliminar);

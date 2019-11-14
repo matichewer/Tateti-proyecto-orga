@@ -59,7 +59,6 @@ static void destruir_recursivo(tPosicion pos, void (*fEliminar)(tElemento)){
     fEliminar(pos->elemento);
     pos->elemento = NULL;
     free(pos);
-
 }
 
 /**
