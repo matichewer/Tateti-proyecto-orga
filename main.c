@@ -6,7 +6,7 @@
 #include "partida.h"
 #include "ia.h"
 
-//cambio Juani uolaa
+//cambio Juani uolaa chau
 // cambio mati
 // Barra \ para compu rota que no le anda ese botón
 
