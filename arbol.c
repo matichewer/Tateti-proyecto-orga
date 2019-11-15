@@ -96,7 +96,6 @@ void a_eliminar(tArbol a, tNodo n, void (*fEliminar)(tElemento)){
             fEliminar(a->raiz->elemento);
             a->raiz = nodo;
             l_destruir(&(n->hijos),&fNoEliminar);
-            //n->hijos=NULL; ES ESTO LO QUE FALTA??
             free(n);
         }
         else{
