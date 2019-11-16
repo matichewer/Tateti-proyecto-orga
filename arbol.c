@@ -80,14 +80,15 @@ tNodo a_insertar(tArbol a, tNodo np, tNodo nh, tElemento e){
  Si N no es la raíz de A y tiene hijos, estos pasan a ser hijos del padre de N, en el mismo orden y a partir de la posición que ocupa N en la lista de hijos de su padre.
 **/
 void a_eliminar(tArbol a, tNodo n, void (*fEliminar)(tElemento)){
-    // como chequeo que n es un nodo al arbol a?
 
-    tLista listaHijos = n->hijos;
-    int cantHijos= l_longitud(listaHijos);
-    int i;
+    tLista listaHijos;
+    int cantHijos, i;
     tNodo nodo, nodo_hijo;
     tLista listaPadre;
-    tPosicion pos_a_eliminar,pos_hijos;
+    tPosicion pos_a_eliminar, pos_hijos;
+
+    listaHijos = n->hijos;
+    cantHijos = l_longitud(listaHijos);
 
     if ((a->raiz)==n){
         if (cantHijos==1){
@@ -95,7 +96,7 @@ void a_eliminar(tArbol a, tNodo n, void (*fEliminar)(tElemento)){
             nodo->padre = NULL;
             fEliminar(a->raiz->elemento);
             a->raiz = nodo;
-            l_destruir(&(n->hijos),&fNoEliminar);
+            l_destruir(&(n->hijos), &fNoEliminar);
             free(n);
         }
         else{
@@ -192,11 +193,11 @@ void a_sub_arbol(tArbol a, tNodo n, tArbol * sa){
         hijospadre=padre->hijos;
         pos=l_primera(hijospadre);
 
-        while( ( l_recuperar(hijospadre, pos) != n ) ){
+        while(( l_recuperar(hijospadre, pos) != n ))
             pos=l_siguiente(hijospadre, pos);
-        }
-        (*sa)->raiz=n;
-        (*sa)->raiz->padre=NULL;
+
+        (*sa)->raiz = n;
+        (*sa)->raiz->padre = NULL;
         l_eliminar(hijospadre, pos, &fNoEliminar);
     }
     else{

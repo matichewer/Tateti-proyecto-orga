@@ -93,7 +93,7 @@ void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){
 **/
 void destruir_busqueda_adversaria(tBusquedaAdversaria * b){
 
-    a_destruir(&((*b)->arbol_busqueda), fEliminar);
+    a_destruir(&((*b)->arbol_busqueda), &fEliminar);
     free(*b);
     (*b) = NULL;
 
