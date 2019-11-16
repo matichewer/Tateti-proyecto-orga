@@ -12,10 +12,11 @@ static tLista estados_sucesores(tEstado e, int ficha_jugador);
 static void diferencia_estados(tEstado anterior, tEstado nuevo, int * x, int * y);
 static tEstado clonar_estado(tEstado e);
 
-
+// Funciones extras implementadas al final:
 static void fEliminar(tElemento e);
-int max(int x, int y);
-int min(int x, int y);
+static void fNoEliminar(tElemento e);
+static int max(int x, int y);
+static int min(int x, int y);
 
 
 void crear_busqueda_adversaria(tBusquedaAdversaria * b, tPartida p){
@@ -126,24 +127,17 @@ Implementa la estrategia del algoritmo Min-Max con podas Alpha-Beta, a partir de
 **/
 static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, int beta, int jugador_max, int jugador_min){
 
-    int utilidad;
     tEstado estadoActual;
     int mejorValorSucesores;
     tLista listaSucesores;
     tPosicion posActual, posFin;
     tEstado estadoSucesor;
     tNodo nodoInsertado;
-    int continuar = 1;
 
-    estadoActual = a_recuperar(a, n);
-    utilidad = valor_utilidad(estadoActual, jugador_max);
+    estadoActual = n->elemento;
+    estadoActual->utilidad = valor_utilidad(estadoActual, jugador_max);
 
-
-    if( utilidad != IA_NO_TERMINO ){
-
-        estadoActual->utilidad = utilidad;
-
-    } else {
+    if(estadoActual->utilidad == IA_NO_TERMINO){
 
         if(es_max){
             mejorValorSucesores = IA_INFINITO_NEG;
@@ -151,42 +145,41 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
             posActual = l_primera(listaSucesores);
             posFin = l_fin(listaSucesores);
 
-            while( posActual != posFin && continuar ){
+            while( beta<alpha && posActual!=posFin){
                 estadoSucesor = l_recuperar(listaSucesores, posActual);
-                estadoSucesor->utilidad = valor_utilidad(estadoSucesor, jugador_max);
                 nodoInsertado = a_insertar(a, n, NULL, estadoSucesor);
                 crear_sucesores_min_max(a, nodoInsertado, 0, alpha, beta, jugador_max, jugador_min);
                 mejorValorSucesores = max( mejorValorSucesores, estadoSucesor->utilidad);
                 alpha = max( alpha, mejorValorSucesores );
-                if(beta <= alpha)
-                    continuar = 0;
                 posActual = l_siguiente(listaSucesores, posActual);
-                estadoActual->utilidad = alpha;  // ?
             }
-            continuar = 1;
+            estadoActual->utilidad = mejorValorSucesores;
 
         } else {
             mejorValorSucesores = IA_INFINITO_POS;
             listaSucesores = estados_sucesores(estadoActual, jugador_min);
             posActual = l_primera(listaSucesores);
             posFin = l_fin(listaSucesores);
-            while(posActual != posFin && continuar){
+
+            while(beta>alpha && posActual!=posFin){
                 estadoSucesor = l_recuperar(listaSucesores, posActual);
-                estadoSucesor->utilidad = valor_utilidad(estadoSucesor, jugador_min);
                 nodoInsertado = a_insertar(a, n, NULL, estadoSucesor);
                 crear_sucesores_min_max(a, nodoInsertado, 1, alpha, beta, jugador_max, jugador_min);
                 mejorValorSucesores = min(mejorValorSucesores, estadoSucesor->utilidad);
                 beta = min(beta, mejorValorSucesores);
-                if(beta<=alpha)
-                    continuar = 0;
                 posActual = l_siguiente(listaSucesores, posActual);
-                estadoActual->utilidad = beta; // ?
             }
-            continuar = 1;
+            estadoActual->utilidad = mejorValorSucesores;
         }
+
+        // Eliminamos estados que no fueron utilizados
+        while(posActual!=posFin)
+            l_eliminar(listaSucesores, l_ultima(listaSucesores), &fEliminar);
+
+        // Se destruye la lista sin eliminar los estados que sí usamos.
+        l_destruir(&listaSucesores, &fNoEliminar);
     }
 }
-
 
 
 
@@ -336,15 +329,33 @@ static void diferencia_estados(tEstado anterior, tEstado nuevo, int * x, int * y
 }
 
 
+// FUNCIONES EXTRAS:
+
+
+/**
+Elimina el elemento pasado por parámetro y libera la memoria.
+**/
 void fEliminar(tElemento e){
     free(e);
     e = NULL;
 }
 
-int max(int x, int y){
+/**
+Retorna el máximo valor entre los dos parámetros recibidos.
+**/
+static int max(int x, int y){
     return x>y ? x : y;
 }
 
-int min(int x, int y){
+/**
+Retorna el mínimo valor entre los dos parámetros recibidos.
+**/
+static int min(int x, int y){
     return x<y ? x : y;
 }
+
+/**
+No elimina el estado pasado por parámetro.
+**/
+static void fNoEliminar(tElemento e){}
+
