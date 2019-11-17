@@ -492,8 +492,6 @@ int main(){
 
     finalizar_partida(&partida);
     return 0;
-
-
 }
 
 
