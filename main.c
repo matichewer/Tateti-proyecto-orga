@@ -217,15 +217,23 @@ int main(){
                         }
                     }
                 } else {
-                    printf("Turno de %s\n", partida->nombre_jugador_2);
-                    printf("A\n");
-                    crear_busqueda_adversaria(&busquedaAdversaria, partida);
-                    printf("B\n");
-                    proximo_movimiento(busquedaAdversaria, &fila, &columna);
-                    printf("C\n");
-                    nuevo_movimiento(partida,fila,columna);
-                    printf("D\n");
-                    destruir_busqueda_adversaria(&busquedaAdversaria);
+                    if(partida->turno_de==PART_JUGADOR_2 && (estadoDePartida==PART_MOVIMIENTO_OK || partida->estado==PART_EN_JUEGO)){
+                        printf("Turno de %s\n", partida->nombre_jugador_2);
+
+                        printf("Busqueda adversaria\n");
+                        crear_busqueda_adversaria(&busquedaAdversaria, partida);
+
+                        printf("Proximo movimiento\n");
+                        proximo_movimiento(busquedaAdversaria, &fila, &columna);
+
+                        printf("Nuevo movimiento\n");
+                        nuevo_movimiento(partida,fila,columna);
+
+                        printf("Destruir busqueda adversaria:\n");
+                        destruir_busqueda_adversaria(&busquedaAdversaria);
+
+                        printf("Fin main");
+                    }
                 }
             mostrar_tablero(tablero);
         }

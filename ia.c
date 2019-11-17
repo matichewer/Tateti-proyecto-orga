@@ -92,11 +92,9 @@ void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){
 >>>>>  A IMPLEMENTAR   <<<<<
 **/
 void destruir_busqueda_adversaria(tBusquedaAdversaria * b){
-
     a_destruir(&((*b)->arbol_busqueda), &fEliminar);
     free(*b);
     (*b) = NULL;
-
 }
 
 // ===============================================================================================================
@@ -113,7 +111,9 @@ static void ejecutar_min_max(tBusquedaAdversaria b){
     int jugador_max = b->jugador_max;
     int jugador_min = b->jugador_min;
 
+    printf("IA.ejecutar_min_max\n");
     crear_sucesores_min_max(a, r, 1, IA_INFINITO_NEG, IA_INFINITO_POS, jugador_max, jugador_min);
+    printf("fin ejecutar min max\n");
 }
 
 /**
@@ -272,9 +272,6 @@ static tLista estados_sucesores(tEstado e, int ficha_jugador){
     tEstado toAdd;
     tLista toReturn;
 
-    toAdd = (tEstado) malloc(sizeof(struct estado));
-    if (toAdd == NULL) exit(IA_ERROR_MEMORIA);
-
     crear_lista(&toReturn);
 
     for(i=0; i<3; i++)
@@ -282,10 +279,10 @@ static tLista estados_sucesores(tEstado e, int ficha_jugador){
             if(e->grilla[i][j] == PART_SIN_MOVIMIENTO){
                 toAdd = clonar_estado(e);
                 toAdd->grilla[i][j] = ficha_jugador;
-                if(rand()%100 < 50)
+                if(rand()%2)
                     l_insertar(toReturn, l_primera(toReturn), toAdd);
                 else
-                    l_insertar(toReturn, l_ultima(toReturn), toAdd);
+                    l_insertar(toReturn, l_fin(toReturn), toAdd);
             }
     return toReturn;
 }
