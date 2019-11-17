@@ -65,14 +65,12 @@ void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){
     tPosicion posActual, posFin;
     int mejorValor;
 
-
     // Obtengo el estado actual y su lista de sucesores
     estadoPadre = a_recuperar(b->arbol_busqueda, a_raiz(b->arbol_busqueda));
     listaSucesores = a_hijos(b->arbol_busqueda, a_raiz(b->arbol_busqueda));
     posActual = l_primera(listaSucesores);
     posFin = l_fin(listaSucesores);
     mejorValor = IA_INFINITO_NEG;
-
 
     while(posActual != posFin){
         nodoActual = l_recuperar(listaSucesores, posActual);
@@ -111,9 +109,7 @@ static void ejecutar_min_max(tBusquedaAdversaria b){
     int jugador_max = b->jugador_max;
     int jugador_min = b->jugador_min;
 
-    printf("IA.ejecutar_min_max\n");
     crear_sucesores_min_max(a, r, 1, IA_INFINITO_NEG, IA_INFINITO_POS, jugador_max, jugador_min);
-    printf("fin ejecutar min max\n");
 }
 
 /**
@@ -127,33 +123,36 @@ Implementa la estrategia del algoritmo Min-Max con podas Alpha-Beta, a partir de
 **/
 static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, int beta, int jugador_max, int jugador_min){
 
-    tEstado estadoActual;
-    int mejorValorSucesores;
+    tEstado estadoActual, estadoSucesor;
+    int mejorValorSucesores, podar;
     tLista listaSucesores;
     tPosicion posActual, posFin;
-    tEstado estadoSucesor;
     tNodo nodoInsertado;
 
-    estadoActual = n->elemento;
+    estadoActual = a_recuperar(a, n);
     estadoActual->utilidad = valor_utilidad(estadoActual, jugador_max);
+    podar = 0;
 
     if(estadoActual->utilidad == IA_NO_TERMINO){
-
         if(es_max){
             mejorValorSucesores = IA_INFINITO_NEG;
             listaSucesores = estados_sucesores(estadoActual, jugador_max);
             posActual = l_primera(listaSucesores);
             posFin = l_fin(listaSucesores);
 
-            while( beta<alpha && posActual!=posFin){
+            while(!podar && posActual!=posFin){
                 estadoSucesor = (tEstado) l_recuperar(listaSucesores, posActual);
                 nodoInsertado = a_insertar(a, n, NULL, estadoSucesor);
+                l_eliminar(listaSucesores, posActual, &fNoEliminar);
                 crear_sucesores_min_max(a, nodoInsertado, 0, alpha, beta, jugador_max, jugador_min);
                 mejorValorSucesores = max( mejorValorSucesores, estadoSucesor->utilidad);
                 alpha = max(alpha, mejorValorSucesores);
-                posActual = l_siguiente(listaSucesores, posActual);
+                if(beta<=alpha)
+                    podar = 1;
+                posActual = l_primera(listaSucesores);
+                posFin = l_fin(listaSucesores);
             }
-            estadoActual->utilidad = mejorValorSucesores;
+            estadoActual->utilidad = alpha;
 
         } else {
             mejorValorSucesores = IA_INFINITO_POS;
@@ -161,23 +160,20 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
             posActual = l_primera(listaSucesores);
             posFin = l_fin(listaSucesores);
 
-            while(beta>alpha && posActual!=posFin){
+            while(!podar && posActual!=posFin){
                 estadoSucesor = l_recuperar(listaSucesores, posActual);
+                l_eliminar(listaSucesores, posActual, &fNoEliminar);
                 nodoInsertado = a_insertar(a, n, NULL, estadoSucesor);
                 crear_sucesores_min_max(a, nodoInsertado, 1, alpha, beta, jugador_max, jugador_min);
                 mejorValorSucesores = min(mejorValorSucesores, estadoSucesor->utilidad);
-                //beta = min(beta, mejorValorSucesores);
-                alpha = min(alpha, mejorValorSucesores);
-                posActual = l_siguiente(listaSucesores, posActual);
+                beta = min(beta, mejorValorSucesores);
+                if(beta<=alpha)
+                    podar = 1;
+                posActual = l_primera(listaSucesores);
+                posFin = l_fin(listaSucesores);
             }
-            estadoActual->utilidad = mejorValorSucesores;
+            estadoActual->utilidad = beta;
         }
-
-        // Eliminamos estados que no fueron utilizados
-        while(posActual!=posFin)
-            l_eliminar(listaSucesores, l_ultima(listaSucesores), &fEliminar);
-
-        // Se destruye la lista sin eliminar los estados que sí usamos.
         l_destruir(&listaSucesores, &fNoEliminar);
     }
 }
