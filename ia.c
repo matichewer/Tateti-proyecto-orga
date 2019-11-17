@@ -146,11 +146,11 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
             posFin = l_fin(listaSucesores);
 
             while( beta<alpha && posActual!=posFin){
-                estadoSucesor = l_recuperar(listaSucesores, posActual);
+                estadoSucesor = (tEstado) l_recuperar(listaSucesores, posActual);
                 nodoInsertado = a_insertar(a, n, NULL, estadoSucesor);
                 crear_sucesores_min_max(a, nodoInsertado, 0, alpha, beta, jugador_max, jugador_min);
                 mejorValorSucesores = max( mejorValorSucesores, estadoSucesor->utilidad);
-                alpha = max( alpha, mejorValorSucesores );
+                alpha = max(alpha, mejorValorSucesores);
                 posActual = l_siguiente(listaSucesores, posActual);
             }
             estadoActual->utilidad = mejorValorSucesores;
@@ -166,7 +166,8 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
                 nodoInsertado = a_insertar(a, n, NULL, estadoSucesor);
                 crear_sucesores_min_max(a, nodoInsertado, 1, alpha, beta, jugador_max, jugador_min);
                 mejorValorSucesores = min(mejorValorSucesores, estadoSucesor->utilidad);
-                beta = min(beta, mejorValorSucesores);
+                //beta = min(beta, mejorValorSucesores);
+                alpha = min(alpha, mejorValorSucesores);
                 posActual = l_siguiente(listaSucesores, posActual);
             }
             estadoActual->utilidad = mejorValorSucesores;

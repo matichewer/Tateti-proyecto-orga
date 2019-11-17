@@ -25,8 +25,8 @@ void asignar_modo_de_juego(int * modo){
 
 void asignar_turno(int * turno, char * nombreJugador1, char * nombreJugador2){
     printf("Ingrese quien comienza primero:\n");
-    printf(" 1. %s\n", nombreJugador1);
-    printf(" 2. %s\n", nombreJugador2);
+    printf(" 1. \033[0;31m%s\033[0m\n", nombreJugador1);
+    printf(" 2. \033[0;32m%s\033[0m\n", nombreJugador2);
     printf(" 3. Al azar\n");
     scanf("%i", turno);
     printf("\n");
@@ -72,20 +72,22 @@ void mostrar_tablero(tTablero tablero){
                                                     strcpy(ficha, "9");
                 }
 
-            // Seteo color
-            if(strcmp(ficha, "X")==0)
-                printf("\033[1;31m"); // color rojo
-            else if(strcmp(ficha, "O")==0)
-                printf("\033[1;32m"); // color azul
-
-            if(j==1)
-                printf(" %s ", ficha);
-            else
-                printf("| %s |", ficha);
-
-
-            // Reseteo color
-            printf("\033[0m");
+            if(strcmp(ficha, "X")==0){  // Seteo color rojo para las fichas X
+                if(j==1)
+                    printf("\033[1;31m %s \033[0m", ficha);
+                else
+                    printf("|\033[1;31m %s \033[0m|", ficha);
+                //printf("\033[0m");
+            } else if(strcmp(ficha, "O")==0){   // Seteo color verde para las fichas O
+                    if(j==1)
+                        printf("\033[1;32m %s \033[0m", ficha);
+                    else
+                        printf("|\033[1;32m %s \033[0m|", ficha);
+                } else
+                    if(j==1)
+                        printf(" %s ", ficha);
+                    else
+                        printf("| %s |", ficha);
         }
         printf("\n-------------\n");
     }
@@ -99,6 +101,7 @@ int main(){
     // Declaro variables.
     tPartida partida;
     tTablero tablero;
+    tBusquedaAdversaria busquedaAdversaria;
     char nombreJugador1[50];
     char nombreJugador2[50];
     int turno, modo;
@@ -125,10 +128,10 @@ int main(){
 
 
     // Asigno nombre de jugadores.
-    printf("Ingrese el nombre del jugador 1: ");
+    printf("Ingrese el nombre del \033[0;31mJugador 1\033[0m: ");
     scanf("%s", nombreJugador1);
     if(modo == PART_MODO_USUARIO_VS_USUARIO){
-        printf("Ingrese el nombre del jugador 2: ");
+        printf("Ingrese el nombre del \033[0;32mJugador 2\033[0m: ");
         scanf("%s", nombreJugador2);
     } else
         strcpy(nombreJugador2, "Maquina");
@@ -150,55 +153,91 @@ int main(){
         while(partida->estado == PART_EN_JUEGO){
 
             if(partida->turno_de == PART_JUGADOR_1)
-                printf("%s indique dónde quiere poner su ficha (numero entre 1 y 9).\n", nombreJugador1);
+                printf("\033[0;31m%s\033[0m indique dónde quiere poner su ficha (numero entre 1 y 9).\n", nombreJugador1);
             else
-                printf("%s indique dónde quiere poner su ficha (numero entre 1 y 9).\n", nombreJugador2);
+                printf("\033[0;32m%s\033[0m indique dónde quiere poner su ficha (numero entre 1 y 9).\n", nombreJugador2);
 
             opcionValida = 0;
             while(!opcionValida){
                 scanf("%i", &posFicha);
                 if(posFicha<1 || posFicha>9)
-                    printf("Error: debes elegir una posicion entre 1 y 9.\n\n");
+                    printf("Error: debes elegir una posicion entre 1 y 9.\n");
+                else{
+                    switch(posFicha){
+                        case 1: fila = 0; columna = 0; break;
+                        case 2: fila = 0; columna = 1; break;
+                        case 3: fila = 0; columna = 2; break;
+                        case 4: fila = 1; columna = 0; break;
+                        case 5: fila = 1; columna = 1; break;
+                        case 6: fila = 1; columna = 2; break;
+                        case 7: fila = 2; columna = 0; break;
+                        case 8: fila = 2; columna = 1; break;
+                        case 9: fila = 2; columna = 2; break;
+                    }
+                estadoDePartida = nuevo_movimiento(partida, fila, columna);
+                if(estadoDePartida == PART_MOVIMIENTO_ERROR)
+                    printf("Error: debes elegir un casillero vacío.\n");
                 else
                     opcionValida = 1;
+                }
             }
-
-            switch(posFicha){
-                case 1: fila = 0; columna = 0; break;
-                case 2: fila = 0; columna = 1; break;
-                case 3: fila = 0; columna = 2; break;
-                case 4: fila = 1; columna = 0; break;
-                case 5: fila = 1; columna = 1; break;
-                case 6: fila = 1; columna = 2; break;
-                case 7: fila = 2; columna = 0; break;
-                case 8: fila = 2; columna = 1; break;
-                case 9: fila = 2; columna = 2; break;
-            }
-
-            estadoDePartida = nuevo_movimiento(partida, fila, columna);
-            if(estadoDePartida == PART_MOVIMIENTO_ERROR)
-                printf("Error: debes elegir un casillero vacío.\n");
             mostrar_tablero(tablero);
+
         }
     }
     // Inicio una partida Usuario vs IA
     else
         if(modo == PART_MODO_USUARIO_VS_AGENTE_IA){
+            while(partida->estado == PART_EN_JUEGO){
 
-            // aca hay que implementar el modo HUMANO vs IA
-
+                if(partida->turno_de == PART_JUGADOR_1){
+                    printf("\033[0;31m%s\033[0m indique dónde quiere poner su ficha (numero entre 1 y 9).\n", nombreJugador1);
+                    opcionValida = 0;
+                    while(!opcionValida){
+                        scanf("%i", &posFicha);
+                        if(posFicha<1 || posFicha>9)
+                            printf("Error: debes elegir una posicion entre 1 y 9.\n");
+                        else {
+                            switch(posFicha){
+                                case 1: fila = 0; columna = 0; break;
+                                case 2: fila = 0; columna = 1; break;
+                                case 3: fila = 0; columna = 2; break;
+                                case 4: fila = 1; columna = 0; break;
+                                case 5: fila = 1; columna = 1; break;
+                                case 6: fila = 1; columna = 2; break;
+                                case 7: fila = 2; columna = 0; break;
+                                case 8: fila = 2; columna = 1; break;
+                                case 9: fila = 2; columna = 2; break;
+                            }
+                            estadoDePartida = nuevo_movimiento(partida, fila, columna);
+                            if(estadoDePartida == PART_MOVIMIENTO_ERROR)
+                                printf("Error: debes elegir un casillero vacío.\n");
+                            else
+                                opcionValida = 1;
+                        }
+                    }
+                } else {
+                    printf("Turno de %s\n", partida->nombre_jugador_2);
+                    printf("A\n");
+                    crear_busqueda_adversaria(&busquedaAdversaria, partida);
+                    printf("B\n");
+                    proximo_movimiento(busquedaAdversaria, &fila, &columna);
+                    printf("C\n");
+                    nuevo_movimiento(partida,fila,columna);
+                    printf("D\n");
+                    destruir_busqueda_adversaria(&busquedaAdversaria);
+                }
+            mostrar_tablero(tablero);
         }
-
-
-
+    }
 
 
     if(partida->estado == PART_GANA_JUGADOR_1)
-        printf("Ganó %s\n\n", nombreJugador1);
+        printf("\033[0;31mGanó %s\033[0m\n\n", nombreJugador1);
     else if(partida->estado == PART_GANA_JUGADOR_2)
-            printf("Ganó %s\n\n",nombreJugador2);
+            printf("\033[0;32m Ganó %s\033[0m\n\n",nombreJugador2);
         else if(partida->estado  == PART_EMPATE)
-                printf("La partida terminó en empate.\n\n");
+                printf("\033[0;36mLa partida terminó en empate.\033[0m\n\n");
 
     finalizar_partida(&partida);
     return 0;
