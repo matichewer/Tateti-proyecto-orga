@@ -77,15 +77,15 @@ void mostrar_tablero(tTablero tablero){
 
             if(strcmp(ficha, "X")==0){  // Seteo color rojo para las fichas X
                 if(j==1)
-                    printf("\033[1;31m %s \033[0m", ficha);
+                    printf(" %s ", ficha);
                 else
-                    printf("|\033[1;31m %s \033[0m|", ficha);
+                    printf("| %s |", ficha);
                 //printf("\033[0m");
             } else if(strcmp(ficha, "O")==0){   // Seteo color verde para las fichas O
                     if(j==1)
-                        printf("\033[1;32m %s \033[0m", ficha);
+                        printf("%s ", ficha);
                     else
-                        printf("|\033[1;32m %s \033[0m|", ficha);
+                        printf("|%s |", ficha);
                 } else
                     if(j==1)
                         printf(" %s ", ficha);
@@ -131,10 +131,10 @@ int main(){
 
 
     // Asigno nombre de jugadores.
-    printf("Ingrese el nombre del \033[0;31mJugador 1\033[0m: ");
+    printf("Ingrese el nombre del Jugador 1\033[0m: ");
     scanf("%s", nombreJugador1);
     if(modo == PART_MODO_USUARIO_VS_USUARIO){
-        printf("Ingrese el nombre del \033[0;32mJugador 2\033[0m: ");
+        printf("Ingrese el nombre del Jugador 2\033[0m: ");
         scanf("%s", nombreJugador2);
     } else
         strcpy(nombreJugador2, "Maquina");
