@@ -22,7 +22,7 @@ void asignar_modo_de_juego(int * modo){
     else
         if((*modo) == 2)
             (*modo) = PART_MODO_USUARIO_VS_AGENTE_IA;
-        else
+        //else
 
 }
 
