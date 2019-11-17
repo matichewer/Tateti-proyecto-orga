@@ -397,15 +397,18 @@ int main(){
     tablero = partida->tablero;
     mostrar_tablero(tablero);
 
+    //partida->turno_de
+    //printf("Empieza jugando: :");
+
 
     // Inicio una partida Usuario vs Usuario
     if(modo == PART_MODO_USUARIO_VS_USUARIO){
         while(partida->estado == PART_EN_JUEGO){
 
             if(partida->turno_de == PART_JUGADOR_1)
-                printf("indique donde quiere poner su ficha (numero entre 1 y 9).\n", nombreJugador1);
+                printf("%s indique donde quiere poner su ficha (numero entre 1 y 9).\n", nombreJugador1);
             else
-                printf("indique donde quiere poner su ficha (numero entre 1 y 9).\n", nombreJugador2);
+                printf("%s indique donde quiere poner su ficha (numero entre 1 y 9).\n", nombreJugador2);
 
             opcionValida = 0;
             while(!opcionValida){
