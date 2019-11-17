@@ -126,10 +126,16 @@ tPosicion l_anterior(tLista l, tPosicion p){
  Si L es vacía, primera(L) = ultima(L) = fin(L).
 **/
 tPosicion l_ultima(tLista l){
-    tPosicion pos = l;
-    while((pos->siguiente!=NULL) && (pos->siguiente->siguiente!=NULL))
-        pos = pos->siguiente;
-    return pos;
+    tPosicion toReturn, fin;
+
+    toReturn = (tPosicion) l;
+    fin = (tPosicion) l->siguiente;
+
+    while(fin->siguiente != NULL){
+        toReturn = fin;
+        fin = fin->siguiente;
+    }
+    return toReturn;
 }
 
 /**
@@ -148,8 +154,8 @@ tPosicion l_fin(tLista l){
 **/
 int l_longitud(tLista l){
     int cont = 0;
-    tPosicion pos = l->siguiente;
-    while(pos!=NULL){
+    tPosicion pos = l;
+    while(pos->siguiente != NULL){
         cont++;
         pos = pos->siguiente;
     }
