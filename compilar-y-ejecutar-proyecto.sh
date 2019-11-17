@@ -15,4 +15,4 @@ rm *.o
 ./Tateti-Ejecutable
 
 # Borro el ejecutable
-rm Tateti-Ejecutable
+#rm Tateti-Ejecutable

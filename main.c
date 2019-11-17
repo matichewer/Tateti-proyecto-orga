@@ -231,11 +231,11 @@ int main(){
 
 
     if(partida->estado == PART_GANA_JUGADOR_1)
-        printf("\033[0;31mGanó %s\033[0m\n\n", nombreJugador1);
+        printf("\033[0;31mHa ganado %s\033[0m\n\n", nombreJugador1);
     else if(partida->estado == PART_GANA_JUGADOR_2)
-            printf("\033[0;32m Ganó %s\033[0m\n\n",nombreJugador2);
+            printf("\033[0;32mHa ganado %s\033[0m\n\n",nombreJugador2);
         else if(partida->estado  == PART_EMPATE)
-                printf("\033[0;36mLa partida terminó en empate.\033[0m\n\n");
+                printf("\033[0;36mLa partida ha terminado en empate.\033[0m\n\n");
 
     finalizar_partida(&partida);
     return 0;
