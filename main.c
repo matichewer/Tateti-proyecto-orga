@@ -20,7 +20,10 @@ void asignar_modo_de_juego(int * modo){
     if((*modo) == 1)
         (*modo) = PART_MODO_USUARIO_VS_USUARIO;
     else
-        (*modo) = PART_MODO_USUARIO_VS_AGENTE_IA;
+        if((*modo) == 2)
+            (*modo) = PART_MODO_USUARIO_VS_AGENTE_IA;
+        else
+
 }
 
 void asignar_turno(int * turno, char * nombreJugador1, char * nombreJugador2){
@@ -153,9 +156,9 @@ int main(){
         while(partida->estado == PART_EN_JUEGO){
 
             if(partida->turno_de == PART_JUGADOR_1)
-                printf("\033[0;31m%s\033[0m indique dónde quiere poner su ficha (numero entre 1 y 9).\n", nombreJugador1);
+                printf("\033[0;31m%s\033[0m indique donde quiere poner su ficha (numero entre 1 y 9).\n", nombreJugador1);
             else
-                printf("\033[0;32m%s\033[0m indique dónde quiere poner su ficha (numero entre 1 y 9).\n", nombreJugador2);
+                printf("\033[0;32m%s\033[0m indique donde quiere poner su ficha (numero entre 1 y 9).\n", nombreJugador2);
 
             opcionValida = 0;
             while(!opcionValida){
@@ -176,7 +179,7 @@ int main(){
                     }
                 estadoDePartida = nuevo_movimiento(partida, fila, columna);
                 if(estadoDePartida == PART_MOVIMIENTO_ERROR)
-                    printf("Error: debes elegir un casillero vacío.\n");
+                    printf("Error: debes elegir un casillero vacio.\n");
                 else
                     opcionValida = 1;
                 }
@@ -191,7 +194,7 @@ int main(){
             while(partida->estado == PART_EN_JUEGO){
 
                 if(partida->turno_de == PART_JUGADOR_1){
-                    printf("\033[0;31m%s\033[0m indique dónde quiere poner su ficha (numero entre 1 y 9).\n", nombreJugador1);
+                    printf("\033[0;31m%s\033[0m indique donde quiere poner su ficha (numero entre 1 y 9).\n", nombreJugador1);
                     opcionValida = 0;
                     while(!opcionValida){
                         scanf("%i", &posFicha);
@@ -211,7 +214,7 @@ int main(){
                             }
                             estadoDePartida = nuevo_movimiento(partida, fila, columna);
                             if(estadoDePartida == PART_MOVIMIENTO_ERROR)
-                                printf("Error: debes elegir un casillero vacío.\n");
+                                printf("Error: debes elegir un casillero vacio.\n");
                             else
                                 opcionValida = 1;
                         }
