@@ -406,9 +406,9 @@ int main(){
         while(partida->estado == PART_EN_JUEGO){
 
             if(partida->turno_de == PART_JUGADOR_1)
-                printf("%s indique donde quiere poner su ficha (numero entre 1 y 9).\n", nombreJugador1);
+                printf("%s Indique donde quiere poner su ficha (numero entre 1 y 9).\n", nombreJugador1);
             else
-                printf("%s indique donde quiere poner su ficha (numero entre 1 y 9).\n", nombreJugador2);
+                printf("%s Indique donde quiere poner su ficha (numero entre 1 y 9).\n", nombreJugador2);
 
             opcionValida = 0;
             while(!opcionValida){
@@ -444,7 +444,7 @@ int main(){
             while(partida->estado == PART_EN_JUEGO){
 
                 if(partida->turno_de == PART_JUGADOR_1){
-                    printf("Indique donde quiere poner su ficha (numero entre 1 y 9).\n", nombreJugador1);
+                    printf("%s Indique donde quiere poner su ficha (numero entre 1 y 9).\n", nombreJugador1);
                     opcionValida = 0;
                     while(!opcionValida){
                         scanf("%i", &posFicha);
