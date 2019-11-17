@@ -31,16 +31,16 @@ void nueva_partida(tPartida * p, int modo_partida, int comienza, char * j1_nombr
             (*p)->tablero->grilla[i][j] = PART_SIN_MOVIMIENTO;
 
     // Modo de juego al azar
-    if(comienza == PART_JUGADOR_RANDOM){
+    if(comienza == PART_JUGADOR_RANDOM)
         if(rand()%100 < 50)
             (*p)->turno_de = PART_JUGADOR_1;
         else
             (*p)->turno_de = PART_JUGADOR_2;
-    }
+    else
+        (*p)->turno_de = comienza;
 
     // Asigno los parámetros
     (*p)->modo_partida = modo_partida;
-    (*p)->turno_de = comienza;
     (*p)->estado = PART_EN_JUEGO;
     strcpy((*p)->nombre_jugador_1, j1_nombre);
     strcpy((*p)->nombre_jugador_2, j2_nombre);

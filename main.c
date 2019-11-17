@@ -9,7 +9,6 @@
 
 
 void asignar_modo_de_juego(int * modo){
-
     // Imprimo opciones
     printf("Ingrese el modo de juego:\n");
     printf("  1. Humano vs Humano\n");
@@ -24,25 +23,13 @@ void asignar_modo_de_juego(int * modo){
         (*modo) = PART_MODO_USUARIO_VS_AGENTE_IA;
 }
 
-void asignar_nombre_jugador1(char * nombre){
-    printf("Ingrese el nombre del jugador 1: ");
-    scanf("%s", nombre);
-    printf("\n\n");
-}
-
-void asignar_nombre_jugador2(char * nombre){
-    printf("Ingrese el nombre del jugador 2: ");
-    scanf("%s", nombre);
-    printf("\n\n");
-}
-
-void asignar_turno(int * turno){
+void asignar_turno(int * turno, char * nombreJugador1, char * nombreJugador2){
     printf("Ingrese quien comienza primero:\n");
-    printf(" 1. Jugador 1\n");
-    printf(" 2. Jugador 2\n");
+    printf(" 1. %s\n", nombreJugador1);
+    printf(" 2. %s\n", nombreJugador2);
     printf(" 3. Al azar\n");
-    scanf("%i",turno);
-    printf("\n\n");
+    scanf("%i", turno);
+    printf("\n");
 
     if((*turno) == 1)
         (*turno) = PART_JUGADOR_1;
@@ -64,12 +51,41 @@ void mostrar_tablero(tTablero tablero){
                 strcpy(ficha, "X");
             else if(tablero->grilla[i][j] == PART_JUGADOR_2)
                     strcpy(ficha, "O");
-                else
-                    strcpy(ficha, " ");
+                else{
+                    if(i==0 && j==0)
+                        strcpy(ficha, "1");
+                    else if(i==0 && j==1)
+                        strcpy(ficha, "2");
+                        else if(i==0 && j==2)
+                            strcpy(ficha, "3");
+                            else if(i==1 && j==0)
+                                strcpy(ficha, "4");
+                                else if(i==1 && j==1)
+                                    strcpy(ficha, "5");
+                                    else if(i==1 && j==2)
+                                        strcpy(ficha, "6");
+                                        else if(i==2 && j==0)
+                                            strcpy(ficha, "7");
+                                            else if(i==2 && j==1)
+                                                strcpy(ficha, "8");
+                                                else if(i==2 && j==2)
+                                                    strcpy(ficha, "9");
+                }
+
+            // Seteo color
+            if(strcmp(ficha, "X")==0)
+                printf("\033[1;31m"); // color rojo
+            else if(strcmp(ficha, "O")==0)
+                printf("\033[1;32m"); // color azul
+
             if(j==1)
                 printf(" %s ", ficha);
             else
                 printf("| %s |", ficha);
+
+
+            // Reseteo color
+            printf("\033[0m");
         }
         printf("\n-------------\n");
     }
@@ -87,7 +103,7 @@ int main(){
     char nombreJugador2[50];
     int turno, modo;
     int estadoDePartida, opcionValida;
-    int fila, columna;
+    int posFicha, fila, columna;
 
 
     // Inicializo y reservo memoria para las variables.
@@ -109,15 +125,18 @@ int main(){
 
 
     // Asigno nombre de jugadores.
-    asignar_nombre_jugador1(nombreJugador1);
-    if(modo == PART_MODO_USUARIO_VS_USUARIO)
-        asignar_nombre_jugador2(nombreJugador2);
-    else
+    printf("Ingrese el nombre del jugador 1: ");
+    scanf("%s", nombreJugador1);
+    if(modo == PART_MODO_USUARIO_VS_USUARIO){
+        printf("Ingrese el nombre del jugador 2: ");
+        scanf("%s", nombreJugador2);
+    } else
         strcpy(nombreJugador2, "Maquina");
+    printf("\n\n");
 
 
     // Asigno quien empieza.
-    asignar_turno(&turno);
+    asignar_turno(&turno, nombreJugador1, nombreJugador2);
 
 
     // Creo nueva partida.
@@ -130,28 +149,36 @@ int main(){
     if(modo == PART_MODO_USUARIO_VS_USUARIO){
         while(partida->estado == PART_EN_JUEGO){
 
-            if(turno == PART_JUGADOR_1)
-                printf("%s indicá tu movimiento (entre 1 y 3 inclusive).\n", nombreJugador1);
+            if(partida->turno_de == PART_JUGADOR_1)
+                printf("%s indique dónde quiere poner su ficha (numero entre 1 y 9).\n", nombreJugador1);
             else
-                printf("%s indicá tu movimiento (entre 1 y 3 inclusive).\n", nombreJugador2);
+                printf("%s indique dónde quiere poner su ficha (numero entre 1 y 9).\n", nombreJugador2);
 
             opcionValida = 0;
             while(!opcionValida){
-                printf("Fila: ");
-                scanf("%i", &fila);
-                printf("Columna: ");
-                scanf("%i", &columna);
-                if(fila<1 || fila>3 || columna<1 || columna>3)
-                    printf("Error: debes elegir una fila y una columna entre 1, 2 y 3.\n");
+                scanf("%i", &posFicha);
+                if(posFicha<1 || posFicha>9)
+                    printf("Error: debes elegir una posicion entre 1 y 9.\n\n");
                 else
                     opcionValida = 1;
             }
 
-            estadoDePartida = nuevo_movimiento(partida, fila-1, columna-1);
+            switch(posFicha){
+                case 1: fila = 0; columna = 0; break;
+                case 2: fila = 0; columna = 1; break;
+                case 3: fila = 0; columna = 2; break;
+                case 4: fila = 1; columna = 0; break;
+                case 5: fila = 1; columna = 1; break;
+                case 6: fila = 1; columna = 2; break;
+                case 7: fila = 2; columna = 0; break;
+                case 8: fila = 2; columna = 1; break;
+                case 9: fila = 2; columna = 2; break;
+            }
+
+            estadoDePartida = nuevo_movimiento(partida, fila, columna);
             if(estadoDePartida == PART_MOVIMIENTO_ERROR)
                 printf("Error: debes elegir un casillero vacío.\n");
             mostrar_tablero(tablero);
-            printf("%i", partida->estado == PART_EN_JUEGO);
         }
     }
     // Inicio una partida Usuario vs IA
@@ -166,12 +193,12 @@ int main(){
 
 
 
-    if(estadoDePartida == PART_GANA_JUGADOR_1)
-        printf("¡¡ Ganó %s!!", nombreJugador1);
-    else if(estadoDePartida == PART_GANA_JUGADOR_2)
-            printf("¡¡ Ganó %s!!",nombreJugador2);
-        else if(estadoDePartida  == PART_EMPATE)
-                printf("La partida terminó en empate");
+    if(partida->estado == PART_GANA_JUGADOR_1)
+        printf("Ganó %s\n\n", nombreJugador1);
+    else if(partida->estado == PART_GANA_JUGADOR_2)
+            printf("Ganó %s\n\n",nombreJugador2);
+        else if(partida->estado  == PART_EMPATE)
+                printf("La partida terminó en empate.\n\n");
 
     finalizar_partida(&partida);
     return 0;
