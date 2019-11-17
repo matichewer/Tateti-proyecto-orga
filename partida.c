@@ -104,51 +104,51 @@ static int estado_de_partida(tTablero t){
     int toReturn = PART_EMPATE;
 
     // Primero analizo todas las combinaciones posibles estando parado en 0,0
-    if(t->grilla[0][0]==t->grilla[0][1] && t->grilla[0][0]==t->grilla[0][2]){
+    if(t->grilla[0][0]==t->grilla[0][1] && t->grilla[0][0]==t->grilla[0][2] && t->grilla[0][0]!=PART_SIN_MOVIMIENTO){
         if(t->grilla[0][0]==PART_JUGADOR_1)
             toReturn = PART_GANA_JUGADOR_1;
         if(t->grilla[0][0]==PART_JUGADOR_2)
             toReturn = PART_GANA_JUGADOR_2;
     } else
-        if(t->grilla[0][0]==t->grilla[1][0] && t->grilla[0][0]==t->grilla[2][0]){
+        if(t->grilla[0][0]==t->grilla[1][0] && t->grilla[0][0]==t->grilla[2][0] && t->grilla[0][0]!=PART_SIN_MOVIMIENTO){
             if(t->grilla[0][0]==PART_JUGADOR_1)
                 toReturn = PART_GANA_JUGADOR_1;
             if(t->grilla[0][0]==PART_JUGADOR_2)
                 toReturn = PART_GANA_JUGADOR_2;
         } else
-            if(t->grilla[0][0]==t->grilla[1][1] && t->grilla[0][0]==t->grilla[2][2]){
+            if(t->grilla[0][0]==t->grilla[1][1] && t->grilla[0][0]==t->grilla[2][2] && t->grilla[0][0]!=PART_SIN_MOVIMIENTO){
                 if(t->grilla[0][0]==PART_JUGADOR_1)
                     toReturn = PART_GANA_JUGADOR_1;
                 if(t->grilla[0][0]==PART_JUGADOR_2)
                     toReturn = PART_GANA_JUGADOR_2;
             } else
                 // Luego analizo todas las combinaciones posibles estando parado en 1,1
-                if(t->grilla[1][1]==t->grilla[1][0] && t->grilla[1][1]==t->grilla[1][2]){
+                if(t->grilla[1][1]==t->grilla[1][0] && t->grilla[1][1]==t->grilla[1][2] && t->grilla[1][1]!=PART_SIN_MOVIMIENTO){
                     if(t->grilla[1][1]==PART_JUGADOR_1)
                         toReturn = PART_GANA_JUGADOR_1;
                     if(t->grilla[1][1]==PART_JUGADOR_2)
                         toReturn = PART_GANA_JUGADOR_2;
                 } else
-                    if(t->grilla[1][1]==t->grilla[0][1] && t->grilla[1][1]==t->grilla[2][1]){
+                    if(t->grilla[1][1]==t->grilla[0][1] && t->grilla[1][1]==t->grilla[2][1] && t->grilla[1][1]!=PART_SIN_MOVIMIENTO){
                         if(t->grilla[1][1]==PART_JUGADOR_1)
                             toReturn = PART_GANA_JUGADOR_1;
                         if(t->grilla[1][1]==PART_JUGADOR_2)
                             toReturn = PART_GANA_JUGADOR_2;
                     } else
-                        if(t->grilla[1][1]==t->grilla[0][2] && t->grilla[1][1]==t->grilla[2][0]){
+                        if(t->grilla[1][1]==t->grilla[0][2] && t->grilla[1][1]==t->grilla[2][0] && t->grilla[1][1]!=PART_SIN_MOVIMIENTO){
                             if(t->grilla[1][1]==PART_JUGADOR_1)
                                 toReturn = PART_GANA_JUGADOR_1;
                             if(t->grilla[1][1]==PART_JUGADOR_2)
                                 toReturn = PART_GANA_JUGADOR_2;
                         } else
                             // Luego analizo todas las combinaciones posibles estando parado en 2,2
-                            if(t->grilla[2][2]==t->grilla[1][2] && t->grilla[2][2]==t->grilla[0][2]){
+                            if(t->grilla[2][2]==t->grilla[1][2] && t->grilla[2][2]==t->grilla[0][2] && t->grilla[2][2]!=PART_SIN_MOVIMIENTO){
                                 if(t->grilla[2][2]==PART_JUGADOR_1)
                                     toReturn = PART_GANA_JUGADOR_1;
                                 if(t->grilla[2][2]==PART_JUGADOR_2)
                                     toReturn = PART_GANA_JUGADOR_2;
                             } else
-                                if(t->grilla[2][2]==t->grilla[2][1] && t->grilla[2][2]==t->grilla[2][0]){
+                                if(t->grilla[2][2]==t->grilla[2][1] && t->grilla[2][2]==t->grilla[2][0] && t->grilla[2][2]!=PART_SIN_MOVIMIENTO){
                                     if(t->grilla[2][2]==PART_JUGADOR_1)
                                         toReturn = PART_GANA_JUGADOR_1;
                                     if(t->grilla[2][2]==PART_JUGADOR_2)
