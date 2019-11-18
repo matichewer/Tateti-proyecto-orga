@@ -13,7 +13,7 @@
  -------------------------------------------------------------------------------------------------------------------------------
  */
 
- /*
+
 void asignar_modo_de_juego(int * modo){
     // Imprimo opciones
     printf("Ingrese el modo de juego:\n");
@@ -247,14 +247,15 @@ int main(){
                 printf("\033[0;36mLa partida ha terminado en empate.\033[0m\n\n");
 
     finalizar_partida(&partida);
-    return 0;*/
+    return 0;
+}
 
- /*
+/*
  -------------------------------------------------------------------------------------------------------------------------------
  INTERFAZ SIN COLORES
  -------------------------------------------------------------------------------------------------------------------------------
  */
-
+/*
  void asignar_modo_de_juego(int * modo){
     // Imprimo opciones
     printf("Ingrese el modo de juego:\n");
@@ -494,4 +495,5 @@ int main(){
     return 0;
 }
 
+*/
 
