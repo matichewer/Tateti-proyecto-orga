@@ -39,7 +39,7 @@ void asignar_modo_de_juego(int * modo){
                     (*modo) = PART_MODO_AGENTE_IA_VS_AGENTE_IA;
                     opcionValida = 1;
                 } else
-                    printf("Error: el numero elegido debe ser 1 o 2. Intente nuevamente.\n");
+                    printf("Error: el numero elegido debe ser entre 1 y 3. Intente nuevamente.\n");
     }
     printf("\n\n");
 }
