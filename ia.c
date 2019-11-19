@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <time.h>
 
 #include "lista.h"
 #include "arbol.h"
@@ -248,7 +249,6 @@ static int valor_utilidad(tEstado e, int jugador_max){
                                         for(j=0; j<3; j++)
                                             if(e->grilla[i][j]==PART_SIN_MOVIMIENTO)
                                                 toReturn = IA_NO_TERMINO;
-
     return toReturn;
 }
 
@@ -269,6 +269,7 @@ static tLista estados_sucesores(tEstado e, int ficha_jugador){
     tLista toReturn;
 
     crear_lista(&toReturn);
+    srand(time(NULL));
 
     for(i=0; i<3; i++)
         for(j=0; j<3; j++)

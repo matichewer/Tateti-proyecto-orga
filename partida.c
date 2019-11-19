@@ -1,10 +1,13 @@
-#include "partida.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
+#include "partida.h"
 
+// Funcion extras
 static int estado_de_partida(tTablero t);
+
 
 /**
 Inicializa una nueva partida, indicando:
@@ -14,7 +17,6 @@ Inicializa una nueva partida, indicando:
  - Nombre que representa al Jugador 2.
 **/
 void nueva_partida(tPartida * p, int modo_partida, int comienza, char * j1_nombre, char * j2_nombre){
-
     int i, j;
 
     // Reservo memoria para la Partida
@@ -31,6 +33,7 @@ void nueva_partida(tPartida * p, int modo_partida, int comienza, char * j1_nombr
             (*p)->tablero->grilla[i][j] = PART_SIN_MOVIMIENTO;
 
     // Modo de juego al azar
+    srand(time(NULL));
     if(comienza == PART_JUGADOR_RANDOM)
         if(rand()%2==0)
             (*p)->turno_de = PART_JUGADOR_1;
@@ -44,7 +47,6 @@ void nueva_partida(tPartida * p, int modo_partida, int comienza, char * j1_nombr
     (*p)->estado = PART_EN_JUEGO;
     strcpy((*p)->nombre_jugador_1, j1_nombre);
     strcpy((*p)->nombre_jugador_2, j2_nombre);
-
 }
 
 /**
@@ -162,6 +164,3 @@ static int estado_de_partida(tTablero t){
                                                 toReturn = PART_EN_JUEGO;
     return toReturn;
 }
-
-
-
