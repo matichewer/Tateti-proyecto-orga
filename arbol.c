@@ -3,11 +3,10 @@
 #include <stdlib.h>
 
 // Funciones auxiliares
-void (*eliminarElementoDelNodo)(tElemento);  // acá se guarda la funcion de a_destruir()
-void a_destruir_aux(tElemento elem);
-tPosicion buscarPos(tLista l, tNodo n);
-
-void fNoEliminar(){}
+static void (*eliminarElementoDelNodo)(tElemento);  // acá se guarda la funcion de a_destruir()
+static void a_destruir_aux(tElemento elem);
+static tPosicion buscarPos(tLista l, tNodo n);
+static void fNoEliminar(){}
 
 
 
@@ -20,7 +19,6 @@ void crear_arbol(tArbol * a){
     if(*a == NULL)
         exit(ARB_ERROR_MEMORIA);
     ((*a)->raiz) = NULL;
-
 }
 
 /**

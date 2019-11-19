@@ -1,8 +1,12 @@
-#include "lista.h"
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "lista.h"
+
+
+// Funciones extras
 static void destruir_recursivo(tPosicion pos, void (*fEliminar)(tElemento));
+
 
 /**
  Inicializa una lista vacía.
