@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 
 #include "lista.h"
 #include "arbol.h"
@@ -21,6 +22,7 @@ void asignar_modo_de_juego(int * modo){
     printf("Ingrese el modo de juego:\n");
     printf("  1. Humano vs Humano\n");
     printf("  2. Humano vs Maquina\n");
+    printf("  3. Maquina vs Maquina\n");
 
     // Computo el valor
     while(!opcionValida){
@@ -33,7 +35,11 @@ void asignar_modo_de_juego(int * modo){
                 (*modo) = PART_MODO_USUARIO_VS_AGENTE_IA;
                 opcionValida = 1;
             } else
-                printf("Error: el numero elegido debe ser 1 o 2. Intente nuevamente.\n");
+                if((*modo) == 3){
+                    (*modo) = PART_MODO_AGENTE_IA_VS_AGENTE_IA;
+                    opcionValida = 1;
+                } else
+                    printf("Error: el numero elegido debe ser 1 o 2. Intente nuevamente.\n");
     }
     printf("\n\n");
 }
@@ -125,6 +131,12 @@ void mostrar_tablero(tTablero tablero){
     printf("\n");
 }
 
+// Funcion para poner delay en el programa para el modo IA vs IA
+void delay(int milisegundos){
+    clock_t inicio = clock();
+    while((clock() - inicio) * 1000 / CLOCKS_PER_SEC < milisegundos);
+}
+
 
 
 int main(){
@@ -158,14 +170,25 @@ int main(){
 
 
     // Asigno nombre de jugadores.
-    printf("Ingrese el nombre del \033[0;31mJugador 1\033[0m: ");
-    scanf("%s", nombreJugador1);
     if(modo == PART_MODO_USUARIO_VS_USUARIO){
+        printf("Ingrese el nombre del \033[0;31mJugador 1\033[0m: ");
+        scanf("%s", nombreJugador1);
         printf("Ingrese el nombre del \033[0;32mJugador 2\033[0m: ");
         scanf("%s", nombreJugador2);
-    } else
-        strcpy(nombreJugador2, "Maquina");
+    } else{
+        if(modo == PART_MODO_USUARIO_VS_AGENTE_IA){
+            printf("Ingrese el nombre del \033[0;31mJugador 1\033[0m: ");
+            scanf("%s", nombreJugador1);
+            strcpy(nombreJugador2, "Maquina");
+        } else{
+            if(modo == PART_MODO_AGENTE_IA_VS_AGENTE_IA){
+                strcpy(nombreJugador1, "Maquina 1");
+                strcpy(nombreJugador2, "Maquina 2");
+            }
+        }
+    }
     printf("\n\n");
+
 
 
     // Asigno quien empieza.
@@ -248,7 +271,7 @@ int main(){
                     }
                 } else {
                     if(partida->turno_de==PART_JUGADOR_2 && (estadoDePartida==PART_MOVIMIENTO_OK || partida->estado==PART_EN_JUEGO)){
-                        printf("Turno de %s\n", partida->nombre_jugador_2);
+                        printf("Turno de \033[0;32m%s\033[0m\n", partida->nombre_jugador_2);
                         crear_busqueda_adversaria(&busquedaAdversaria, partida);
                         proximo_movimiento(busquedaAdversaria, &fila, &columna);
                         nuevo_movimiento(partida,fila,columna);
@@ -258,7 +281,21 @@ int main(){
             mostrar_tablero(tablero);
         }
     }
-
+    else{
+        while(partida->estado == PART_EN_JUEGO){
+            delay(1200);
+            if(partida->turno_de == PART_JUGADOR_1)
+                printf("Turno de \033[0;31m%s\033[0m:\n", nombreJugador1);
+            else
+                printf("Turno de \033[0;32m%s\033[0m:\n", nombreJugador2);
+            crear_busqueda_adversaria(&busquedaAdversaria, partida);
+            proximo_movimiento(busquedaAdversaria, &fila, &columna);
+            nuevo_movimiento(partida, fila, columna);
+            destruir_busqueda_adversaria(&busquedaAdversaria);
+            delay(2000);
+            mostrar_tablero(tablero);
+        }
+    }
 
     if(partida->estado == PART_GANA_JUGADOR_1)
         printf("\033[0;31mHa ganado %s\033[0m\n\n", nombreJugador1);
