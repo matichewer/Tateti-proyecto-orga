@@ -15,38 +15,55 @@
 
 
 void asignar_modo_de_juego(int * modo){
+    int opcionValida = 0;
+
     // Imprimo opciones
     printf("Ingrese el modo de juego:\n");
     printf("  1. Humano vs Humano\n");
     printf("  2. Humano vs Maquina\n");
-    scanf("%i", modo);
-    printf("\n\n");
 
     // Computo el valor
-    if((*modo) == 1)
-        (*modo) = PART_MODO_USUARIO_VS_USUARIO;
-    else
-        if((*modo) == 2)
-            (*modo) = PART_MODO_USUARIO_VS_AGENTE_IA;
-        //else
-
+    while(!opcionValida){
+        scanf("%i", modo);
+        if((*modo) == 1){
+            (*modo) = PART_MODO_USUARIO_VS_USUARIO;
+            opcionValida = 1;
+        } else
+            if((*modo) == 2){
+                (*modo) = PART_MODO_USUARIO_VS_AGENTE_IA;
+                opcionValida = 1;
+            } else
+                printf("Error: el numero elegido debe ser 1 o 2. Intente nuevamente.\n");
+    }
+    printf("\n\n");
 }
 
 void asignar_turno(int * turno, char * nombreJugador1, char * nombreJugador2){
+    int opcionValida = 0;
+
     printf("Ingrese quien comienza primero:\n");
     printf(" 1. \033[0;31m%s\033[0m\n", nombreJugador1);
     printf(" 2. \033[0;32m%s\033[0m\n", nombreJugador2);
     printf(" 3. Al azar\n");
-    scanf("%i", turno);
-    printf("\n");
 
-    if((*turno) == 1)
-        (*turno) = PART_JUGADOR_1;
-    else
-        if((*turno) == 2)
-            (*turno) = PART_JUGADOR_2;
-        else
-            (*turno) = PART_JUGADOR_RANDOM;
+    while(!opcionValida){
+        scanf("%i", turno);
+        if((*turno) == 1){
+            (*turno) = PART_JUGADOR_1;
+            opcionValida = 1;
+        } else
+            if((*turno) == 2){
+                (*turno) = PART_JUGADOR_2;
+                opcionValida = 1;
+            } else
+                if((*turno) == 3){
+                    (*turno) = PART_JUGADOR_RANDOM;
+                    opcionValida = 1;
+                }
+                else
+                    printf("Error: el numero elegido debe ser entre 1 y 3. Intente nuevamente.\n");
+    }
+    printf("\n");
 }
 
 
@@ -54,6 +71,8 @@ void mostrar_tablero(tTablero tablero){
     int i, j;
     char ficha[8];
     printf("\n-------------\n");
+
+    // Obtengo la ficha de cada casillero
     for(i=0; i<3; i++){
         for(j=0; j<3; j++){
             if(tablero->grilla[i][j] == PART_JUGADOR_1)
@@ -81,22 +100,25 @@ void mostrar_tablero(tTablero tablero){
                                                     strcpy(ficha, "9");
                 }
 
-            if(strcmp(ficha, "X")==0){  // Seteo color rojo para las fichas X
+            // Seteo color ROJO para las fichas X
+            if(strcmp(ficha, "X")==0)
                 if(j==1)
-                    printf("\033[1;31m %s \033[0m", ficha);
+                    printf("\033[1;31m %s \033[0m", ficha);  // fichas sin marco
                 else
-                    printf("|\033[1;31m %s \033[0m|", ficha);
-                //printf("\033[0m");
-            } else if(strcmp(ficha, "O")==0){   // Seteo color verde para las fichas O
+                    printf("|\033[1;31m %s \033[0m|", ficha); // ficha con marco de tablero
+            else
+                // Seteo color VERDE para las fichas O
+                if(strcmp(ficha, "O")==0)
                     if(j==1)
-                        printf("\033[1;32m %s \033[0m", ficha);
+                        printf("\033[1;32m %s \033[0m", ficha); // fichas sin marco
                     else
-                        printf("|\033[1;32m %s \033[0m|", ficha);
-                } else
+                        printf("|\033[1;32m %s \033[0m|", ficha); // ficha con marco de tablero
+                else
+                    // Sin color para los numeros del 1 al 9
                     if(j==1)
-                        printf(" %s ", ficha);
+                        printf(" %s ", ficha); // fichas sin marco
                     else
-                        printf("| %s |", ficha);
+                        printf("| %s |", ficha); // ficha con marco de tablero
         }
         printf("\n-------------\n");
     }
@@ -107,7 +129,6 @@ void mostrar_tablero(tTablero tablero){
 
 int main(){
 
-    // Declaro variables.
     tPartida partida;
     tTablero tablero;
     tBusquedaAdversaria busquedaAdversaria;
