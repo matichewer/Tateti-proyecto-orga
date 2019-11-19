@@ -2,22 +2,21 @@
 
 
 # Compilo todos los archivos fuente
-gcc -Wall -c lista.c arbol.c partida .c ia.c main.c -fPIC
+gcc -Wall -c lista.c arbol.c partida.c ia.c main.c -fPIC
 # Le tuve que agregar -fPIC ??
 
 
 
 
 # Genero la libreria
-ld -o libtateti.so lista.o arbol.o partida.o ia.o -shared
-# son todas menos el main ???
+ld -o libtateti.so lista.o arbol.o -shared
 # le tuve que sacar el -Wall
 
 
 
 
 # Genero ejecutable
-gcc -Wall -o tateti  main.o -L. -ltateti
+gcc -Wall -o tateti partida.o ia.o main.o -L. -ltateti
 
 
 
