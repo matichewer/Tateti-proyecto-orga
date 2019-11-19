@@ -14,7 +14,6 @@
  -------------------------------------------------------------------------------------------------------------------------------
  */
 
-
 void asignar_modo_de_juego(int * modo){
     int opcionValida = 0;
 
@@ -149,6 +148,18 @@ int main(){
     int turno, modo;
     int estadoDePartida, opcionValida;
     int posFicha, fila, columna;
+    int enter;
+
+
+    // Bienvenida
+    printf("\nBienvenido al videojuego TA-TE-TI !!!\n\n\n\n");
+    printf("================================= ATENCION ================================= \n\n");
+    printf("El juego tiene colores, es probable que solamente funcione en Linux.\n");
+    printf("Para ejecutar el juego en Windows, deberá quitar todos los colores del juego,\n");
+    printf("o bien, lograr que la consola de Windows sea compatible con los colores.\n\n");
+    printf("Disculpe las molestias.\n\n");
+    printf("============================================================================\n\n\n\n");
+
 
 
     // Inicializo y reservo memoria para las variables.
@@ -282,6 +293,7 @@ int main(){
         }
     }
     else{
+        // Inicio una partida IA vs IA
         while(partida->estado == PART_EN_JUEGO){
             delay(1200);
             if(partida->turno_de == PART_JUGADOR_1)
@@ -308,45 +320,72 @@ int main(){
     return 0;
 }
 
+
+
+
+
 /*
  -------------------------------------------------------------------------------------------------------------------------------
  INTERFAZ SIN COLORES
  -------------------------------------------------------------------------------------------------------------------------------
  */
+
 /*
- void asignar_modo_de_juego(int * modo){
+void asignar_modo_de_juego(int * modo){
+    int opcionValida = 0;
+
     // Imprimo opciones
     printf("Ingrese el modo de juego:\n");
     printf("  1. Humano vs Humano\n");
     printf("  2. Humano vs Maquina\n");
-    scanf("%i", modo);
-    printf("\n\n");
+    printf("  3. Maquina vs Maquina\n");
 
     // Computo el valor
-    if((*modo) == 1)
-        (*modo) = PART_MODO_USUARIO_VS_USUARIO;
-    else
-        if((*modo) == 2)
-            (*modo) = PART_MODO_USUARIO_VS_AGENTE_IA;
-        //else
-
+    while(!opcionValida){
+        scanf("%i", modo);
+        if((*modo) == 1){
+            (*modo) = PART_MODO_USUARIO_VS_USUARIO;
+            opcionValida = 1;
+        } else
+            if((*modo) == 2){
+                (*modo) = PART_MODO_USUARIO_VS_AGENTE_IA;
+                opcionValida = 1;
+            } else
+                if((*modo) == 3){
+                    (*modo) = PART_MODO_AGENTE_IA_VS_AGENTE_IA;
+                    opcionValida = 1;
+                } else
+                    printf("Error: el numero elegido debe ser entre 1 y 3. Intente nuevamente.\n");
+    }
+    printf("\n\n");
 }
 
 void asignar_turno(int * turno, char * nombreJugador1, char * nombreJugador2){
-    printf("Ingrese quien comienza primero:\n");
-    printf(" 1. %s \n", nombreJugador1);
-    printf(" 2. %s \n", nombreJugador2);
-    printf(" 3. Al azar\n");
-    scanf("%i", turno);
-    printf("\n");
+    int opcionValida = 0;
 
-    if((*turno) == 1)
-        (*turno) = PART_JUGADOR_1;
-    else
-        if((*turno) == 2)
-            (*turno) = PART_JUGADOR_2;
-        else
-            (*turno) = PART_JUGADOR_RANDOM;
+    printf("Ingrese quien comienza primero:\n");
+    printf(" 1. %s\n", nombreJugador1);
+    printf(" 2. %s\n", nombreJugador2);
+    printf(" 3. Al azar\n");
+
+    while(!opcionValida){
+        scanf("%i", turno);
+        if((*turno) == 1){
+            (*turno) = PART_JUGADOR_1;
+            opcionValida = 1;
+        } else
+            if((*turno) == 2){
+                (*turno) = PART_JUGADOR_2;
+                opcionValida = 1;
+            } else
+                if((*turno) == 3){
+                    (*turno) = PART_JUGADOR_RANDOM;
+                    opcionValida = 1;
+                }
+                else
+                    printf("Error: el numero elegido debe ser entre 1 y 3. Intente nuevamente.\n");
+    }
+    printf("\n");
 }
 
 
@@ -354,6 +393,8 @@ void mostrar_tablero(tTablero tablero){
     int i, j;
     char ficha[8];
     printf("\n-------------\n");
+
+    // Obtengo la ficha de cada casillero
     for(i=0; i<3; i++){
         for(j=0; j<3; j++){
             if(tablero->grilla[i][j] == PART_JUGADOR_1)
@@ -380,34 +421,26 @@ void mostrar_tablero(tTablero tablero){
                                                 else if(i==2 && j==2)
                                                     strcpy(ficha, "9");
                 }
-
-            if(strcmp(ficha, "X")==0){  // Seteo color rojo para las fichas X
-                if(j==1)
-                    printf(" %s ", ficha);
-                else
-                    printf("| %s |", ficha);
-                //printf("\033[0m");
-            } else if(strcmp(ficha, "O")==0){   // Seteo color verde para las fichas O
-                    if(j==1)
-                        printf(" %s ", ficha);
-                    else
-                        printf("| %s |", ficha);
-                } else
-                    if(j==1)
-                        printf(" %s ", ficha);
-                    else
-                        printf("| %s |", ficha);
+            if(j==1)
+                printf(" %s ", ficha); // fichas sin marco
+            else
+                printf("| %s |", ficha); // ficha con marco de tablero
         }
         printf("\n-------------\n");
     }
     printf("\n");
 }
 
+// Funcion para poner delay en el programa para el modo IA vs IA
+void delay(int milisegundos){
+    clock_t inicio = clock();
+    while((clock() - inicio) * 1000 / CLOCKS_PER_SEC < milisegundos);
+}
+
 
 
 int main(){
 
-    // Declaro variables.
     tPartida partida;
     tTablero tablero;
     tBusquedaAdversaria busquedaAdversaria;
@@ -437,14 +470,25 @@ int main(){
 
 
     // Asigno nombre de jugadores.
-    printf("Ingrese el nombre del Jugador 1: ");
-    scanf("%s", nombreJugador1);
     if(modo == PART_MODO_USUARIO_VS_USUARIO){
+        printf("Ingrese el nombre del Jugador 1: ");
+        scanf("%s", nombreJugador1);
         printf("Ingrese el nombre del Jugador 2: ");
         scanf("%s", nombreJugador2);
-    } else
-        strcpy(nombreJugador2, "Maquina");
+    } else{
+        if(modo == PART_MODO_USUARIO_VS_AGENTE_IA){
+            printf("Ingrese el nombre del Jugador 1: ");
+            scanf("%s", nombreJugador1);
+            strcpy(nombreJugador2, "Maquina");
+        } else{
+            if(modo == PART_MODO_AGENTE_IA_VS_AGENTE_IA){
+                strcpy(nombreJugador1, "Maquina 1");
+                strcpy(nombreJugador2, "Maquina 2");
+            }
+        }
+    }
     printf("\n\n");
+
 
 
     // Asigno quien empieza.
@@ -456,18 +500,15 @@ int main(){
     tablero = partida->tablero;
     mostrar_tablero(tablero);
 
-    //partida->turno_de
-    //printf("Empieza jugando: :");
-
 
     // Inicio una partida Usuario vs Usuario
     if(modo == PART_MODO_USUARIO_VS_USUARIO){
         while(partida->estado == PART_EN_JUEGO){
 
             if(partida->turno_de == PART_JUGADOR_1)
-                printf("%s Indique donde quiere poner su ficha (numero entre 1 y 9).\n", nombreJugador1);
+                printf("%s indique donde quiere poner su ficha (numero entre 1 y 9).\n", nombreJugador1);
             else
-                printf("%s Indique donde quiere poner su ficha (numero entre 1 y 9).\n", nombreJugador2);
+                printf("%s indique donde quiere poner su ficha (numero entre 1 y 9).\n", nombreJugador2);
 
             opcionValida = 0;
             while(!opcionValida){
@@ -503,7 +544,7 @@ int main(){
             while(partida->estado == PART_EN_JUEGO){
 
                 if(partida->turno_de == PART_JUGADOR_1){
-                    printf("%s Indique donde quiere poner su ficha (numero entre 1 y 9).\n", nombreJugador1);
+                    printf("%s indique donde quiere poner su ficha (numero entre 1 y 9).\n", nombreJugador1);
                     opcionValida = 0;
                     while(!opcionValida){
                         scanf("%i", &posFicha);
@@ -540,18 +581,31 @@ int main(){
             mostrar_tablero(tablero);
         }
     }
-
+    else{
+        // Inicio una partida IA vs IA
+        while(partida->estado == PART_EN_JUEGO){
+            delay(1200);
+            if(partida->turno_de == PART_JUGADOR_1)
+                printf("Turno de %s:\n", nombreJugador1);
+            else
+                printf("Turno de %s:\n", nombreJugador2);
+            crear_busqueda_adversaria(&busquedaAdversaria, partida);
+            proximo_movimiento(busquedaAdversaria, &fila, &columna);
+            nuevo_movimiento(partida, fila, columna);
+            destruir_busqueda_adversaria(&busquedaAdversaria);
+            delay(2000);
+            mostrar_tablero(tablero);
+        }
+    }
 
     if(partida->estado == PART_GANA_JUGADOR_1)
-        printf("Ha ganado %s\n", nombreJugador1);
+        printf("Ha ganado %s\n\n", nombreJugador1);
     else if(partida->estado == PART_GANA_JUGADOR_2)
-            printf("Ha ganado %s\n",nombreJugador2);
+            printf("Ha ganado %s\n\n",nombreJugador2);
         else if(partida->estado  == PART_EMPATE)
-                printf("La partida ha terminado en empate.\n");
+                printf("La partida ha terminado en empate.\n\n");
 
     finalizar_partida(&partida);
     return 0;
 }
-
 */
-
