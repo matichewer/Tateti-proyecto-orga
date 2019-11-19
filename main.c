@@ -155,7 +155,7 @@ int main(){
     printf("\nBienvenido al videojuego TA-TE-TI !!!\n\n\n\n");
     printf("================================= ATENCION ================================= \n\n");
     printf("El juego tiene colores, es probable que solamente funcione en Linux.\n");
-    printf("Para ejecutar el juego en Windows, deberá quitar todos los colores del juego,\n");
+    printf("Para ejecutar el juego en Windows, debera quitar todos los colores del juego,\n");
     printf("o bien, lograr que la consola de Windows sea compatible con los colores.\n\n");
     printf("Disculpe las molestias.\n\n");
     printf("============================================================================\n\n\n\n");
