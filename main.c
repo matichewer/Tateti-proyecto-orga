@@ -450,6 +450,7 @@ int main(){
     int estadoDePartida, opcionValida;
     int posFicha, fila, columna;
 
+    printf("\nBienvenido al videojuego TA-TE-TI !!!\n\n\n");
 
     // Inicializo y reservo memoria para las variables.
     partida = (tPartida) malloc(sizeof(struct partida));
