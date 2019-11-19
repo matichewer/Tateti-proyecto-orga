@@ -148,7 +148,6 @@ int main(){
     int turno, modo;
     int estadoDePartida, opcionValida;
     int posFicha, fila, columna;
-    int enter;
 
 
     // Bienvenida

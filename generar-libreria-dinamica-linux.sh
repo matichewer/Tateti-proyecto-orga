@@ -15,7 +15,7 @@ ld -o libtateti.so lista.o arbol.o -shared
 
 
 # Genero ejecutable
-gcc -Wall -o Tateti-ejecutable-linux partida.o ia.o main.o -L. -ltateti
+gcc -Wall -o Tateti-libreria-dinamica-linux partida.o ia.o main.o -L. -ltateti
 
 
 
@@ -29,3 +29,6 @@ sudo ldconfig
 
 # Borro los archivos compilados que se generaron con el primer comando
 rm *.o
+
+# Borro .so
+rm *.so
