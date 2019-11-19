@@ -35,7 +35,7 @@ void nueva_partida(tPartida * p, int modo_partida, int comienza, char * j1_nombr
     // Modo de juego al azar
     srand(time(NULL));
     if(comienza == PART_JUGADOR_RANDOM)
-        if(rand()%2==0)
+        if(rand()%2)
             (*p)->turno_de = PART_JUGADOR_1;
         else
             (*p)->turno_de = PART_JUGADOR_2;
