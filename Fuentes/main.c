@@ -152,13 +152,17 @@ int main(){
 
     // Bienvenida
     printf("\nBienvenido al videojuego TA-TE-TI !!!\n\n\n\n");
+    delay(200);
     printf("================================= ATENCION ================================= \n\n");
-    printf("El juego tiene colores, es probable que solamente funcione en Linux.\n");
-    printf("Para ejecutar el juego en Windows, debera quitar todos los colores del juego,\n");
-    printf("o bien, lograr que la consola de Windows sea compatible con los colores.\n\n");
+    delay(1500);
+    printf("El juego tiene colores, es probable que solamente sea compatible con Linux.\n");
+    delay(1000);
+    printf("La version del videojuego para Windows tiene los colores desactivados.\n\n");
+    delay(1500);
     printf("Disculpe las molestias.\n\n");
+    delay(500);
     printf("============================================================================\n\n\n\n");
-
+    delay(500);
 
 
     // Inicializo y reservo memoria para las variables.
@@ -449,7 +453,26 @@ int main(){
     int estadoDePartida, opcionValida;
     int posFicha, fila, columna;
 
+    // Bienvenida
+    delay(1000);
     printf("\nBienvenido al videojuego TA-TE-TI !!!\n\n\n");
+    delay(2000);
+    printf("================================= ATENCION ================================= \n\n");
+    delay(2000);
+    printf("Windows no es compatible con los colores del videojuego.\n");
+    printf("En cambio, en Linux si es compatible =)\n\n");
+    delay(4000);
+    printf("Por lo tanto, el ejecutable de Windows tiene los colores desactivados.\n");
+    delay(4000);
+    printf("Les recomendamos encarecidamente que prueben jugar al Tateti en Linux.\n\n");
+    delay(4000);
+
+    printf("Disculpe las molestias.\n\n\n");
+    delay(1000);
+
+    printf("============================================================================\n\n\n\n");
+
+    delay(1000);
 
     // Inicializo y reservo memoria para las variables.
     partida = (tPartida) malloc(sizeof(struct partida));
@@ -606,6 +629,8 @@ int main(){
                 printf("La partida ha terminado en empate.\n\n");
 
     finalizar_partida(&partida);
+
+    system("pause");
     return 0;
 }
 */
